@@ -15,9 +15,8 @@ class Url_model extends Model {
 	** saves the url.
 	* if already an existing entry returns its keywords instead of adding new
 	*/
-	function add($account_id = null)
+	function add($account_id = null, $url = null)
 	{
-		$url = stripslashes($this->input->post('url'));
 		$keyword = null;
 
 		$this->db->select(array('keyword', 'id'))->from('yourls_url')->where('url', $url);
@@ -27,16 +26,34 @@ class Url_model extends Model {
 			$this->id = $res->row(0)->id;
 		}
 
+		// no existing keyword found.. add a new one.
 		if (!$keyword) {
+			$this->load->library('util');
+			$url = $this->util->yourls_sanitize_url( $url );
+			
+			if ( !$url || $url == 'http://' || $url == 'https://' ) {
+				return array('error' => 'Invalid Url');
+		 	}
+
+		 	// Prevent DB flood
+			$this->util->check_ip_flood(  );
+				// Prevent internal redirection loops: cannot shorten a shortened URL
+			$url = $this->util->yourls_escape( $url );
+			if( preg_match( '!^'. base_url() .'/!', $url ) ) {
+				if( $this->yourls_is_shorturl( $url ) ) {
+					return array('error' => 'URL is a short URL');
+				}
+			}
+
 			$keyword = $this->random_keyword();
 	
 			$data = array('url'=>$url, 'title'=>null, 
 							'keyword'=>$keyword,
 							'account_id'=>$account_id,
 							'ip'=>$this->input->ip_address());
-				
-			$this->db->insert('yourls_url', $data);
-			$this->id = $this->db->insert_id();
+
+			 $this->db->insert('yourls_url', $data);
+			 $this->id = $this->db->insert_id();
 		}
 		return $keyword;
 	}
@@ -109,6 +126,22 @@ class Url_model extends Model {
 		else 
 			return null;
 		
+	}
+	
+	function register_click($data, $yourl) {
+		$this->db->insert('yourls_log', $data);
+		$this->db->where('id', $yourl->id)->update('yourls_url', array('clicks'=>$yourl->clicks + 1));
+	}
+	
+	function get_click_counts() {
+		$this->db->group_by('referrer');
+		$this->db->select ('count(*) as Count, referrer');
+		$query = ($this->db->get('yourls_log'));
+		$query->row();
+		if (isset($query->result_object[0]))
+			return $query->result_object;
+		else 
+			return null;
 	}
 }
 ?>

@@ -52,6 +52,7 @@ class Home extends Controller {
 		$url = $this->Url_model->get_url($key);
 
 		if (isset($url->url)) {
+			$this->register_click($url);
 			redirect($url->url, 'location');
 			$response = true;
 		}
@@ -60,22 +61,18 @@ class Home extends Controller {
 	
 	function index($key = null)
 	{
+		$this->load->model('Url_model');
+		$this->load->library('form_validation');
+		
 		if ($key)
 			$response = $this->_send_to_url($key);
-			
-			echo 'now';
-			$this->load->library('util');
-			 $this->util->check_ip_flood();
-echo 'now';
-		$this->load->library('form_validation');
-		$this->load->model('Url_model');
 
+		// login details and account association
 		$data['account'] = $this->account;
 		$account_id = null;
 		if ($this->account)
 		{ 
 			$account_id = $this->account->id;
-
 			$this->load->model('account/account_twitter_model');
 			$tw = ($this->account_twitter_model->get_by_account_id($account_id));
 			if ($tw)
@@ -86,26 +83,49 @@ echo 'now';
 			if ($fb)
 				$data['fb'] = $fb[0];	
 		}
-
-		$data['my_urls'] = $this->recent_urls();
-
-		$post = $this->input->post('url');
-		if (!empty($post)) {
+		
+		// shorten the url
+		$url = $this->input->post('url');
+		if (!empty($url)) {
 			$this->form_validation->run('url');
-	
-			if (filter_var($post, FILTER_VALIDATE_URL)) {
-				$return = $this->Url_model->add($account_id);
-				$data['Result']['url'] = ($post);
-				$data['Result']['keyword'] = $return;
-				$data['Result']['id']  = $this->Url_model->id;
-				if ($this->Url_model->id)
-					$this->add_cookie($this->Url_model->id);
+			
+			if (filter_var($url, FILTER_VALIDATE_URL)) {
+				$data = $this->get_shortened_url($url, $account_id);
+				if ($data['Result']['id'])
+					$this->add_cookie($data['Result']['id']);
 			} else {
 				$data['error'] = 'Not a valid url';
 			}
 		}
+		
 
+		// cookie filling
+		$data['my_urls'] = $this->recent_urls();
+		
 		$this->load->view('home', isset($data) ? $data : NULL);
+	}
+	
+	/*
+	 * saves and returns the keyword generated for the url
+	 */
+	function get_shortened_url($url , $account_id) {
+		
+		
+		$url = stripslashes($url);
+		$return = $this->Url_model->add($account_id, $url);
+
+		if (!empty($return['error'])) {
+			$data['Result']['url'] = ($url);
+			$data['Result']['keyword'] = $return;
+			$data['Result']['id']  = $this->Url_model->id;
+		} else {
+			$data['Result']['url'] = ($url);
+			$data['Result']['keyword'] = null;
+			$data['Result']['id']  = null;
+			$data['Result']['error'] = $return['error'];
+		}
+
+		return $data;
 	}
 
 	function recent_urls() {
@@ -153,13 +173,36 @@ echo 'now';
 		}
 	}
 	
-	function check_ip()
-	{
+	function register_click($yourl) {
+		$this->load->model(array('Url_model'));
 		$this->load->library('util');
-	
-		$this->util->check_ip_flood();
-	}
+		
+		$referrer = ( isset( $_SERVER['HTTP_REFERER'] ) ? $this->util->yourls_sanitize_url( $_SERVER['HTTP_REFERER'] ) : 'direct' );
+		$ua = $this->util->yourls_get_user_agent();
+		$ip = $this->util->yourls_get_IP();
+		$location = $this->util->yourls_geo_ip_to_countrycode( $ip );
+		
+		$parsed_url = parse_url($referrer);
+		$host = explode(':', $parsed_url['host']);
+		$hostname = $host[0]; 
 
+		if (strpos($hostname, 'twitter') !== false) {
+			$referrer = 'twitter';
+		} else if (strpos($hostname, 'facebook') !== false) {
+			$referrer = 'facebook';
+		}else if (strpos($hostname, 'facebook' !== false)) {
+			$referrer = 'linkedin';
+		}else {
+			$referrer = 'Others';
+		}
+		
+		$data = array('referrer'=>$referrer, 'user_agent'=>$ua, 
+				'yourl_id'=>$yourl->id,
+				'ip_address'=>$ip, 'click_time'=> date('Y-m-d H:m:s'));
+
+		
+		$this->Url_model->register_click($data, $yourl);
+	}
 	
 }
 

@@ -41,7 +41,7 @@
 */
 $route['default_controller'] = "home";
 $route['scaffolding_trigger'] = "";
-$route['^(?!home|account).*'] = "$1"; 
+$route['^(?!home|account|ajax|analytics).*'] = "$1"; 
 
 /* End of file routes.php */
 /* Location: ./system/application/config/routes.php */
