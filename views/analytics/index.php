@@ -96,6 +96,7 @@ function success_draw(response) {
 	bar5.Set('chart.text.angle', 45);
 	bar5.Set('chart.strokecolor', 'rgba(0,0,0,0)');
 	bar5.Set('chart.tooltips.event', 'onmousemove');
+	bar5.Set('chart.tooltips.effect', 'expand');
 	
 	if (!RGraph.isIE8()) {
 	    bar5.Set('chart.tooltips', tooltips);
