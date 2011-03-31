@@ -133,11 +133,16 @@ class Url_model extends Model {
 		$this->db->where('id', $yourl->id)->update('yourls_url', array('clicks'=>$yourl->clicks + 1));
 	}
 	
-	function get_click_counts() {
+	function get_click_counts($start_time = null, $end_time = null) {
 		$this->db->group_by('referrer');
+		if ($start_time && $end_time) {
+			$this->db->where("click_time >= '{$start_time}' AND click_time <= '{$end_time}'");	
+		}
 		$this->db->select ('count(*) as Count, referrer');
 		$query = ($this->db->get('yourls_log'));
+		
 		$query->row();
+
 		if (isset($query->result_object[0]))
 			return $query->result_object;
 		else 

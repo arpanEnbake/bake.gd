@@ -5,6 +5,7 @@ class Analytics extends Controller {
   function Analytics() {
  		parent::Controller();
 
+ 		$this->load->library('form_validation');
 		// Load the necessary stuff...
 		$this->load->helper(array('language', 'url'));
 		$this->load->library(array('account/authentication'));
@@ -20,7 +21,6 @@ class Analytics extends Controller {
   
   
   	function index() {
-  		
   		$this->load->view('analytics/index', isset($data) ? $data : NULL);
 	}
 	

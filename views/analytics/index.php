@@ -15,62 +15,95 @@ foreach ($js as $j) {
 	echo '<script type="text/javascript" src="resource/app/js/'. $j. '"></script>';
 }
 ?>
+<?php echo form_open(uri_string(), array('id'=>'TimePeriodFormId')); ?>
 
-<canvas id="myCanvas" width="600" height="300">[No canvas support]</canvas>
+<?php echo form_close()?>
+
+<select name="data[Time][period]" id="TimePeriodDDId">
+<option value="1">Past Hour</option>
+<option value="<?php echo 7 * 24;?>">Past 7 days</option>
+<option value="<?php echo 14 * 24;?>">Past 14 days</option>
+<option value="<?php echo 30 * 24;?>">Past 30 days</option>
+</select>
+
+<?php $graph_width = 1300;?>
+<?php $graph_height = 300;?>
+
 <script>
-$.ajax({
-    type: "post",
-    url: "<?php echo base_url();?>ajax/barchartdata/",    
-    dataType: 'json',
-    success: function(response){  
-    	data = response['data'];
 
-    	var units_pre = response['units_pre'];
-		var title = response['title'];
-		var colors = response['colors'];
-		var labels = response['labels'];
-		var key = response['key'];
-		var tooltips = response['tooltips'];
-		
-		var bar5 = new RGraph.Bar('myCanvas', data);
-		bar5.Set('chart.units.pre', units_pre);
-		bar5.Set('chart.title', title);
-		bar5.Set('chart.colors', colors);
-		bar5.Set('chart.gutter', 40);
-		bar5.Set('chart.shadow', true);
-		bar5.Set('chart.shadow.color', '#aaa');
-		bar5.Set('chart.background.barcolor1', 'white');
-		bar5.Set('chart.background.barcolor2', 'white');
-		bar5.Set('chart.background.grid.hsize', 5);
-		bar5.Set('chart.background.grid.vsize', 5);
-		bar5.Set('chart.grouping', 'stacked');
-		bar5.Set('chart.labels', labels);
-		bar5.Set('chart.labels.above', true);
-		bar5.Set('chart.key', key);
-		bar5.Set('chart.key.background', 'rgba(255,255,255,0.7)');
-		bar5.Set('chart.key.position', 'gutter');
-		bar5.Set('chart.key.position.gutter.boxed', false);
-		bar5.Set('chart.key.position.y', bar5.Get('chart.gutter') - 15);
-		bar5.Set('chart.key.border', false);
-		bar5.Set('chart.height', 200);
-		bar5.Set('chart.width', 500);
-		bar5.Set('chart.background.grid.width', 0.3); // Decimals are permitted
-		bar5.Set('chart.text.angle', 0);
-		bar5.Set('chart.strokecolor', 'rgba(0,0,0,0)');
-		bar5.Set('chart.tooltips.event', 'onmousemove');
-		
-		if (!RGraph.isIE8()) {
-		    bar5.Set('chart.tooltips', tooltips);
-		}
-		
-		bar5.Draw();
-
-    }
-});
+$('#TimePeriodDDId').live('change', function(e) {
+	$('#myCanvas').empty();
+	tp = ($('#TimePeriodDDId').val());
+	draw_chart(tp);
+})
 </script>
 
 
+<canvas id="myCanvas" width="<?php echo $graph_width; + 50?>" 
+		height="<?php echo $graph_height + 200;?>">[No canvas support]</canvas>
+
 <script>
+function draw_chart(tp) {
+	if (!tp)
+		tp = 168;
+	
+	$.ajax({
+	    type: "post",
+	    url: "<?php echo base_url();?>ajax/barchartdata/"+tp,    
+	    dataType: 'json',
+	    success: function(response){
+		    success_draw(response);  
+	    }
+	});
+}
+draw_chart();
+</script>
+
+<script>
+function success_draw(response) {
+	data = response['data'];
+	
+	var units_pre = response['units_pre'];
+	var title = response['title'];
+	var colors = response['colors'];
+	var labels = response['labels'];
+	var key = response['key'];
+	var tooltips = response['tooltips'];
+	
+	var bar5 = new RGraph.Bar('myCanvas', data);
+	bar5.Set('chart.units.pre', units_pre);
+	bar5.Set('chart.title', title);
+	bar5.Set('chart.colors', colors);
+	bar5.Set('chart.gutter', 40);
+	bar5.Set('chart.shadow', true);
+	bar5.Set('chart.shadow.color', '#aaa');
+	bar5.Set('chart.background.barcolor1', 'white');
+	bar5.Set('chart.background.barcolor2', 'white');
+	bar5.Set('chart.background.grid.hsize', 5);
+	bar5.Set('chart.background.grid.vsize', 5);
+	bar5.Set('chart.grouping', 'stacked');
+	bar5.Set('chart.labels', labels);
+	bar5.Set('chart.labels.above', true);
+	bar5.Set('chart.key', key);
+	bar5.Set('chart.key.background', 'rgba(255,255,255,0.7)');
+	bar5.Set('chart.key.position', 'gutter');
+	bar5.Set('chart.key.position.gutter.boxed', false);
+	bar5.Set('chart.key.position.y', bar5.Get('chart.gutter') - 15);
+	bar5.Set('chart.key.border', false);
+	bar5.Set('chart.height', <?php echo $graph_height;?>);
+	bar5.Set('chart.width', <?php echo $graph_width;?>);
+	bar5.Set('chart.background.grid.width', 0.3); // Decimals are permitted
+	bar5.Set('chart.text.angle', 45);
+	bar5.Set('chart.strokecolor', 'rgba(0,0,0,0)');
+	bar5.Set('chart.tooltips.event', 'onmousemove');
+	
+	if (!RGraph.isIE8()) {
+	    bar5.Set('chart.tooltips', tooltips);
+	}
+	bar5.Draw();
+}
+
+
 /*
 $.ajax({
     url: '<?php echo base_url();?>ajax/get_click_data/',
