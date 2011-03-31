@@ -28,25 +28,28 @@ class Ajax extends Controller {
   }
   
 	function barchartdata($timePeriod = 1){
-		
+
 		$units_pre = '';
 		$title = 'Clicks till date';
 		$key = array('facebook', 'twitter', 'linkedin', 'Others');
 		$keycolors = array('red', 'yellow', 'green', 'orange');
 
 		$tot_less_days = floor($timePeriod / 24); 
+		$data = null;
 		
 		for ($i = $tot_less_days - 1; $i >=0 ; --$i) {
 			$labels[] = date('M-d', strtotime("-{$i} day"));
+			$data[] = array();
 		}
+
 		$tooltips = array();
 		foreach($labels as $label){
 			foreach($key as $index => $k){
-				$tooltips[] = $k;
+				// only initialization for later use
+				 $tooltips[] = $k;
 			}
 		}		
 
-		$data = null;
 		$prev_start_time = date('Y-m-d H:m:s');
 		for ($i = 1; $i <= $tot_less_days; ++$i) {
 			$end_time = $prev_start_time;
@@ -73,22 +76,29 @@ class Ajax extends Controller {
 			}		
 			
 			if ($clicks) {
-				foreach($clicks as $click) {
-					$flag = false;
-					foreach($key as $index => $media) {
+				foreach($key as $index => $media) {
+					foreach($clicks as $click) {
 						if ($click->referrer == $media) {
 							$org_data[$index] = $click->Count * 1;
-							$flag = true;
-						}
-						if ($flag)
 							break;
+						}
 					}
 				}
 			}
-			$data[] = $org_data;
+			
+			// tool tip creation in reverse order
+			foreach($key as $index => $media) {
+				// count the index of prev entries and add 
+				$tooltip_index = ($tot_less_days - $i) * count($key);
+				$str = "({$org_data[$index]})";
+				if ($org_data[$index] != '0')
+					$tooltips[$tooltip_index + $index] = $media . $str;
+				else 
+					$tooltips[$tooltip_index + $index] = $index; 
+			}
+			$data[$tot_less_days - $i] = $org_data;
 		}
-
-		$data = array_reverse($data);
+		
 		$json = array(
 			'units_pre' => $units_pre,
 			'title' => $title, 
