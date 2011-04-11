@@ -84,14 +84,14 @@ class Home extends Controller {
 			if ($fb)
 				$data['fb'] = $fb[0];	
 		}
-		
 		// shorten the url
 		$url = $this->input->post('url');
 		if (!empty($url)) {
 			$this->form_validation->run('url');
 			
 			if (filter_var($url, FILTER_VALIDATE_URL)) {
-				$data = $this->get_shortened_url($url, $account_id);
+				$res = $this->get_shortened_url($url, $account_id);
+				$data['Result'] = $res['Result'];
 				if ($data['Result']['id'])
 					$this->add_cookie($data['Result']['id']);
 			} else {
@@ -99,10 +99,9 @@ class Home extends Controller {
 			}
 		}
 		
-
 		// cookie filling
 		$data['my_urls'] = $this->recent_urls();
-		
+
 		$this->load->view('home', isset($data) ? $data : NULL);
 	}
 	

@@ -15,7 +15,7 @@ class Connect_twitter extends Controller {
 		$this->load->config('account/account');
 		$this->load->helper(array('language', 'account/ssl', 'url'));
         $this->load->library(array('account/authentication', 'account/twitter_lib'));
-		$this->load->model(array('account/account_model', 'account_twitter_model'));
+		$this->load->model(array('account/account_model', 'account_twitter_model','account/account_details_model'));
 		$this->load->language(array('general', 'account/sign_in', 'account/account_linked', 'account/connect_third_party'));
 	}
 	
@@ -43,28 +43,8 @@ class Connect_twitter extends Controller {
 						redirect('account/sign_up');
 			}
 			
-			// Check if user has connect twitter to a3m
-			if ($user = $this->account_twitter_model->get_by_twitter_id($twitter_info['id']))
-			{
-				// Check if user is not signed in on a3m
-				if ( ! $this->authentication->is_signed_in())
-				{
-					// Run sign in routine
-					$this->authentication->sign_in($user->account_id);
-				}
-				$user->account_id === $this->session->userdata('account_id') ?
-					$this->session->set_flashdata('linked_error', sprintf(lang('linked_linked_with_this_account'), lang('connect_twitter'))) :
-						$this->session->set_flashdata('linked_error', sprintf(lang('linked_linked_with_another_account'), lang('connect_twitter')));
-				redirect('account/account_linked');
-			}
-			// The user has not connect twitter to a3m
-			else
-			{
-				// Check if user is signed in on a3m
-				if ( ! $this->authentication->is_signed_in())
-				{
-					// Store user's twitter data in session
-					$this->session->set_userdata('connect_create', array(
+			// Store user's twitter data in session
+					$data['connect_create'] = array(
 						array(
 							'provider' => 'twitter', 
 							'provider_id' => $twitter_info['id'],
@@ -76,15 +56,50 @@ class Connect_twitter extends Controller {
 							'fullname' => $twitter_info['name'],
 							'picture' => $twitter_info['profile_image_url']
 						)
-					));
-					
-					// Create a3m account
-					redirect('account/connect_create');
-				}
-				else
+					);
+			
+			// Check if user has connect twitter to a3m
+			if ($user = $this->account_twitter_model->get_by_twitter_id($twitter_info['id']))
+			{
+				// Check if user is not signed in on a3m
+				if ( ! $this->authentication->is_signed_in())
 				{
+					// Run sign in routine
+					$this->authentication->sign_in($user->account_id);
+					redirect('/');
+				} else {
+					$user->account_id === $this->session->userdata('account_id') ?
+					$this->session->set_flashdata('linked_error', sprintf(lang('linked_linked_with_this_account'), lang('connect_twitter'))) :
+							$this->session->set_flashdata('linked_error', sprintf(lang('linked_linked_with_another_account'), lang('connect_twitter')));
+					redirect('account/account_linked');
+				}
+			}
+			// The user has not connect twitter to a3m
+			else
+			{
+				// Check if user is signed in on a3m
+				if ( ! $this->authentication->is_signed_in())
+				{
+					// code came from connect_create here
+					$user_id = $this->account_model->create($twitter_info['screen_name'].$twitter_info['id'], 
+								$twitter_info['id'].'@twitter.com');
+				
+					// Add user details
+					$this->account_details_model->update($user_id, $data['connect_create'][1]);
+					
+					//	case 'twitter': 
+					$this->account_twitter_model->insert($user_id, $data['connect_create'][0]['provider_id'], 
+						$data['connect_create'][0]['token'], $data['connect_create'][0]['secret']);
+					// Run sign in routine
+					$this->authentication->sign_in($user_id);
+					
 					// Connect twitter to a3m
-					$this->account_twitter_model->insert($this->session->userdata('account_id'), $twitter_info['id'], $twitter_token->oauth_token, $twitter_token->oauth_token_secret);
+					$this->session->set_flashdata('linked_info', sprintf(lang('linked_linked_with_your_account'), lang('connect_twitter')));
+					redirect('/');
+				} else {
+					//	case 'twitter': 
+					$this->account_twitter_model->insert($user_id, $data['connect_create'][0]['provider_id'], 
+						$data['connect_create'][0]['token'], $data['connect_create'][0]['secret']);
 					$this->session->set_flashdata('linked_info', sprintf(lang('linked_linked_with_your_account'), lang('connect_twitter')));
 					redirect('account/account_linked');
 				}

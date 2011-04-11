@@ -52,12 +52,14 @@ class Connect_facebook extends Controller {
 				{
 					// Run sign in routine
 					$this->authentication->sign_in($user->account_id);
+					redirect('/');
 				}
-				
-				$user->account_id === $this->session->userdata('account_id') ?
-				$this->session->set_flashdata('linked_error', sprintf(lang('linked_linked_with_this_account'), lang('connect_facebook'))) :
-						$this->session->set_flashdata('linked_error', sprintf(lang('linked_linked_with_another_account'), lang('connect_facebook')));
-				redirect('account/account_linked');
+				else {
+					$user->account_id === $this->session->userdata('account_id') ?
+					$this->session->set_flashdata('linked_error', sprintf(lang('linked_linked_with_this_account'), lang('connect_facebook'))) :
+							$this->session->set_flashdata('linked_error', sprintf(lang('linked_linked_with_another_account'), lang('connect_facebook')));
+					redirect('account/account_linked');		
+				}
 			}
 			// The user has not connect facebook to a3m
 			else

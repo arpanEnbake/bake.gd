@@ -1143,7 +1143,7 @@ div.linkCapsule_link, .bitly_bundle .bundle_header {
   
 }
 .shortened_url, .link_title {
-  width: 310px;
+  width: 250px;
   margin-right: 10px;
   text-indent: 7px;
 }
@@ -1167,8 +1167,8 @@ div.linkCapsule_link, .bitly_bundle .bundle_header {
 }
 
 .shortened_url .copy_customize {
-  float: right;
-  width: 119px;
+  float: center;
+  width: 42px;
 }
 
 .shortened_url .copy_customize a {

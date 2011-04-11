@@ -41,23 +41,35 @@
 	<div class="ext_bitly_chrome_promo_delay"></div>
 
 
-
-	<div id="external_container">
+<div id="external_container">
 	<div id="container">
 	<div id="notification" class="notification roundbtm" style="display:block;">
 		<span id="notification-text">
-			Sign in now to track your links
+		<?php if (!$this->session->userdata('account_id')) { ?>	
 			
-			<span class="fb-sign"><a class="fb_button fb_button_medium" href="<?php echo 'account/connect_facebook'?>">
-				<span class="fb_button_text">Login with Facebook</span></a></span>
-			<a href="<?php echo 'account/connect_twitter'?>" class="twitter-sign">
-			<img src="http://si0.twimg.com/images/dev/buttons/sign-in-with-twitter-l.png" /></a>
+			Sign in now to track your links
+				<span class="fb-sign">
+				<a class="fb_button fb_button_medium" href="<?php echo 'account/connect_facebook'?>">
+					<span class="fb_button_text">Login with Facebook</span></a></span>
+				<a href="<?php echo 'account/connect_twitter'?>" class="twitter-sign">
+				<img src="http://si0.twimg.com/images/dev/buttons/sign-in-with-twitter-l.png" /></a>
+			<?php } else {?>
+							<span class="fb-sign">
+			
+			<a href="#">
+			<?php if ($this->session->userdata('picture')) {  ?>
+				<img src="<?php echo $this->session->userdata('picture')?>" />
+			<?php }?>
+			<?php echo $this->session->userdata('fullname')?>
+			<?php echo anchor('account/sign_out' , 'Log Out', array()) ?>
+			</a></span>
+			<?php }?>
 		</span>
 	</div>
 <!-- Put Content Here -->
 
 <div id="top">
-ss
+
 
 </div> <!-- end #top -->
 
@@ -159,16 +171,23 @@ ss
 								<a target="_blank" href="#" class="long_link"><?php echo substr($url, 0, 50); ?></a>
 								<span id="share_links">
 									<?php
-										$link = false;
+										$tw_flag = false; $fb_flag = false;
 										if (isset($twitter)) {
 											echo anchor("account/connect_twitter/post_status/{$twitter->twitter_id}/{$url_id}", 'Twitter', array('id'=>"share_tw"));
-											$link = true;
+											if (!isset($fb)) {
+													echo anchor("account/connect_facebook", 'Connect Facebook');
+											}
+											$tw_flag = true;
 										}
 										if (isset($fb)) {
-											$link = true;
+											$fb_flag = true;
 											echo anchor("account/connect_facebook/post_wall/{$fb->facebook_id}/{$url_id}", 'Facebook', array('id'=>"share_fb"));
+											if (!isset($twitter)) {
+													echo anchor("account/connect_twitter", 'Connect Twitter');
+											}
+											
 										}
-										if (!$link) {
+										if (!$tw_flag && !$fb_flag) {
 											echo anchor('/account/account_linked', 'Link your A/cs here');
 										}
 

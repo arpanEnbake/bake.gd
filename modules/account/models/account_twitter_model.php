@@ -23,7 +23,7 @@ class Account_twitter_model extends Model {
 	function get_by_account_id($account_id)
 	{
 		return $this->db->get_where('a3m_account_twitter', 
-				array('account_id' => $account_id, 'default' => 1))->result();
+				array('account_id' => $account_id))->result();
 	}
 
 	function get_all_by_account_id($account_id)
@@ -59,7 +59,7 @@ class Account_twitter_model extends Model {
 	 * @param string $oauth_token_secret
 	 * @return void
 	 */
-	function insert($account_id, $twitter_id, $oauth_token, $oauth_token_secret, $default = 0)
+	function insert($account_id, $twitter_id, $oauth_token, $oauth_token_secret, $default = 1)
 	{
 		$this->load->helper('date');
 		

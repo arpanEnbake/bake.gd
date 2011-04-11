@@ -45,7 +45,8 @@ class Authentication {
 		$this->CI->load->model('account/account_details_model');
 		$details = $this->CI->account_details_model->get_by_account_id($account_id);
 		
-		$this->CI->session->set_userdata(array('picture'=>$details['picture'], 'fullname'=>$details['picture']));
+		$this->CI->session->set_userdata(array('picture'=>$details->picture, 
+			'fullname'=>$details->fullname));
 		
 		// Requires MY_Session cookie_monster()
 		$remember ? $this->CI->session->cookie_monster(FALSE) : $this->CI->session->cookie_monster(TRUE);
