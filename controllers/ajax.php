@@ -28,19 +28,30 @@ class Ajax extends Controller {
   }
   
 	function barchartdata($timePeriod = 1){
-
 		$units_pre = '';
-		$title = 'Clicks till date';
 		$key = array('facebook', 'twitter', 'linkedin', 'Others');
 		$keycolors = array('red', 'yellow', 'green', 'orange');
 
-		$tot_less_days = floor($timePeriod / 24); 
+		$tot_less_days = floor($timePeriod / 24);
 		$data = null;
-		
-		for ($i = $tot_less_days - 1; $i >=0 ; --$i) {
-			$labels[] = date('M-d', strtotime("-{$i} day"));
-			$data[] = array();
+		$interval = 5 * 60;
+		$hourly = $tot_less_days == 0 ? true: false;
+		$tot_intervals = $timePeriod * 60 * 60 / $interval;
+
+		if ($hourly) {
+			for ($i = $tot_intervals - 1; $i >= 0 ; --$i) {
+				echo date('H:m:s' , strtotime(time() - 30));
+				$labels[] =  $this->subtractTime('H:m:s', 0, 0, 300);
+				$data[] = array();
+			}
+					pr($labels);
+		} else {
+			for ($i = $tot_less_days - 1; $i >=0 ; --$i) {
+				$labels[] = date('M-d', strtotime("-{$i} day"));
+				$data[] = array();
+			}
 		}
+
 
 		$tooltips = array();
 		foreach($labels as $label){
@@ -51,20 +62,27 @@ class Ajax extends Controller {
 		}		
 
 		$prev_start_time = date('Y-m-d H:m:s');
-		for ($i = 1; $i <= $tot_less_days; ++$i) {
+		for ($i = 1; $i <= count($labels); ++$i) {
 			$end_time = $prev_start_time;
 
-			$prev_day  = date('Y-m-d', strtotime("-{$i} day"));
+			$prev_day = date('Y-m-d');
+			$prev_time = date('H:m:s');
+			if (!$hourly) {
+				$prev_day  = date('Y-m-d', strtotime("-{$i} day"));
+			} else {
+				$prev_time = date('H:m:s', time() - $i * $interval);
+			}
 			$prev_day_arr = explode('-', $prev_day);
-			
 			$prev_date = $prev_day_arr[2];
 			$prev_month = $prev_day_arr[1];
 			$prev_year = $prev_day_arr[0];
 			
-			$hour = date('H'); // $timePeriod - ($less_days * 24);
-			$time = date('m:s');
+			$prev_time_arr = explode(':', $prev_time);
+			$prev_sec = $prev_time_arr[2];
+			$prev_min = $prev_time_arr[1];
+			$prev_hour = $prev_time_arr[0];
 			
-			$start_time = "{$prev_year}-{$prev_month}-{$prev_date} {$hour}:{$time}";
+			$start_time = "{$prev_year}-{$prev_month}-{$prev_date} {$prev_hour}:{$prev_min}:{$prev_sec}";
 			
 			$clicks = $this->get_click_data($start_time, $end_time);
 			$prev_start_time = $start_time;
@@ -101,9 +119,9 @@ class Ajax extends Controller {
 		
 		$json = array(
 			'units_pre' => $units_pre,
-			'title' => $title, 
+//			'title' => $title, 
 			'labels' =>$labels, 
-			'colors' => $keycolors,
+			//'colors' => $keycolors,
 			'key' => $key,
 			'tooltips' => $tooltips,
 			'data' => $data,
@@ -113,7 +131,29 @@ class Ajax extends Controller {
 			
 	}
   
-  
+		
+	function subtractTime($format, $hours = 0, $minutes=0, $seconds=0, $months=0, $days=0, $years = 0)
+	{
+		$totalHours = date("H") - $hours;
+		
+		$totalMinutes = date("i") - $minutes;
+		
+		$totalSeconds = date("s") - $seconds;
+		
+		$totalMonths = date("m") - $months;
+		
+		$totalDays = date("d") - $days;
+		
+		$totalYears = date("Y") - $years;
+		
+		$timeStamp = mktime($totalHours, $totalMinutes, $totalSeconds, $totalMonths, $totalDays, $totalYears);
+		
+		$myTime = date($format, $timeStamp);
+		
+		return $myTime;
+		
+	}
+
   
   
 }  

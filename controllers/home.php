@@ -25,6 +25,7 @@ class Home extends Controller {
 
 	function Home()
 	{
+		
 		parent::Controller();
 
 		// Load the necessary stuff...
@@ -32,7 +33,7 @@ class Home extends Controller {
 		$this->load->library(array('account/authentication'));
 		$this->load->model(array('account/account_model'));
 		$this->lang->load(array('general'));
-		
+
 		if ($this->authentication->is_signed_in())
 		{
 			$this->account = $this->account_model->get_by_id($this->session->userdata('account_id'));

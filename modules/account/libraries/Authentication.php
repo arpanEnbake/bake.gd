@@ -42,6 +42,11 @@ class Authentication {
 	{
 		$this->CI->session->set_userdata('account_id', $account_id);
 		
+		$this->CI->load->model('account/account_details_model');
+		$details = $this->CI->account_details_model->get_by_account_id($account_id);
+		
+		$this->CI->session->set_userdata(array('picture'=>$details['picture'], 'fullname'=>$details['picture']));
+		
 		// Requires MY_Session cookie_monster()
 		$remember ? $this->CI->session->cookie_monster(FALSE) : $this->CI->session->cookie_monster(TRUE);
 		
@@ -75,6 +80,8 @@ class Authentication {
 	function sign_out()
 	{
 		$this->CI->session->unset_userdata('account_id');
+		$this->CI->session->unset_userdata('picture');
+		$this->CI->session->unset_userdata('fullname');
 	}
 	
 	// --------------------------------------------------------------------

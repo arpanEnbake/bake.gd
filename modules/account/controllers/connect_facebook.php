@@ -14,8 +14,9 @@ class Connect_facebook extends Controller {
 		// Load the necessary stuff...
 		$this->load->config('account/account');
 		$this->load->helper(array('language', 'account/ssl', 'url'));
+		#$this->CI->load->library('session');
         $this->load->library(array('account/authentication', 'account/facebook_lib'));
-		$this->load->model(array('account/account_model', 'account_facebook_model'));
+		$this->load->model(array('account/account_model', 'account_facebook_model', 'account/account_details_model'));
 		$this->load->language(array('general', 'account/sign_in', 'account/account_linked', 'account/connect_third_party'));
 	}
 	
@@ -23,10 +24,26 @@ class Connect_facebook extends Controller {
 	{
 		// Enable SSL?
 		maintain_ssl($this->config->item("ssl_enabled"));
-		
 		// Check if user is signed in on facebook
 		if ($this->facebook_lib->user)
 		{
+				// Store user's facebook data in session
+					$data['connect_create'] = array(
+						array(
+							'provider' => 'facebook', 
+							'provider_id' => $this->facebook_lib->user['id']
+						), 
+						array(
+							'fullname' => $this->facebook_lib->user['name'],
+							'firstname' => $this->facebook_lib->user['first_name'],
+							'lastname' => $this->facebook_lib->user['last_name'],
+							'gender' => $this->facebook_lib->user['gender'],
+							'dateofbirth' => $this->facebook_lib->user['birthday'],
+							'picture' => 'http://graph.facebook.com/'.$this->facebook_lib->user['id'].'/picture',
+							// $this->facebook_lib->user['link'],// $this->facebook_lib->user['bio']// $this->facebook_lib->user['timezone']// $this->facebook_lib->user['locale']// $this->facebook_lib->user['verified']// $this->facebook_lib->user['updated_time']
+						)
+					);
+			
 			// Check if user has connect facebook to a3m
 			if ($user = $this->account_facebook_model->get_by_facebook_id($this->facebook_lib->user['id']))
 			{
@@ -38,7 +55,7 @@ class Connect_facebook extends Controller {
 				}
 				
 				$user->account_id === $this->session->userdata('account_id') ?
-					$this->session->set_flashdata('linked_error', sprintf(lang('linked_linked_with_this_account'), lang('connect_facebook'))) :
+				$this->session->set_flashdata('linked_error', sprintf(lang('linked_linked_with_this_account'), lang('connect_facebook'))) :
 						$this->session->set_flashdata('linked_error', sprintf(lang('linked_linked_with_another_account'), lang('connect_facebook')));
 				redirect('account/account_linked');
 			}
@@ -48,30 +65,18 @@ class Connect_facebook extends Controller {
 				// Check if user is signed in on a3m
 				if ( ! $this->authentication->is_signed_in())
 				{
-					// Store user's facebook data in session
-					$this->session->set_userdata('connect_create', array(
-						array(
-							'provider' => 'facebook', 
-							'provider_id' => $this->facebook_lib->user['id']
-						), 
-						array(
-							'fullname' => $this->facebook_lib->user['name'],
-							'firstname' => $this->facebook_lib->user['first_name'],
-							'lastname' => $this->facebook_lib->user['last_name'],
-							'gender' => $this->facebook_lib->user['gender'],
-							'dateofbirth' => $this->facebook_lib->user['birthday'],
-							'picture' => 'http://graph.facebook.com/'.$this->facebook_lib->user['id'].'/picture'
-							// $this->facebook_lib->user['link']
-							// $this->facebook_lib->user['bio']
-							// $this->facebook_lib->user['timezone']
-							// $this->facebook_lib->user['locale']
-							// $this->facebook_lib->user['verified']
-							// $this->facebook_lib->user['updated_time']
-						)
-					));
+					// code came from connect_create here
+					$user_id = $this->account_model->create($this->facebook_lib->user['username'].$this->facebook_lib->user['id'], 
+								$this->facebook_lib->user['email']);
+				
+					// Add user details
+					$this->account_details_model->update($user_id, $data['connect_create'][1]);
 					
-					// Create a3m account
-					redirect('account/connect_create');
+					//	case 'facebook': 
+					$this->account_facebook_model->insert($user_id, $this->facebook_lib->user['id']);
+					// Run sign in routine
+					$this->authentication->sign_in($user_id);
+					redirect('/');
 				}
 				else
 				{
@@ -83,7 +88,7 @@ class Connect_facebook extends Controller {
 			}
 		}
 		
-		// Redirect to login url
+		// redirect to login url
 		header("Location: ".$this->facebook_lib->fb->getLoginUrl(array('req_perms' => 'user_birthday, email, read_stream, publish_stream')));
 	}
 	
