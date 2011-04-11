@@ -98,7 +98,7 @@ class Connect_twitter extends Controller {
 					redirect('/');
 				} else {
 					//	case 'twitter': 
-					$this->account_twitter_model->insert($user_id, $data['connect_create'][0]['provider_id'], 
+					$this->account_twitter_model->insert($this->session->userdata('account_id'), $data['connect_create'][0]['provider_id'], 
 						$data['connect_create'][0]['token'], $data['connect_create'][0]['secret']);
 					$this->session->set_flashdata('linked_info', sprintf(lang('linked_linked_with_your_account'), lang('connect_twitter')));
 					redirect('account/account_linked');
