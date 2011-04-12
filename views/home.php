@@ -107,6 +107,12 @@
 
 
 			<div class="shortenedListListBox last_shorten " style="display:block;">
+			<div style="display:none" id="share_box">
+				<?php echo form_open('/home/index', array('id' => 'share-form')); ?>
+					<textarea  id="share_text"   name="share_text" value="" rows="4" cols="100"></textarea>
+					<button id="shares_button" type="submit"><p>Share</p></button>	
+				<?php echo form_close()?>
+			</div>
 				<div class="linkCapsule_link clearfix">
 					<strong class="shortened_url">Shortened link</strong>
 					<strong class="realtime_stats">stats</strong>
@@ -150,10 +156,6 @@
 
 
 
-
-
-
-
 <?php function show_row($bake_url, $url, $url_id, $timestamp = null, $twitter = null, $fb = null) {?>
 							<li hash="fRi0f2" class="linkCapsule_link clearfix">
 								<div class="shortened_url clearfix">
@@ -173,7 +175,8 @@
 									<?php
 										$tw_flag = false; $fb_flag = false;
 										if (isset($twitter)) {
-											echo anchor("account/connect_twitter/post_status/{$twitter->twitter_id}/{$url_id}", 'Twitter', array('id'=>"share_tw"));
+											echo anchor("account/connect_twitter/post_status/{$twitter->twitter_id}/{$url_id}", 'Twitter', 
+													array('class'=>"share_tw", 'rel' => $bake_url));
 											if (!isset($fb)) {
 													echo anchor("account/connect_facebook", 'Connect Facebook');
 											}
@@ -222,6 +225,47 @@ $('#shorten_button').live('click', function(e){
 });
 </script>
 
+
+
+
+<script>
+$('.share_tw').live('click', function(e){
+	e.preventDefault();
+	share_box_updates($(this).attr('rel'), $(this));
+});
+
+function share_box_updates(str, elem) {
+	$('#share_text').val('');
+	$('#share_box').show();
+	$('#share-form').attr("action", elem.attr("href"));
+	$('#share_text').val(str);
+}
+
+$('#shares_button').live('click', function(e){
+	e.preventDefault();
+	
+	$.ajax({
+	    type: "POST",
+	    url: 	$('#share-form').attr("action"),
+	    data: $('#share-form').serialize(),
+	    dataType: "json",
+	    success: function(msg) {
+    		if(msg) {
+        		if(msg['error']) {
+	    			alert(msg['error']);
+        		}
+    		}
+			$('#share_text').val('');
+			$('#share_box').hide();
+	    },
+	    failure: function (msg) {
+		    alert(msg);
+	    }
+	  });
+});
+
+</script>
+
 <script type="text/javascript">
 	// setup single ZeroClipboard object for all our elements
 	function init() {
@@ -262,19 +306,6 @@ $('#shorten_button').live('click', function(e){
     </script>
 
 
-<script>
-$.ajax({
-    url: '<?php echo base_url();?>ajax/get_click_data/',
-    type: 'POST',
-    //data: {field: value},
-    dataType: 'json',
-    timeout: 8000,
-    success: success_function
-  });
-
-  function success_function(json) {
-  }
-  </script>
 </body>
 </html>
 
