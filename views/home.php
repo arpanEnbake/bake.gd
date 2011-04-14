@@ -43,9 +43,13 @@
 
 <div id="external_container">
 	<div id="container">
+	<?php if (!$this->session->userdata('account_id')) { ?>
 	<div id="notification" class="notification roundbtm" style="display:block;">
-		<span id="notification-text">
-		<?php if (!$this->session->userdata('account_id')) { ?>	
+	<?php } else {?>
+	<div id="notification" class="signed-in roundbtm" style="display:block;">	
+	<?php }?>
+	<?php if (!$this->session->userdata('account_id')) { ?>		
+		<span id="notification-text">	
 			
 			Sign in now to track your links
 				<span class="fb-sign">
@@ -53,18 +57,25 @@
 					<span class="fb_button_text">Login with Facebook</span></a></span>
 				<a href="<?php echo 'account/connect_twitter'?>" class="twitter-sign">
 				<img src="http://si0.twimg.com/images/dev/buttons/sign-in-with-twitter-l.png" /></a>
-			<?php } else {?>
-							<span class="fb-sign">
-			
-			<a href="#">
-			<?php if ($this->session->userdata('picture')) {  ?>
-				<img src="<?php echo $this->session->userdata('picture')?>" />
-			<?php }?>
-			<?php echo $this->session->userdata('fullname')?>
-			<?php echo anchor('account/sign_out' , 'Log Out', array()) ?>
-			</a></span>
-			<?php }?>
+		</span>				
+		<?php } else {?>
+		<span id="top-nav">
+			<span id="logo-top"><img src="images/logo_top.gif" height="30px"/></span>
+			<ul id="main_nav" class="clearfix">
+				<li class=""><a href="/">Shorten &amp; Share</a></li>
+				<li class="active"><a href="/a/analyze">Analyze</a></li>
+				<li class=""><a href="/u/sarabdeep">Public Timeline</a></li>
+				<li>
+					<div id="loginContainer">
+						<a class="user_link" href="/a/account">
+							<span class="user_avatar rounded" style="background-image: url(<?php echo $this->session->userdata('picture')?>);"></span><?php echo $this->session->userdata('fullname')?></a>
+					</div>
+				</li>
+				<li><?php echo anchor('account/sign_out' , 'Log Out', array()) ?></li>
+			</ul>
+			<div class="clearfix"></div>
 		</span>
+		<?php } ?>
 	</div>
 <!-- Put Content Here -->
 
