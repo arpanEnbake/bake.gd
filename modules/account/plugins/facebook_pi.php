@@ -589,7 +589,6 @@ class Facebook
     if (!$ch) {
       $ch = curl_init();
     }
-
     $opts = self::$CURL_OPTS;
     if ($this->useFileUploadSupport()) {
       $opts[CURLOPT_POSTFIELDS] = $params;
@@ -845,7 +844,9 @@ class Facebook
             'users.hasapppermission' => 1,
             'users.isappuser' => 1,
             'users.isverified' => 1,
-            'video.getuploadlimits' => 1);
+            'video.getuploadlimits' => 1,
+      		'ids'=>1,
+      		'likes'=>1);
     $name = 'api';
     if (isset($READ_ONLY_CALLS[strtolower($method)])) {
       $name = 'api_read';

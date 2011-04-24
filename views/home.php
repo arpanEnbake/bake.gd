@@ -43,13 +43,9 @@
 
 <div id="external_container">
 	<div id="container">
-	<?php if (!$this->session->userdata('account_id')) { ?>
 	<div id="notification" class="notification roundbtm" style="display:block;">
-	<?php } else {?>
-	<div id="notification" class="signed-in roundbtm" style="display:block;">	
-	<?php }?>
-	<?php if (!$this->session->userdata('account_id')) { ?>		
-		<span id="notification-text">	
+		<span id="notification-text">
+		<?php if (!$this->session->userdata('account_id')) { ?>	
 			
 			Sign in now to track your links
 				<span class="fb-sign">
@@ -57,25 +53,18 @@
 					<span class="fb_button_text">Login with Facebook</span></a></span>
 				<a href="<?php echo 'account/connect_twitter'?>" class="twitter-sign">
 				<img src="http://si0.twimg.com/images/dev/buttons/sign-in-with-twitter-l.png" /></a>
-		</span>				
-		<?php } else {?>
-		<span id="top-nav">
-			<span id="logo-top"><img src="images/logo_top.gif" height="30px"/></span>
-			<ul id="main_nav" class="clearfix">
-				<li class=""><a href="/">Shorten &amp; Share</a></li>
-				<li class="active"><a href="/a/analyze">Analyze</a></li>
-				<li class=""><a href="/u/sarabdeep">Public Timeline</a></li>
-				<li>
-					<div id="loginContainer">
-						<a class="user_link" href="/a/account">
-							<span class="user_avatar rounded" style="background-image: url(<?php echo $this->session->userdata('picture')?>);"></span><?php echo $this->session->userdata('fullname')?></a>
-					</div>
-				</li>
-				<li><?php echo anchor('account/sign_out' , 'Log Out', array()) ?></li>
-			</ul>
-			<div class="clearfix"></div>
+			<?php } else {?>
+							<span class="fb-sign">
+			
+			<a href="#">
+			<?php if ($this->session->userdata('picture')) {  ?>
+				<img src="<?php echo $this->session->userdata('picture')?>" />
+			<?php }?>
+			<?php echo $this->session->userdata('fullname')?>
+			<?php echo anchor('account/sign_out' , 'Log Out', array()) ?>
+			</a></span>
+			<?php }?>
 		</span>
-		<?php } ?>
 	</div>
 <!-- Put Content Here -->
 
@@ -180,7 +169,8 @@
 									</span>
 								</div>
 								<div class="popup_error" id="copy-success-<?php  echo $url_id?>" style="display: none;"></div>
-								<a target="_blank" href="#" class="realtime_stats">Info Page+</a>
+								<?php $str =  $bake_url . '+'; 
+									echo anchor($str, 'Info Page+', array('class'=>"realtime_stats", 'style'=>"float:left"));?></a>
 								<a target="_blank" href="#" class="long_link"><?php echo substr($url, 0, 50); ?></a>
 								<span id="share_links">
 									<?php
@@ -195,7 +185,8 @@
 										}
 										if (isset($fb)) {
 											$fb_flag = true;
-											echo anchor("account/connect_facebook/post_wall/{$fb->facebook_id}/{$url_id}", 'Facebook', array('id'=>"share_fb"));
+											echo anchor("account/connect_facebook/post_wall/{$fb->facebook_id}/{$url_id}", 'Facebook'
+											, 	array('class'=>"share_tw", 'rel' => $bake_url));
 											if (!isset($twitter)) {
 													echo anchor("account/connect_twitter", 'Connect Twitter');
 											}

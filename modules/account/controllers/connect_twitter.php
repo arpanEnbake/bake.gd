@@ -116,11 +116,12 @@ class Connect_twitter extends Controller {
 	 */
 	
 	function post_status($twitter_id = null, $yourl_id = null) {
+
 		// Enable SSL?
 		maintain_ssl($this->config->item("ssl_enabled"));
 		
 		if (!$this->authentication->is_signed_in()) {
-			// redirect('account/sign_up');
+			 redirect('account/sign_up');
 		}
 		if ($user = $this->account_twitter_model->get_by_twitter_id($twitter_id)) {
 			$this->twitter_lib->etw->setToken($user->oauth_token, $user->oauth_token_secret);
@@ -129,16 +130,17 @@ class Connect_twitter extends Controller {
 			$this->load->model('Url_model');
 			$yourl = $this->db->get_where('yourls_url', array('id' => $yourl_id))->row();
 			
-			// $statusText = "http://bake.gd/$yourl->keyword via http://bake.gd";
 			$statusText = $this->input->post('share_text');
+
 			try {
-			$resp = $this->twitter_lib->etw->post_statusesUpdate(array('status' => $statusText));
+				$response = $this->twitter_lib->etw->post_statusesUpdate(array('status' => $statusText));
+				$this->account_twitter_model->db->where('id', $yourl_id)->update('yourls_url', 
+						array('tweet_id'=>$response->response['id_str']));
+				// save the twitter status id for analytics page.
+				
 			} catch(Exception $e) {
 				$str = ($e->getMessage());
 				echo $str;
-//				$error = (json_decode($str, true));
-//				echo $error['error'];
-//				return $error['error']; 
 			}
 			//redirect('');
 			

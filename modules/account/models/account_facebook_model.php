@@ -79,6 +79,39 @@ class Account_facebook_model extends Model {
 		$this->db->delete('a3m_account_facebook', array('facebook_id' => $facebook_id)); 
 	}
 	
+	/**
+	 * Insert account facebook
+	 *
+	 * @access public
+	 * @param int $account_id
+	 * @param int $facebook_id
+	 * @return void
+	 */
+	function add_status($account_id, $status_id, $url_id)
+	{		
+		$this->db->insert('a3m_account_fbstatus', array(
+				'account_id' => $account_id, 
+				'status_id' => $status_id, 
+				'created' => mdate('%Y-%m-%d %H:%i:%s', now())
+			));
+	}
+
+	function get_likes_count($status_id) {
+/*		pr($this->facebook_lib->fb->api(array(
+			'method' => 'likes',
+	        //'query' => 'SELECT name FROM profile WHERE id=4',
+				'query' => 'SELECT "" FROM like WHERE post_id in("672193296_10150163456703297", "672193296_10150163937168297")'
+				)));
+				
+*/	
+		$this->load->library(array('account/facebook_lib'));
+		
+		$data = ($this->facebook_lib->fb->api("/$status_id/likes", 'GET', array()));
+		$likes = $data['data'];
+		return count($likes);
+	
+	}
+	
 }
 
 

@@ -48,7 +48,12 @@ class Home extends Controller {
 	function _send_to_url($key = null) {
 		$response = false;
 		$this->load->model('Url_model');
-		$this->load->helper('url');		
+		$this->load->helper('url');
+
+		if (strpos ($key, '+', strlen($key) - 1)) {
+			$key = str_replace('+', '' , $key);
+			redirect('/home/detail/'.$key, 'location');
+		}			
 		
 		$url = $this->Url_model->get_url($key);
 
@@ -60,13 +65,34 @@ class Home extends Controller {
 		return $response;
 	}
 	
+	function detail($controller = 'home', $func = 'detail', $key =null) {
+		$this->load->model('Url_model');
+		$this->load->helper('url');
+
+		$url = $this->Url_model->get_url($key);
+		$data['url'] = ($url);
+		if (isset($url->url)) {
+			$this->load->model('account/account_facebook_model');
+			$data['likes'] = ($this->account_facebook_model->get_likes_count($url->status_id));
+			
+			$this->load->model('account/account_twitter_model');
+			$data['retweets'] = ($this->account_twitter_model->get_retweet_count($url->tweet_id));
+
+			$data['clicks'] = ($this->Url_model->get_url_clicks($url->id));
+			$data['user'] = (	$this->account_model->get_by_id($url->account_id));
+			$this->load->view('detail', isset($data) ? $data : NULL);
+		}
+		
+	}
+	
 	function index($key = null)
 	{
 		$this->load->model('Url_model');
 		$this->load->library('form_validation');
 		
-		if ($key)
+		if ($key) {
 			$response = $this->_send_to_url($key);
+		}
 
 		// login details and account association
 		$data['account'] = $this->account;
@@ -109,8 +135,6 @@ class Home extends Controller {
 	 * saves and returns the keyword generated for the url
 	 */
 	function get_shortened_url($url , $account_id) {
-		
-		
 		$url = stripslashes($url);
 		$return = $this->Url_model->add($account_id, $url);
 

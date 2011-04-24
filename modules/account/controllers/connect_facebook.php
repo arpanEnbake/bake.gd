@@ -100,7 +100,14 @@ class Connect_facebook extends Controller {
 	 */
 	
 	function post_wall($facebook_id , $yourl_id = null) {
+		/*pr($this->facebook_lib->fb->api(array(
+			'method' => 'fql.query',
+	        //'query' => 'SELECT name FROM profile WHERE id=4',
+				'query' => 'SELECT "" FROM like WHERE post_id in("672193296_10150163456703297", "672193296_10150163937168297")'
+				)));
+		*/
 		// Enable SSL?
+		//return;
 		maintain_ssl($this->config->item("ssl_enabled"));
 
 		if (!$this->authentication->is_signed_in()) {
@@ -108,18 +115,28 @@ class Connect_facebook extends Controller {
 		}
 		if ($user = $this->account_facebook_model->get_by_facebook_id($facebook_id)) {
 			$this->load->model('Url_model');
-			$yourl = $this->db->get_where('yourls_url', array('id' => $yourl_id))->row();
 			
-			$statusText = "http://bake.gd/$yourl->keyword via http://bake.gd";
-			
-			$response = $this->facebook_lib->fb->api("/$facebook_id/feed", 'POST'
-      						,array('message' => "$statusText"/*,  'access_token' => $this->facebook_lib->fb->getAccessToken()*/)
+			// $yourl = $this->db->get_where('yourls_url', array('id' => $yourl_id))->row();
+			$statusText = $this->input->post('share_text');
+
+			try {
+				$response = $this->facebook_lib->fb->api("/$facebook_id/feed", 'POST'
+      						,array('message' => "$statusText")
       						);
-			
-			redirect('/');
+
+      			// save the fb post id for analytics page.
+      			$this->account_facebook_model->db->where('id', $yourl_id)->update('yourls_url', 
+						array('tweet_id'=>$response->response['id_str']));
+      			
+   			} catch(Exception $e) {
+					$str = ($e->getMessage());
+					echo $str;
+			}
+      						
+			// redirect('/');
 			
 		} else {
-			redirect('account/account_linked');
+			// redirect('account/account_linked');
 		}
 	}
 	

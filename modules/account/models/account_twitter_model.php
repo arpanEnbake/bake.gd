@@ -97,6 +97,20 @@ class Account_twitter_model extends Model {
 		$this->db->delete('a3m_account_twitter', array('twitter_id' => $twitter_id)); 
 	}
 	
+	function get_retweet_count($tweet_id) {
+		  $this->load->library(array('account/twitter_lib'));
+		
+		// cant get around this :(
+		$this->twitter_lib->etw->setToken('147517197-iZ5gHJoRoi91NtATaLkmIg2Jyj3LcGefZgSDc8Me', 
+				"pEEpv93LfnqUrIeygPdlvxX8QIH7Wx2UGAAcBBWpS54");
+
+		$resp = ($this->twitter_lib->etw->get("/statuses/retweets/{$tweet_id}.json" 
+				,array('trim_user' => 'true')
+				));
+				
+		return(count($resp->response));
+	}
+	
 }
 
 

@@ -132,12 +132,13 @@ class Url_model extends Model {
 		$this->db->insert('yourls_log', $data);
 		$this->db->where('id', $yourl->id)->update('yourls_url', array('clicks'=>$yourl->clicks + 1));
 	}
-	
-	function get_click_counts($start_time = null, $end_time = null) {
+
+	function _clicks($condition) {
 		$this->db->group_by('referrer');
-		if ($start_time && $end_time) {
-			$this->db->where("click_time >= '{$start_time}' AND click_time <= '{$end_time}'");	
+		if ($condition) {
+			$this->db->where($condition);	
 		}
+
 		$this->db->select ('count(*) as Count, referrer');
 		$query = ($this->db->get('yourls_log'));
 		
@@ -147,6 +148,15 @@ class Url_model extends Model {
 			return $query->result_object;
 		else 
 			return null;
+		
+	}
+	
+	function get_url_clicks($url_id) {
+		return $this->_clicks("yourl_id = {$url_id}");
+	}
+	
+	function get_click_counts($start_time = null, $end_time = null) {
+		return $this->_clicks("click_time >= '{$start_time}' AND click_time <= '{$end_time}'");
 	}
 }
 ?>
