@@ -96,7 +96,7 @@ class Account_facebook_model extends Model {
 			));
 	}
 
-	function get_likes_count($status_id) {
+	function get_likes_count($status_id = null) {
 /*		pr($this->facebook_lib->fb->api(array(
 			'method' => 'likes',
 	        //'query' => 'SELECT name FROM profile WHERE id=4',
@@ -104,6 +104,8 @@ class Account_facebook_model extends Model {
 				)));
 				
 */	
+		if (!$status_id)
+			return 0;
 		$this->load->library(array('account/facebook_lib'));
 		
 		$data = ($this->facebook_lib->fb->api("/$status_id/likes", 'GET', array()));

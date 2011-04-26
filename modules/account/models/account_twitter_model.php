@@ -100,6 +100,9 @@ class Account_twitter_model extends Model {
 	function get_retweet_count($tweet_id) {
 		  $this->load->library(array('account/twitter_lib'));
 		
+		  
+		if (!$tweet_id)
+			return 0;
 		// cant get around this :(
 		$this->twitter_lib->etw->setToken('147517197-iZ5gHJoRoi91NtATaLkmIg2Jyj3LcGefZgSDc8Me', 
 				"pEEpv93LfnqUrIeygPdlvxX8QIH7Wx2UGAAcBBWpS54");
