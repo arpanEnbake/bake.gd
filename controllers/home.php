@@ -136,7 +136,11 @@ class Home extends Controller {
 	 */
 	function get_shortened_url($url , $account_id) {
 		$url = stripslashes($url);
-		$return = $this->Url_model->add($account_id, $url);
+		
+		$url_model = new Url_model();
+		
+		$return = $url_model->add($account_id, $url);
+		//$return = $this->Url_model->add($account_id, $url);
 
 		$domain = isset($this->account) && isset($this->account->domain) ? $this->account->domain : $_SERVER['HTTP_HOST'];
 

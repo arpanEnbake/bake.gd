@@ -1,13 +1,22 @@
 <?php
 class Url_model extends DataMapper {
-	var $table = 'urls';
+	var $table = 'yourls_url';
 	var $id = null; // last insert id
+	
+	var $validation = array(
+		array(
+			'field' => 'url',
+			'label' => 'URL',
+			'rules' => array('required')
+		)
+	);
+	
 	/*
 	** constructor
 	*/
 	function __construct()
 	{
-		parent::__construct();
+		parent::DataMapper();
 	}
 
 	/*
@@ -65,10 +74,32 @@ class Url_model extends DataMapper {
 							'account_id'=>$account_id,
 							'ip'=>$CI->input->ip_address());
 
-			 $this->db->insert('yourls_url', $data);
-			 $this->id = $this->db->insert_id();
+			$this->id = $this->save_url_to_db($data);
 		}
+
 		return $keyword;
+	}
+
+	/*
+	 * save_url_to_db
+	 * 
+	 * data -> The data to save
+	 * 
+	 * Converts the data in format how Datamapper expects it and saves it.
+	 * 
+	 * @return the saved id.
+	 */
+	function save_url_to_db($data)
+	{
+		$this->url = $data['url'];
+		$this->keyword = $data['keyword'];
+		$this->domain = $data['domain'];
+		$this->account_id = $data['account_id'];
+		$this->ip = $data['ip'];
+
+		$this->save();
+		
+		return $this->db->insert_id();
 	}
 
 	/*
