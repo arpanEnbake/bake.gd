@@ -1,5 +1,6 @@
 <?php
-class Url_model extends Model {
+class Url_model extends DataMapper {
+	var $table = 'urls';
 	var $id = null; // last insert id
 	/*
 	** constructor
@@ -28,17 +29,21 @@ class Url_model extends Model {
 
 		// no existing keyword found.. add a new one.
 		if (!$keyword) {
-			$this->load->library('util');
-			$url = $this->util->yourls_sanitize_url( $url );
+			// Temporary Patch. Data Mapper corrupts up the CI loader and hence
+			// accessing libs like $this->util does not work.
+			$CI = &get_instance();
+			$CI->load->library('util');
+			$url = $CI->util->yourls_sanitize_url( $url );
 			
 			if ( !$url || $url == 'http://' || $url == 'https://' ) {
 				return array('error' => 'Invalid Url');
 		 	}
 
 		 	// Prevent DB flood
-			$this->util->check_ip_flood(  );
-				// Prevent internal redirection loops: cannot shorten a shortened URL
-			$url = $this->util->yourls_escape( $url );
+			$CI->util->check_ip_flood(  );
+
+			// Prevent internal redirection loops: cannot shorten a shortened URL
+			$url = $CI->util->yourls_escape( $url );
 			if( preg_match( '!^'. base_url() .'/!', $url ) ) {
 				if( $this->yourls_is_shorturl( $url ) ) {
 					return array('error' => 'URL is a short URL');
@@ -50,7 +55,7 @@ class Url_model extends Model {
 			$data = array('url'=>$url, 'title'=>null, 
 							'keyword'=>$keyword,
 							'account_id'=>$account_id,
-							'ip'=>$this->input->ip_address());
+							'ip'=>$CI->input->ip_address());
 
 			 $this->db->insert('yourls_url', $data);
 			 $this->id = $this->db->insert_id();

@@ -18,8 +18,8 @@ $config['timestamp_format'] = '';
 $config['lang_file_format'] = 'model_${model}';
 $config['field_label_lang_format'] = '${model}_${field}';
 $config['auto_transaction'] = FALSE;
-$config['auto_populate_has_many'] = FALSE;
-$config['auto_populate_has_one'] = FALSE;
+$config['auto_populate_has_many'] = TRUE;
+$config['auto_populate_has_one'] = TRUE;
 $config['all_array_uses_ids'] = FALSE;
 // set to FALSE to use the same DB instance across the board (breaks subqueries)
 // Set to any acceptable parameters to $CI->database() to override the default.
