@@ -19,6 +19,7 @@ class Url_model extends Model {
 	{
 		$keyword = null;
 
+		
 		$this->db->select(array('keyword', 'id'))->from('yourls_url')->where('url', $url);
 		$res = $this->db->get();
 		if ($res->num_rows > 0) {
@@ -46,9 +47,16 @@ class Url_model extends Model {
 			}
 
 			$keyword = $this->random_keyword();
+			$domain = $_SERVER['HTTP_HOST'];
+			
+			if ($account_id) {
+				$account = $this->account_model->get_by_id($account_id);
+				$domain = isset($account->domain) ? $account->domain : $domain;
+			}
 	
 			$data = array('url'=>$url, 'title'=>null, 
 							'keyword'=>$keyword,
+							'domain'=>$domain,
 							'account_id'=>$account_id,
 							'ip'=>$this->input->ip_address());
 

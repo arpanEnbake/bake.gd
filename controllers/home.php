@@ -138,8 +138,11 @@ class Home extends Controller {
 		$url = stripslashes($url);
 		$return = $this->Url_model->add($account_id, $url);
 
+		$domain = isset($this->account) && isset($this->account->domain) ? $this->account->domain : $_SERVER['HTTP_HOST'];
+
 		if (!empty($return['error'])) {
 			$data['Result']['url'] = ($url);
+			$data['Result']['domain'] = $domain;
 			$data['Result']['keyword'] = $return;
 			$data['Result']['id']  = $this->Url_model->id;
 		} else {
