@@ -40,7 +40,7 @@
 
 	<div class="ext_bitly_chrome_promo_delay"></div>
 
-
+<?php $host = isset($account) && isset($account->domain) ? $account->domain : $_SERVER['HTTP_HOST'];?>
 <div id="external_container">
 	<div id="container">
 	<div id="notification" class="notification roundbtm" style="display:block;">
@@ -133,12 +133,12 @@
 							<?php if (!empty($my_urls) || isset($Result['keyword'])) {
 
 								if (isset($Result['keyword'])) {
-									$bake_url = 'http://' . $_SERVER['HTTP_HOST'] . '/' . $Result['keyword'];
+									$bake_url = 'http://' . $Result['domain'] . '/' . $Result['keyword'];
 									show_row($bake_url, $Result['url'], $Result['id'], null, $twitter, $fb);
 								 }
 								foreach ($my_urls as $row)
 								{
-									$bake_url = 'http://' . $_SERVER['HTTP_HOST'] . '/' . $row->keyword;
+									$bake_url = 'http://' . $row->domain . '/' . $row->keyword;
 									show_row($bake_url, $row->url, $row->id, $row->timestamp, $twitter, $fb);
 								}
 							}

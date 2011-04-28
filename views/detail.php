@@ -32,6 +32,7 @@
 
 </head>
 <body class="unauth_home">
+<?php echo $host = isset($account) && isset($account->domain) ? $account->domain : $_SERVER['HTTP_HOST'];?>
 
 <div id="external_container">
 	<div id="container">
@@ -57,7 +58,7 @@
 		<div id="top"></div> <!-- end #top -->
 		<div id="middle">
 			<div style="width: 1000px;">
-			<h1>Shortened URL: <?php echo 'http://' . $_SERVER['HTTP_HOST'] . '/' . $url->keyword;?></h1>
+			<h1>Shortened URL: <?php echo 'http://' . $url->domain . '/' . $url->keyword;?></h1>
 			Created on <?php echo $url->timestamp?> by <?php echo $user->username?>
 			<h2>Keyword: <?php echo $url->keyword?></h2>
 			<h2>URL: <?php echo $url->url?></h2>

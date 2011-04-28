@@ -192,6 +192,20 @@
 				<?php endforeach; ?>
 			</select>
 		</div>
+		<div class="grid_2 alpha">
+			<?php echo 'Custom Domain (if any)'; ?>
+		</div>
+		<div class="grid_6 omega">
+			<?php echo form_input(array(
+					'name' => 'settings_domain',
+					'id' => 'settings_domain',
+					'value' => set_value('settings_domain') ? set_value('settings_domain') : 
+								(isset($account->domain) ? $account->domain : $_SERVER['HTTP_HOST']),
+					'maxlength' => 40
+				)); ?>
+		</div>
+		
+		
 		<div class="clear"></div>
 		<div class="prefix_2 grid_6 alpha">
 			<?php echo form_button(array(

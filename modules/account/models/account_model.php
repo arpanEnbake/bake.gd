@@ -127,6 +127,11 @@ class Account_model extends Model {
 	{
 		$this->db->update('a3m_account', array('email' => $new_email), array('id' => $account_id));
 	}
+
+	function update_domain($account_id, $new_domain)
+	{
+		$this->db->update('a3m_account', array('domain' => $new_domain), array('id' => $account_id));
+	}
 	
 	// --------------------------------------------------------------------
 	
