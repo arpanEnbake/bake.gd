@@ -7,7 +7,7 @@ class Url_model extends DataMapper {
 		array(
 			'field' => 'url',
 			'label' => 'URL',
-			'rules' => array('required')
+			'rules' => array('required', 'not_spam')
 		)
 	);
 	
@@ -17,6 +17,21 @@ class Url_model extends DataMapper {
 	function __construct()
 	{
 		parent::DataMapper();
+	}
+
+	/*
+	 * not_spam
+	 * 
+	 * check that this link is not a spam link.
+	 */
+	function _not_spam($field)
+	{
+		print_r("Here i come");
+		$CI = &get_instance();
+		$CI->load->library('urlguard');
+		$list = $CI->urlguard->isSpamUrl($this->{$field});
+								exit;
+		print_r($list);
 	}
 
 	/*
