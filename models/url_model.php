@@ -26,12 +26,9 @@ class Url_model extends DataMapper {
 	 */
 	function _not_spam($field)
 	{
-		print_r("Here i come");
 		$CI = &get_instance();
 		$CI->load->library('urlguard');
 		$list = $CI->urlguard->isSpamUrl($this->{$field});
-								exit;
-		print_r($list);
 	}
 
 	/*
