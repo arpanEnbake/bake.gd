@@ -86,7 +86,7 @@ class UrlGuard {
 		    for ($i=0; $i<count($this->uribl); $i++) {
 		      $fqdn = $domain . "." . $this->uribl[$i];
 		      $recexists = gethostbyname($fqdn); // ghbn weirdly returns the name on failure
-		      if (($recexists != $fqdn) && preg_match("/^127\.", preg_quote($recexists))) {
+		      if (($recexists != $fqdn) && preg_match("/^127\./", preg_quote($recexists))) {
 		        if ($i > 0) $uribls .= ", ";                
 		        $uribls .= $this->uribl[$i];      
 		      }
