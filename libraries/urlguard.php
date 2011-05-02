@@ -22,6 +22,8 @@ class UrlGuard {
 	// Check if the passed in url is in any of our spam lists.
 	function isSpamUrl($url)
 	{
+		// TODO: Need to refractor this function not to call ghbn everytime
+		// we look up the same domain. Cache in redis/mongo.
 		$validurlpattern  = "\:\/\/([a-zA-Z0-9\.\-]+(\:[a-zA-Z0-9\.&%\$\-]+)*@)"
 		   . "*((25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])"
 		   . "\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)"
@@ -54,7 +56,9 @@ class UrlGuard {
 		    	$domain=$matches[5] . "." . $matches[4] . "." . $matches[3] . "." . $matches[2];
 		    }
 		    else {
-		      // strip out second-level domain name, *unless* on exception list,
+		      // The lookup guidelines brought to you by ..
+		      // http://www.surbl.org/guidelines
+		    	// strip out second-level domain name, *unless* on exception list,
 		      // in which case, strip out third level also and test that instead.
 		      // FIX: when testing uribl.com lists, also test additional level.  First hit wins.
 		      preg_match("/^".$validschemes.$validurlpattern."$/", $url, $matches);
@@ -82,7 +86,7 @@ class UrlGuard {
 		    for ($i=0; $i<count($this->uribl); $i++) {
 		      $fqdn = $domain . "." . $this->uribl[$i];
 		      $recexists = gethostbyname($fqdn); // ghbn weirdly returns the name on failure
-		      if (($recexists != $fqdn) && preg_match("/^127\.", $recexists)) {
+		      if (($recexists != $fqdn) && preg_match("/^127\.", preg_quote($recexists))) {
 		        if ($i > 0) $uribls .= ", ";                
 		        $uribls .= $this->uribl[$i];      
 		      }

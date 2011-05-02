@@ -76,7 +76,7 @@ class Url_model extends DataMapper {
 			$domain = $_SERVER['HTTP_HOST'];
 			
 			if ($account_id) {
-				$account = $this->account_model->get_by_id($account_id);
+				$account = $CI->account_model->get_by_id($account_id);
 				$domain = isset($account->domain) ? $account->domain : $domain;
 			}
 	
