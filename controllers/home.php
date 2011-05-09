@@ -73,10 +73,10 @@ class Home extends Controller {
 		$data['url'] = ($url);
 		if (isset($url->url)) {
 			$this->load->model('account/account_facebook_model');
-			$data['likes'] = ($this->account_facebook_model->get_likes_count($url->status_id));
+			$data['likes'] = $url->likes;
 			
 			$this->load->model('account/account_twitter_model');
-			$data['retweets'] = ($this->account_twitter_model->get_retweet_count($url->tweet_id));
+			$data['retweets'] = $url->retweets;
 
 			$data['clicks'] = ($this->Url_model->get_url_clicks($url->id));
 			$data['user'] = (	$this->account_model->get_by_id($url->account_id));
