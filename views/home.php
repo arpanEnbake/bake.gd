@@ -8,6 +8,7 @@
 <meta content="IE=8" http-equiv="X-UA-Compatible" />
 <meta name="keywords" content="bake.gd, brand building, link marketting" />
 <meta name="description" content="bake.gd, build your brand with every short link" />
+<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
 
 <script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script>
 

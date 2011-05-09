@@ -104,8 +104,8 @@ class Account_twitter_model extends Model {
 		if (!$tweet_id)
 			return 0;
 		// cant get around this :(
-		$this->twitter_lib->etw->setToken('147517197-iZ5gHJoRoi91NtATaLkmIg2Jyj3LcGefZgSDc8Me', 
-				"pEEpv93LfnqUrIeygPdlvxX8QIH7Wx2UGAAcBBWpS54");
+		$this->twitter_lib->etw->setToken('98854015-zq16wLn3zy2nL8Kl96hVSSm4liz5RH2d9fhXYFAHo', 
+				"zCKoLXSzVenG6OFDyjXxpraabxandav4totvjVBSY8");
 
 		$resp = ($this->twitter_lib->etw->get("/statuses/retweets/{$tweet_id}.json" 
 				,array('trim_user' => 'true')
