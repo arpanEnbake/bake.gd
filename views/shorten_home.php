@@ -24,11 +24,11 @@
 <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.  Lorem Ipsum has been the industry's standard dummy text ever since the 1500sLorem Ipsum is simply dummy text of the printing and typesetting industry.  Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
 <p><table width="100%" border="0" cellspacing="0" cellpadding="3">
   <tr>
-    <td width="3%" align="center"><img src="images/sharing.jpg" width="12" height="12"></td>
+    <td width="3%" align="center"><img src="resource/app/images/sharing.jpg" width="12" height="12"></td>
     <td width="97%"><a href="#">Share settings</a></td>
     <td width="97%">&nbsp;</td>
     <td width="97%" align="right" nowrap>Active</td>
-    <td width="97%" nowrap><img src="images/facebook.png" width="25" height="25">&nbsp;<img src="images/twitter.png" width="25" height="25"></td>
+    <td width="97%" nowrap><img src="resource/app/images/facebook.png" width="25" height="25">&nbsp;<img src="resource/app/images/twitter.png" width="25" height="25"></td>
   </tr>
 </table>
 </p>
@@ -37,7 +37,7 @@
 
 <div class="right">
   <h2>Shorten anywhere with </h2>
-  <img src="images/sidebar.jpg">
+  <img src="resource/app/images/sidebar.jpg">
   <ul>
 <li>Drag to your toolbar  Learn More</li>
 <li>Search your link history
@@ -145,7 +145,7 @@ $('#shares_button').live('click', function(e){
         <td width="7%">View All</td>
         <td width="43%">   <a href="#">Bundles
         </a></td>
-        <td width="49%" align="right"><img src="images/bundle.jpg" width="102" height="35"></td>
+        <td width="49%" align="right"><img src="resource/app/images/bundle.jpg" width="102" height="35"></td>
         <td width="1%">&nbsp;</td>
       </tr>
     </table></td>
@@ -162,15 +162,16 @@ $('#shares_button').live('click', function(e){
       </tr>
     </table></td>
   </tr>
+  <?php // some bad code because of new design merging?>
   	<?php if (!empty($my_urls) || isset($Result['keyword'])) {
 					if (isset($Result['keyword'])) {
 						$bake_url = 'http://' . $Result['domain'] . '/' . $Result['keyword'];
-						show_row($bake_url, $Result['url'], $Result['id'], 'sdf',null, $twitter, $fb);
+						show_row($bake_url, $Result['url'], $Result['id'], 'sdf',null,  $Result['keyword'], $twitter, $fb);
 					 }
 					foreach ($my_urls as $row)
 					{
 						$bake_url = 'http://' . $row->domain . '/' . $row->keyword;
-						show_row($bake_url, $row->url, $row->id, $row->title, $row->timestamp, $twitter, $fb);
+						show_row($bake_url, $row->url, $row->id, $row->title, $row->timestamp, $row->keyword, $twitter, $fb);
 					}
 				}
 
@@ -181,7 +182,7 @@ $('#shares_button').live('click', function(e){
 </table>
   
   
-<?php function show_row($bake_url, $url, $url_id, $title, $timestamp = null, $twitter = null, $fb = null) {?>
+<?php function show_row($bake_url, $url, $url_id, $title, $timestamp = null, $keyword= null, $twitter = null, $fb = null) {?>
 <tr>
     <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tr>
@@ -203,7 +204,7 @@ $('#shares_button').live('click', function(e){
 						Copy</a>
 				<br>        </td>
         
-        <td width="10%" align="left" valign="top">Bake+</td>
+        <td width="10%" align="left" valign="top"><?php echo anchor($keyword, 'Bake+')?></td>
         <td width="15%" align="left" valign="top"><?php echo $timestamp?></td>
         <td width="17%" align="left" valign="top">Options</td>
         
