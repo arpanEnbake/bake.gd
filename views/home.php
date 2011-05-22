@@ -1,8 +1,7 @@
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" class="nojs">
-<!-- MIME TYPE Guidlines and references: http://hixie.ch/advocacy/xhtml -->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
 <head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>bake.gd | Basic | Every link builds a brand</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta content="IE=8" http-equiv="X-UA-Compatible" />
@@ -14,125 +13,105 @@
 
 <base href="<?php echo base_url(); ?>" />
 <link rel="shortcut icon" href="<?php echo base_url(); ?>favicon.ico" />
-<link type="text/css" rel="stylesheet" href="resource/app/css/common.css" />
 
-<!-- <link type="text/css" rel="stylesheet" href="resource/app/css/960gs.css" />
-<link type="text/css" rel="stylesheet" href="resource/app/css/style.css" />-->
-
-
+<!-- Stylesheets-->
+<link href="resource/app/css/bake.css" rel="stylesheet"  type="text/css">
 <!--[if lte IE 8]>
 <link rel="stylesheet" href="IE.css" type="text/css" charset="utf-8" />
 <![endif]-->
 
- <style type="text/css">
- html:before, #middle:before { /* Opera and IE8 "redraw" bug fix */
- content:"";
- float:left;
- height:100%;
- margin-top:-999em;
- }
- </style>
+<!-- scripts-->
+<script type="text/javascript" src="resource/app/js/moo.js"></script>
+<script type="text/javascript" src="resource/app/js/hero.js"></script>
 
 </head>
+
 <body class="unauth_home" onLoad="init()">
 
 	<script type="text/javascript" src="resource/app/js/jquery-1.5.1.min.js"></script>
 	<script src="resource/app/js/ZeroClipboard.js" type="text/javascript"></script>
-
 	<div class="ext_bitly_chrome_promo_delay"></div>
-
 <?php $host = isset($account) && isset($account->domain) ? $account->domain : $_SERVER['HTTP_HOST'];?>
-<div id="external_container">
-	<div id="container">
-	<div id="notification" class="notification roundbtm" style="display:block;">
-		<span id="notification-text">
-		<?php if (!$this->session->userdata('account_id')) { ?>	
-			
-			Sign in now to track your links
-				<span class="fb-sign">
-				<a class="fb_button fb_button_medium" href="<?php echo 'account/connect_facebook'?>">
-					<span class="fb_button_text">Login with Facebook</span></a></span>
-				<a href="<?php echo 'account/connect_twitter'?>" class="twitter-sign">
-				<img src="http://si0.twimg.com/images/dev/buttons/sign-in-with-twitter-l.png" /></a>
-			<?php } else {?>
-							<span class="fb-sign">
-			
-			<a href="#">
-			<?php if ($this->session->userdata('picture')) {  ?>
-				<img src="<?php echo $this->session->userdata('picture')?>" />
-			<?php }?>
-			<?php echo $this->session->userdata('fullname')?>
-			<?php echo anchor('account/sign_out' , 'Log Out', array()) ?>
-			</a></span>
-			<?php }?>
-		</span>
-	</div>
-<!-- Put Content Here -->
-
-<div id="top">
-
-
-</div> <!-- end #top -->
-
 <?php if(!isset($twitter)) $twitter = null;?>
 <?php if(!isset($fb)) $fb = null;?>
-<?php // echo $this->load->view('header'); ?>
-<?php 		echo validation_errors(); ?>
 
+<!-- HEADER START-->
+<div id="mainHeader">
+<div id="header">
+<ul class="ul">
+<li><a href="#">Home</a></li>
+<li><a href="#">Our tour</a></li>
+<li><a href="#">Cutomers</a></li>
+</ul>
+<div class="loginBtns"><a href="<?php echo 'account/connect_twitter'?>" class="twitter-sign"><img src="resource/app/images/tl.png" width="84" height="26" ></a>
+<a href="<?php echo 'account/connect_facebook'?>"><img src="resource/app/images/fl.png" width="84" height="26"></a>
+<a href="#"><img src="resource/app/images/gl.png" width="84" height="26"></a></div>
+<p><img src="resource/app/images/logo.png"></p>
+
+<div id="hero-container">
+      <div class="hero-wrapper" id="hero-1">
+      <div class="textContainer">Transform your business 
+communications with bake.gd </div>
+      <div class="imageContainer"><img src="resource/app/images/img1.png" width="648" height="346"></div> 
+      </div>
+      
+      <div class="hero-wrapper" id="hero-2">
+      <div class="textContainer">Transform your business communications with bake.gd </div>
+      <div class="imageContainer"><img src="resource/app/images/img1.png" width="648" height="346"></div> 
+      </div>
+      
+      <div class="hero-wrapper" id="hero-3">
+      <div class="textContainer">Transform your business communications with bake.gd </div>
+      <div class="imageContainer"><img src="resource/app/images/img1.png" width="648" height="346"></div> 
+      </div>
+      
+      <div class="hero-wrapper" id="hero-4">
+      <div class="textContainer">Transform your business communications with bake.gd </div>
+      <div class="imageContainer"><img src="resource/app/images/img1.png" width="648" height="346"></div> 
+      </div>
+      
+      <div class="hero-wrapper" id="hero-5">
+      <div class="textContainer">Transform your business communications with bake.gd </div>
+      <div class="imageContainer"><img src="resource/app/images/img1.png" width="648" height="346"></div> 
+      </div>
+      
+      <ul id="hero-frames">
+        <li><a class="frame-1-active" href="#1"><span>1</span></a></li>
+        <li><a class="frame-2" href="#2"><span>2</span></a></li>
+        <li><a class="frame-3" href="#3"><span>3</span></a></li>
+        <li><a class="frame-3" href="#4"><span>3</span></a></li>
+        <li><a class="frame-3" href="#5"><span>3</span></a></li>
+      </ul>
+    </div>
+</div>
+</div>
+<!-- HEADER END-->
+
+
+<!-- BODY START-->
+<div id="mainBody">
+<div id="body">
+<?php 		echo validation_errors(); ?>
 <?php if (isset($error))
 		echo "<h2>{$error}</h2>";?>
+<?php echo form_open('/home/index', array('id' => 'unAuthShortenForm')); ?>
 
-<div id="middle">
+<div class="shorten-textarea">
 
-	<!-- Sorry, you are not logged -->
-	<div id="middle_inner">
-		<div id="header">
-			<a id="logo" href="/">bake.gd</a>
-		</div>
-		<div id="middleLevelContainer1">
-			<div id="mainSearchContainer">
-				<div id="mainSearchContainerInner" class="mainUnAuthShortenContainerInner">
-					<div class="formActionContainer">
-						<?php echo form_open('/home/index', array('id' => 'unAuthShortenForm')); ?>
-								<div class="shortenUnAuthBox clearfix">
-								<div id="mainUnAuthShortenContainer" class="inputBoxContainer">
-									<input  tabindex="1" id="shortenUnAuthContainer"  type="text" name="url"
-											value="<?php echo set_value('url', isset($url) ? $url : null); ?>" />
-								</div>
-									<button id="shorten_button" type="submit"><p>Shorten</p></button>
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
+	<input type="text" id="shortenUnAuthContainer" name="url" value="<?php echo set_value('url', isset($Result['url']) ? $Result['url'] : null); ?>"></input>
+		<input  class="btns" id="shorten_button" type="submit"></input>
+</div>
 
 
-			<div class="shortenedListListBox last_shorten " style="display:block;">
-			<div style="display:none" id="share_box">
-				<?php echo form_open('/home/index', array('id' => 'share-form')); ?>
-					<textarea  id="share_text"   name="share_text" value="" rows="4" cols="100"></textarea>
-					<button id="shares_button" type="submit"><p>Share</p></button>	
-				<?php echo form_close()?>
-			</div>
-				<div class="linkCapsule_link clearfix">
-					<strong class="shortened_url">Shortened link</strong>
-					<strong class="realtime_stats">stats</strong>
-					<strong class="long_link">Long link</strong>
-					<strong class="sharing_options">Sharing</strong>
-				</div>
-				<ul class="shortened_results_list"></ul>
-			</div>
-
-
-			<div class="resultsContainer roundbtm10">
-				<div id="historyHeadline"></div>
-				<div id="weeklySparkLines"></div>
-				<div id="results" style="display: block; ">
-					<div class="shortenedListListBox">
-						<ul class="shortened_results_list">
-
-							<?php if (!empty($my_urls) || isset($Result['keyword'])) {
-
+<div class="BoxContainer">
+<div class="box4">
+	<table  width ="720px">
+		<tr><th width="160px" style="text-align:left"><strong class="shortened_url">Shortened link</strong></th>`
+				<th width="120px" style="text-align:left">	<strong class="realtime_stats">stats</strong></th>
+				<th width="185px"  style="text-align:left">	<strong class="long_link">Long link</strong></th>
+				<th width="156px"  style="text-align:center">	<strong class="sharing_options">Sharing</strong></th>
+			</tr>
+				<?php if (!empty($my_urls) || isset($Result['keyword'])) {
 								if (isset($Result['keyword'])) {
 									$bake_url = 'http://' . $Result['domain'] . '/' . $Result['keyword'];
 									show_row($bake_url, $Result['url'], $Result['id'], null, $twitter, $fb);
@@ -145,35 +124,82 @@
 							}
 
 							?>
-						</ul>
-					</div>
-					<div id="pagination"></div>
-				</div> <!-- end #resultsContainer -->
-			</div>
+	</table>
+			
+</div>
 
-		</div>
-	</div>
-</div> <!-- END #middle -->
+<div class="box1"><img src="resource/app/images/box3.png" width="210" height="127"><p>Extra World</p>
+<div>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,...</div>
+</div>
+
+</div>
+
+<div class="Container">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,</div>
+</div></div>
+<!-- BODY END-->
 
 
+<!-- FOOTER START-->
+<div id="mainFooter">
+<div id="footer">
+<ul>
+<p>Feature</p>
+<li><a href="#">bakegd</a></li>
+<li><a href="#">Phoine And Mobiles</a></li>
+<li><a href="#">bakegd</a></li>
+<li><a href="#">bakegd</a></li>
+<li><a href="#">bakegd</a></li>
+<li><a href="#">bakegd</a></li>
+</ul><ul>
+<p>Price</p>
+<li><a href="#">bakegd</a></li>
+<li><a href="#">bakegd</a></li>
+<li><a href="#">Phoine And Mobiles</a></li>
+<li><a href="#">bakegd</a></li>
+<li><a href="#">bakegd</a></li>
+<li><a href="#">bakegd</a></li>
+</ul>
+<ul>
+<p>Bussiness</p>
+<li><a href="#">bakegd</a></li>
+<li><a href="#">bakegd</a></li>
+<li><a href="#">bakegd</a></li>
+<li><a href="#">bakegd</a></li>
+<li><a href="#">bakegd</a></li>
+<li><a href="#">bakegd</a></li>
+</ul><ul>
+<p>Services</p>
+<li><a href="#">bakegd</a></li>
+<li><a href="#">bakegd</a></li>
+<li><a href="#">bakegd</a></li>
+<li><a href="#">bakegd</a></li>
+<li><a href="#">bakegd</a></li>
+<li><a href="#">bakegd</a></li>
+</ul>
+<div><img src="resource/app/images/followus.png"><a href="#"><img src="resource/app/images/f.png" width="45" height="41"></a><a href="#"><img src="resource/app/images/t.png" width="45" height="41"></a></div>
+</div>
+</div>
 
 <?php function show_row($bake_url, $url, $url_id, $timestamp = null, $twitter = null, $fb = null) {?>
-							<li hash="fRi0f2" class="linkCapsule_link clearfix">
-								<div class="shortened_url clearfix">
+<tr>
+							<td>
 									<?php echo anchor($bake_url, $bake_url, array('class'=>"short_url", 'id' => "short_url_{$url_id}")) ?>
-									<span class="copy_customize flash">
-										<!-- <a class="customize_button" href="/a/sign_in">Customize</a>
-										<span class="copy_separator"> | </span> -->
+							</td>
+							<td style="text-align:center">		
 											<a style = "text-indent: 0px; " class="copy_button" id="copy_<?php echo $url_id?>"  href="javascript:void(0)">
 													Copy
 											</a>
-									</span>
-								</div>
+							
 								<div class="popup_error" id="copy-success-<?php  echo $url_id?>" style="display: none;"></div>
 								<?php $str =  $bake_url . '+'; 
 									echo anchor($str, 'Info Page+', array('class'=>"realtime_stats", 'style'=>"float:left"));?></a>
+							</td>				
+							<td>
+								<div style="overflow:hidden; width:195px">	
 								<a target="_blank" href="#" class="long_link"><?php echo substr($url, 0, 50); ?></a>
-								<span id="share_links">
+								</div>
+							</td>
+							<td  style="text-align:center">	
 									<?php
 										$tw_flag = false; $fb_flag = false;
 										if (isset($twitter)) {
@@ -184,6 +210,7 @@
 											}
 											$tw_flag = true;
 										}
+										echo '&nbsp;&nbsp;&nbsp;&nbsp;';
 										if (isset($fb)) {
 											$fb_flag = true;
 											echo anchor("account/connect_facebook/post_wall/{$fb->facebook_id}/{$url_id}", 'Facebook'
@@ -194,30 +221,13 @@
 											
 										}
 										if (!$tw_flag && !$fb_flag) {
-											echo anchor('/account/account_linked', 'Link your A/cs here');
+											echo anchor('/account/account_linked', 'Login now to start sharing');
 										}
 
 									?>
-								</span>
-							</li>
+							</td>
+							</tr>	
 <?php } ?>
-
-<div id="bottom">
-
-</div> <!-- end #bottom -->
-</div> <!-- end #container -->
-</div> <!-- end #external_container -->
-
-
- <div id="footer">
-	© 2010 Enabake Consulting Pvt Ltd
-
-	<a href="#">Help</a>
-	<a href="#">API</a>
-	<a href="#">Privacy Policy</a>
-	<a href="#">TOS</a>
-
-</div>
 
 <!--[if IE]><script language="javascript" type="text/javascript" src="/s/v255/js/ie-hacks/excanvas.min.js"></script><![endif]-->
 
@@ -309,6 +319,7 @@ $('#shares_button').live('click', function(e){
     </script>
 
 
+
+<!-- FOOTER END-->
 </body>
 </html>
-

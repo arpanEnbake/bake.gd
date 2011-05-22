@@ -41,7 +41,6 @@ class Url_model extends DataMapper {
 	{
 		$keyword = null;
 
-		
 		$this->db->select(array('keyword', 'id'))->from('yourls_url')->where('url', $url);
 		$res = $this->db->get();
 		if ($res->num_rows > 0) {
@@ -79,8 +78,8 @@ class Url_model extends DataMapper {
 				$account = $CI->account_model->get_by_id($account_id);
 				$domain = isset($account->domain) ? $account->domain : $domain;
 			}
-	
-			$data = array('url'=>$url, 'title'=>null, 
+			
+			$data = array('url'=>$url, 'title'=>$this->get_details($url), 
 							'keyword'=>$keyword,
 							'domain'=>$domain,
 							'account_id'=>$account_id,
@@ -90,6 +89,23 @@ class Url_model extends DataMapper {
 		}
 
 		return $keyword;
+	}
+	
+	function get_details($url) {
+		$file = file($url);
+		$file = implode("",$file);
+		$m = null;
+		$title = null;
+		$description = null;
+		
+		if(preg_match("/<title>(.+)<\/title>/i",$file,$m)) {
+				$title = $m[1];
+				
+			$metatagarray = get_meta_tags( $url );
+		    $keywords = $metatagarray[ "keywords" ];
+		    $description = $metatagarray[ "description" ];
+		}
+	    return  $title . ' </br>'. $description; 
 	}
 
 	/*
@@ -108,6 +124,7 @@ class Url_model extends DataMapper {
 		$this->domain = $data['domain'];
 		$this->account_id = $data['account_id'];
 		$this->ip = $data['ip'];
+		$this->title = $data['title'];
 
 		$this->save();
 		

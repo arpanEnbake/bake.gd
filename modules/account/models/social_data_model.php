@@ -1,11 +1,11 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Facebook_data_model extends Model {
+class Social_data_model extends Model {
 	
 	/**
 	 * Constructor
 	 */
-	function Facebook_data_model()
+	function Social_data_model()
 	{
 		### Call the Model constructor
 		parent::Model();
@@ -14,15 +14,15 @@ class Facebook_data_model extends Model {
 	// --------------------------------------------------------------------
 	
 	/**
-	 * Get account facebook
+	 * Get account Social
 	 *
 	 * @access public
 	 * @param string $account_id
-	 * @return object account facebook
+	 * @return object account Social
 	 */
 	function get_by_account_id($account_id)
 	{
-		// return $this->db->get_where('facebook', array('account_id' => $account_id))->result();
+		// return $this->db->get_where('Social', array('account_id' => $account_id))->result();
 	}
 	
 }?>

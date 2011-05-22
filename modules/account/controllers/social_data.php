@@ -39,7 +39,8 @@ class Social_data extends Controller {
 				$like_data = array(
 							'status_id' => $url->status_id, 
 							'fb_id' => ($like['id']),
-							'name' => $like['name'] 
+							'name' => $like['name'],
+							'date' => date('Y-m-d'), 
 						);
 				$this->social_data_model->db->insert('fb_status_likes', $like_data);
 			}		
@@ -65,6 +66,7 @@ class Social_data extends Controller {
 						'tweet_id' => $retweet['retweeted_status']['id_str'], 
 						'retweet_id' => $retweet['retweeted_status']['id_str'],
 						'user_id' => $retweet['user']['id_str'],
+						'date' => date('Y-m-d'),
 						//	'name' => $like['name'] 
 						);
 				$this->twitter_data_model->db->insert('tw_retweets', $retweet_data);		
@@ -81,7 +83,8 @@ class Social_data extends Controller {
 			array('status_id is not null or tweet_id is not null' => null))->result();
 		
 		foreach($urls as $key => $url) {
-			
+			echo '=************************************=';
+			pr ($url);
 			if ($url->status_id) {
 				$url->likes = $this->process_fb($url);
 				$url->like_date = date('Y-m-d');
@@ -90,6 +93,8 @@ class Social_data extends Controller {
 				$url->retweets = $this->process_tw($url);
 				$url->tweet_date = date('Y-m-d');
 			}
+			pr($url);
+			echo '=************************************=';
 			$this->social_data_model->db->update('yourls_url', $url, array('id' => $url->id));
 		}
 		
