@@ -166,12 +166,12 @@ $('#shares_button').live('click', function(e){
   	<?php if (!empty($my_urls) || isset($Result['keyword'])) {
 					if (isset($Result['keyword'])) {
 						$bake_url = 'http://' . $Result['domain'] . '/' . $Result['keyword'];
-						show_row($bake_url, $Result['url'], $Result['id'], 'sdf',null,  $Result['keyword'], $twitter, $fb);
+						show_row($bake_url, $Result['url'], $Result['id'], 'sdf',null,$twitter, $fb);
 					 }
 					foreach ($my_urls as $row)
 					{
 						$bake_url = 'http://' . $row->domain . '/' . $row->keyword;
-						show_row($bake_url, $row->url, $row->id, $row->title, $row->timestamp, $row->keyword, $twitter, $fb);
+						show_row($bake_url, $row->url, $row->id, $row->title, $row->timestamp,  $twitter, $fb);
 					}
 				}
 
@@ -182,7 +182,7 @@ $('#shares_button').live('click', function(e){
 </table>
   
   
-<?php function show_row($bake_url, $url, $url_id, $title, $timestamp = null, $keyword= null, $twitter = null, $fb = null) {?>
+<?php function show_row($bake_url, $url, $url_id, $title, $timestamp = null, $twitter = null, $fb = null) {?>
 <tr>
     <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tr>
@@ -204,7 +204,7 @@ $('#shares_button').live('click', function(e){
 						Copy</a>
 				<br>        </td>
         
-        <td width="10%" align="left" valign="top"><?php echo anchor($keyword, 'Bake+')?></td>
+        <td width="10%" align="left" valign="top"><?php echo anchor($bake_url.'+', 'Bake+')?></td>
         <td width="15%" align="left" valign="top"><?php echo $timestamp?></td>
         <td width="17%" align="left" valign="top">Options</td>
         
