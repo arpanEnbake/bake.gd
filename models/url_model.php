@@ -93,12 +93,13 @@ class Url_model extends DataMapper {
 	
 	function get_details($url) {
 		$file = null;
-		try {
-			$file = file($url);
-			$file = implode("",$file);
-		} catch  (Exception $e) {
-			$file = null;
-			
+		if (file_exists($url)) {
+			try {
+				$file = file($url);
+				$file = implode("",$file);
+			} catch  (Exception $e) {
+				$file = null;
+			}
 		}
 		$m = null;
 		$title = null;

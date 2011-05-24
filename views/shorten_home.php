@@ -234,8 +234,8 @@ if ($days < 1) {
     <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tr>
         <td width="4%" align="center" valign="top" bgcolor="#BCDCFA"><input type="checkbox"></td>
-              <td width="8%" align="center" valign="top">0<br>
-					out of<br>0</td>
+              <td width="8%" align="center" valign="top"><br><?php echo $clicks?><br>
+					clicks</td>
   
   	        <td width="55%" align="left" valign="top">
   	        <strong><?php echo anchor($bake_url, $title, array('class'=>"short_url", 'id' => "short_url_{$url_id}")) ?>
