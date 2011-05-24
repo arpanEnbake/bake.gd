@@ -1,5 +1,6 @@
 <?php echo $this->load->view('inner_elements/header'); ?>
 <script src="resource/app/js/ZeroClipboard.js" type="text/javascript"></script>
+
 <!-- BODY START-->
 <div id="mainBody">
 <div id="body">
@@ -18,9 +19,39 @@
 
 	<div>
 		<input type="button" class="shorten" id="shorten_button">
-		<input type="button" class="share">
+<!--		<input type="button" class="share">-->
 	</div>
 <?php echo form_close();?>
+
+  	<?php if (isset($Result['keyword'])) {
+  		$bake_url = 'http://' . $Result['domain'] . '/' . $Result['keyword'];
+  	?>
+  	<div  class="popup_error" id="copy-success-00" style="display: none; width:140px; margin-left: 250px"></div>
+  	<div id="result-table"  style="opacity:0.1; background-color: #bcdcfa">
+  	<table width="100%" border="0" cellspacing="3" cellpadding="0" >
+  <tr>
+        <td  align="left" valign="middle">Shortened Link</td>
+        <td  align="left" valign="middle">Info Plus</td>
+        <td  align="left" valign="middle">Long link</td>
+    
+  </tr>
+  		<tr>
+  			<td align="left"><strong><?php echo anchor($bake_url, $bake_url, array('class'=>"short_url", 'id' => "short_url_00")) ?>
+  	        </strong></td>
+			<td align="left">
+				<a style = "text-indent: 0px; " class="copy_button" id="copy_00"  href="javascript:void(0)">Copy</a>
+				<?php echo anchor($bake_url.'+', 'Bake+', array('style'=>'margin-left:30px'));?></td>			
+			<td align="left"><?php echo anchor($Result['url'], substr($Result['url'], 0, 50));?></td>
+						
+</tr></table>
+</div>
+<script>$('#result-table').animate({ opacity : '1'}, 8000, function() {
+	$('#result-table').css('background-color', '#bcdcfa');
+    // Animation complete.
+});
+ </script>
+<?php }?>
+  	
 <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.  Lorem Ipsum has been the industry's standard dummy text ever since the 1500sLorem Ipsum is simply dummy text of the printing and typesetting industry.  Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
 <p><table width="100%" border="0" cellspacing="0" cellpadding="3">
   <tr>
@@ -67,29 +98,32 @@ $('.share_tw').live('click', function(e){
 
 function share_box_updates(str, elem) {
 	$('#share_text').val('');
-	$('#share_box').show();
 	$('#share-form').attr("action", elem.attr("href"));
 	$('#share_text').val(str);
+	$('#basic-modal-content').modal({maxHeight:10,
+									maxWidth: 10
+							});
 }
 
 $('#shares_button').live('click', function(e){
 	e.preventDefault();
-	
 	$.ajax({
 	    type: "POST",
 	    url: 	$('#share-form').attr("action"),
 	    data: $('#share-form').serialize(),
 	    dataType: "json",
 	    success: function(msg) {
+		$.modal.close();
+		$('#modal-result').innerHtml = (msg);
     		if(msg) {
         		if(msg['error']) {
 	    			alert(msg['error']);
         		}
     		}
 			$('#share_text').val('');
-			$('#share_box').hide();
 	    },
 	    failure: function (msg) {
+	    	$('#modal-result').innerHtml = (msg);
 		    alert(msg);
 	    }
 	  });
@@ -126,7 +160,7 @@ $('#shares_button').live('click', function(e){
                 	$('.popup_error').hide();
                         	
                 	  $(str).show();
-    				  $(str).html('<div style="border:2px;background-color:yellow">Copied to clipboard<div>');
+    				  $(str).html('<div style="border:2px;background-color:yellow">Copied to clipboard  &nbsp;<div>');
     				  setTimeout("$(str).fadeOut(); ", 1000); //display message for 3 seconds
                 });
 				
@@ -163,26 +197,39 @@ $('#shares_button').live('click', function(e){
     </table></td>
   </tr>
   <?php // some bad code because of new design merging?>
-  	<?php if (!empty($my_urls) || isset($Result['keyword'])) {
-					if (isset($Result['keyword'])) {
-						$bake_url = 'http://' . $Result['domain'] . '/' . $Result['keyword'];
-						show_row($bake_url, $Result['url'], $Result['id'], 'sdf',null,$twitter, $fb);
-					 }
+  	<?php if (!empty($my_urls)) {
 					foreach ($my_urls as $row)
 					{
 						$bake_url = 'http://' . $row->domain . '/' . $row->keyword;
-						show_row($bake_url, $row->url, $row->id, $row->title, $row->timestamp,  $twitter, $fb);
+						show_row($row, $bake_url,  $twitter, $fb);
 					}
 				}
-
 				?>
-
-  
 
 </table>
   
   
-<?php function show_row($bake_url, $url, $url_id, $title, $timestamp = null, $twitter = null, $fb = null) {?>
+<?php function show_row($url_obj, $bake_url,$twitter = null, $fb = null) {
+ $url = $url_obj->url;
+ $url_id = $url_obj->id;
+ $title = $url_obj->title;
+ $timestamp = $url_obj->timestamp;
+ $clicks = $url_obj->clicks?>
+<?php
+$to_time=strtotime($timestamp);
+$from_time=time();
+$days = round(abs($to_time - $from_time) / (60*24*60),0);
+if ($days < 1) {
+	$hours = round(abs($to_time - $from_time) / (60*60),0);
+	if ($hours < 1) {
+		$time_str = round(abs($to_time - $from_time) / (60),0) . ' minutes ago.';
+	} else {
+		$time_str = $hours . ' hours ago.';
+	}
+} else {
+	$time_str = $days . ' days ago.';
+}
+?>
 <tr>
     <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tr>
@@ -205,8 +252,35 @@ $('#shares_button').live('click', function(e){
 				<br>        </td>
         
         <td width="10%" align="left" valign="top"><?php echo anchor($bake_url.'+', 'Bake+')?></td>
-        <td width="15%" align="left" valign="top"><?php echo $timestamp?></td>
-        <td width="17%" align="left" valign="top">Options</td>
+        <td width="15%" align="left" valign="top"><?php echo $time_str?></td>
+        <td width="17%" align="left" valign="top">
+        									<?php
+										$tw_flag = false; $fb_flag = false;
+										if (isset($twitter)) {
+											echo anchor("account/connect_twitter/post_status/{$twitter->twitter_id}/{$url_id}", 'Twitter', 
+													array('class'=>"share_tw", 'rel' => $bake_url));
+											if (!isset($fb)) {
+													echo anchor("account/connect_facebook", 'Connect Facebook');
+											}
+											$tw_flag = true;
+										}
+										echo '<br>';
+										if (isset($fb)) {
+											$fb_flag = true;
+											echo anchor("account/connect_facebook/post_wall/{$fb->facebook_id}/{$url_id}", 'Facebook'
+											, 	array('class'=>"share_tw", 'rel' => $bake_url));
+											if (!isset($twitter)) {
+													echo anchor("account/connect_twitter", 'Connect Twitter');
+											}
+											
+										}
+										if (!$tw_flag && !$fb_flag) {
+											echo anchor('/account/account_linked', 'Login now to start sharing');
+										}
+
+									?>
+        
+</td>
         
 			      </tr>
     </table></td>
@@ -217,6 +291,40 @@ $('#shares_button').live('click', function(e){
 <?php } ?>
   
 </div>
+
+
+<!--  changes for the modal dialog -->
+<link type='text/css' href='resource/app/css/basic.css' rel='stylesheet' media='screen' />
+
+	<!-- modal content -->
+	<div id="basic-modal-content">
+
+		<div style="text-align: center;">
+			<h2> Share Now </h2>
+		</div>
+		<br></br>
+		<?php echo form_open('/home/index', array('id' => 'share-form')); ?>
+		<textarea id="share_text" name="share_text" value="" rows="5" cols="50"
+			style = "margin-left:60px;"></textarea>
+		<button id="shares_button" type="submit"><p>Share</p></button>
+		<div style="text-align: justify; align: center;" id="modal-long-link"></div>
+		<?php echo form_close()?>
+		<div style="text-align: center;" id="modal-result">
+			
+		</div>
+		
+
+	</div>
+
+<!-- Load jQuery, SimpleModal and Basic JS files -->
+
+<script type='text/javascript' src='resource/app/js/jquery.simplemodal.js'></script>
+<!--  changes for the modal dialog -->
+
+
+
+
+
 <div class="Container"><table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td>

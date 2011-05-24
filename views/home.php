@@ -238,7 +238,12 @@ $('#shorten_button').live('click', function(e){
 });
 </script>
 
-
+ <div style="display:none" id="share_box">
+<?php echo form_open('/home/index', array('id' => 'share-form')); ?>
+<textarea id="share_text" name="share_text" value="" rows="4" cols="100"></textarea>
+<button id="shares_button" type="submit"><p>Share</p></button>
+<?php echo form_close()?>
+</div>
 
 
 <script>

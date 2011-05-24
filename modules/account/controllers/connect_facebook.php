@@ -126,7 +126,7 @@ class Connect_facebook extends Controller {
 
       			// save the fb post id for analytics page.
       			$this->account_facebook_model->db->where('id', $yourl_id)->update('yourls_url', 
-						array('tweet_id'=>$response->response['id_str']));
+						array('status_id'=>$response['id']));
       			
    			} catch(Exception $e) {
 					$str = ($e->getMessage());

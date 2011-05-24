@@ -247,7 +247,6 @@ class Home extends Controller {
 		
 		$this->Url_model->register_click($this->data, $yourl);
 	}
-	
 }
 
 
