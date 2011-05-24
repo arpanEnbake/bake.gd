@@ -92,20 +92,26 @@ class Url_model extends DataMapper {
 	}
 	
 	function get_details($url) {
-		$file = file($url);
-		$file = implode("",$file);
+		$file = null;
+		try {
+			$file = file($url);
+			$file = implode("",$file);
+		} catch  (Exception $e) {
+			$file = null;
+			
+		}
 		$m = null;
 		$title = null;
 		$description = null;
 		
-		if(preg_match("/<title>(.+)<\/title>/i",$file,$m)) {
+		if($file && preg_match("/<title>(.+)<\/title>/i",$file,$m)) {
 				$title = $m[1];
 				
 			$metatagarray = get_meta_tags( $url );
 		    $keywords = $metatagarray[ "keywords" ];
 		    $description = $metatagarray[ "description" ];
 		}
-	    return  $title . ' </br>'. $description; 
+	    return  $title . ' </br>'. $description;
 	}
 
 	/*
