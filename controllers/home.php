@@ -2,6 +2,7 @@
 class Home extends Controller {
 
 	var $account = null;
+	var $data = null;
 
 	// following remap is required for handling arguments on index action
 	// for this we need to add every additional controller name to the routes. 
@@ -31,12 +32,16 @@ class Home extends Controller {
 		// Load the necessary stuff...
 		$this->load->helper(array('language', 'url'));
 		$this->load->library(array('account/authentication'));
-		$this->load->model(array('account/account_model'));
+		$this->load->model(array('account/account_model','account/account_details_model'));
 		$this->lang->load(array('general'));
 
 		if ($this->authentication->is_signed_in())
 		{
 			$this->account = $this->account_model->get_by_id($this->session->userdata('account_id'));
+			$this->account_details = $this->account_details_model->get_by_account_id($this->session->userdata('account_id'));
+			
+			$this->data['account'] = $this->account;
+			$this->data['account_details'] = $this->account_details;
 		}
 		
 	}
@@ -68,20 +73,31 @@ class Home extends Controller {
 	function detail($controller = 'home', $func = 'detail', $key =null) {
 		$this->load->model('Url_model');
 		$this->load->helper('url');
+		$this->data['selected_menu'] = 'Analyze';
 
 		$url = $this->Url_model->get_url($key);
-		$data['url'] = ($url);
+		$this->data['url'] = ($url);
 		if (isset($url->url)) {
-			$this->load->model('account/account_facebook_model');
-			$data['likes'] = ($this->account_facebook_model->get_likes_count($url->status_id));
-			
-			$this->load->model('account/account_twitter_model');
-			$data['retweets'] = ($this->account_twitter_model->get_retweet_count($url->tweet_id));
-
-			$data['clicks'] = ($this->Url_model->get_url_clicks($url->id));
-			$data['user'] = (	$this->account_model->get_by_id($url->account_id));
-			$this->load->view('detail', isset($data) ? $data : NULL);
+			$this->data['clicks'] = ($this->Url_model->get_url_clicks($url->id));
+			$this->data['user'] = (	$this->account_model->get_by_id($url->account_id));
+			$this->load->view('detail', isset($this->data) ? $this->data : NULL);
 		}
+	}
+	
+	function logged_in() {
+
+		// login details and account association
+		$account_id = $this->account->id;
+		
+		$this->load->model('account/account_twitter_model');
+		$tw = ($this->account_twitter_model->get_by_account_id($account_id));
+		if ($tw)
+			$this->data['twitter'] = $tw[0];
+
+		$this->load->model('account/account_facebook_model');
+		$fb = ($this->account_facebook_model->get_by_account_id($account_id));
+		if ($fb)
+			$this->data['fb'] = $fb[0];	
 		
 	}
 	
@@ -89,26 +105,18 @@ class Home extends Controller {
 	{
 		$this->load->model('Url_model');
 		$this->load->library('form_validation');
-		
+
+		// redirect if there is a keyword request
 		if ($key) {
 			$response = $this->_send_to_url($key);
 		}
 
-		// login details and account association
-		$data['account'] = $this->account;
 		$account_id = null;
+		
 		if ($this->account)
-		{ 
-			$account_id = $this->account->id;
-			$this->load->model('account/account_twitter_model');
-			$tw = ($this->account_twitter_model->get_by_account_id($account_id));
-			if ($tw)
-				$data['twitter'] = $tw[0];
-
-			$this->load->model('account/account_facebook_model');
-			$fb = ($this->account_facebook_model->get_by_account_id($account_id));
-			if ($fb)
-				$data['fb'] = $fb[0];	
+		{
+			$this->logged_in($this->data);
+			$account_id = $this->account->id; 
 		}
 		// shorten the url
 		$url = $this->input->post('url');
@@ -117,18 +125,23 @@ class Home extends Controller {
 			
 			if (filter_var($url, FILTER_VALIDATE_URL)) {
 				$res = $this->get_shortened_url($url, $account_id);
-				$data['Result'] = $res['Result'];
-				if ($data['Result']['id'])
-					$this->add_cookie($data['Result']['id']);
+				$this->data['Result'] = $res['Result'];
+				if ($this->data['Result']['id'])
+					$this->add_cookie($this->data['Result']['id']);
 			} else {
-				$data['error'] = 'Not a valid url';
+				$this->data['error'] = 'Not a valid url';
 			}
 		}
 		
 		// cookie filling
-		$data['my_urls'] = $this->recent_urls();
+		$this->data['my_urls'] = $this->recent_urls();
 
-		$this->load->view('home', isset($data) ? $data : NULL);
+		if ($this->account)
+		{
+			$this->load->view('shorten_home', isset($this->data) ? $this->data : NULL);
+		} else {
+			$this->load->view('home', isset($this->data) ? $this->data : NULL);
+		}
 	}
 	
 	/*
@@ -145,18 +158,18 @@ class Home extends Controller {
 		$domain = isset($this->account) && isset($this->account->domain) ? $this->account->domain : $_SERVER['HTTP_HOST'];
 
 		if (!empty($return['error'])) {
-			$data['Result']['url'] = ($url);
-			$data['Result']['domain'] = $domain;
-			$data['Result']['keyword'] = $return;
-			$data['Result']['id']  = $this->Url_model->id;
+			$this->data['Result']['url'] = ($url);
+			$this->data['Result']['domain'] = $domain;
+			$this->data['Result']['keyword'] = $return;
+			$this->data['Result']['id']  = $this->Url_model->id;
 		} else {
-			$data['Result']['url'] = ($url);
-			$data['Result']['keyword'] = null;
-			$data['Result']['id']  = null;
-			$data['Result']['error'] = $return['error'];
+			$this->data['Result']['url'] = ($url);
+			$this->data['Result']['keyword'] = null;
+			$this->data['Result']['id']  = null;
+			$this->data['Result']['error'] = $return['error'];
 		}
 
-		return $data;
+		return $this->data;
 	}
 
 	function recent_urls() {
@@ -227,12 +240,12 @@ class Home extends Controller {
 			$referrer = 'Others';
 		}
 		
-		$data = array('referrer'=>$referrer, 'user_agent'=>$ua, 
+		$this->data = array('referrer'=>$referrer, 'user_agent'=>$ua, 
 				'yourl_id'=>$yourl->id,
 				'ip_address'=>$ip, 'click_time'=> date('Y-m-d H:m:s'));
 
 		
-		$this->Url_model->register_click($data, $yourl);
+		$this->Url_model->register_click($this->data, $yourl);
 	}
 	
 }

@@ -1,0 +1,69 @@
+@charset "utf-8";
+/*
+Author    ::: Chand khan
+Project   ::: Bake gd
+Date	  ::: 09/05/2011	  
+*/
+
+/*****************Default tags*********************/
+body{margin:0px;padding:0px;width:100%; color:8f8f8f; font-family:Verdana, Arial, Helvetica, sans-serif; font-size:12px;  background:#FFF url(../images/bg2.jpg) repeat-x 0px -8px;}
+p, div, form, h1, h2, h3{padding:0px; margin:0px;}
+img{border:none; outline:none;}
+a{border:none; outline:none; text-decoration:none; color:#0099CC;}
+a:link{border:none; outline:none; text-decoration:none;}
+a:hover{border:none; outline:none; text-decoration:none;}
+.cleatAll{ clear:both;}
+img, input{ outline:none; border:none;}
+/****************************************************************************************
+																				  HEADER
+****************************************************************************************/
+#mainHeader{ width:100%; height:40px; margin:0px; padding:0px;}
+#mainHeader #header{  margin:0 auto; height:40px; width:1000px; position:relative; }
+#mainHeader #header .ul {list-style:none;  position:absolute; z-index:5000; width:auto; margin:0px 0 0 540px; padding:0px;}
+#mainHeader #header .ul li{ display:inline;}
+#mainHeader #header .ul li a{color:#FFF; font-weight:bold; border-left:#999999 solid 1px; float:left;  padding:13px 10px 13px 10px; font-family:verdana; font-size:12px; text-decoration:none;}
+#mainHeader #header a{color:#FFF; font-weight:normal; font-family:verdana; font-size:14px;  text-decoration:none;}
+#mainHeader #header .ul li a:hover{  background:#333333;}
+#mainHeader #header .ul li a:active{ color:#ff8202;}
+#mainHeader #header .ul li a:focuse{ color:#ff8202;}
+#mainHeader #header .ul li a.active{ background:#333333;}
+#mainHeader #header .loginBtns{ position:absolute; width:130px; right:0px; top:2px; z-index:1; color:#FFFFFF;}
+#mainHeader #header .loginBtns img{ padding:0px; margin:3px 0 0 0; float:left; border:#FFFFFF solid 1px;}
+#mainHeader #header .loginBtns strong{ float:left; margin:10px 0 0 3px;}
+#mainHeader #header .loginBtns .img{ border:none; float:left; margin:10px 0 0 3px;}
+#mainHeader #header p{ position:absolute; left:0px; top:3px;}
+
+/****************************************************************************************
+																				  BODY
+****************************************************************************************/
+#mainBody{ width:100%;  margin:0px; padding:0px;}
+#mainBody #body{  margin:0 auto;  width:1000px; position:relative; }
+#mainBody #body .content{ position:relative; overflow:hidden; }
+#mainBody #body .content .left{ float:left; width:677px; }
+#mainBody #body .content .left p{color:#404a53; line-height:18px; width:auto; margin:20px 0 0 1px;}
+#mainBody #body .content .left input{ width:671px; height:104px; background:#f6f6f6; border:#e4e2e2 solid 1px; font-family:Verdana, Arial, Helvetica, sans-serif; font-size:26px; color:#CCCCCC; margin:15px 0 0 0; text-align:center;}
+#mainBody #body .content .left div{ text-align:right; margin:0px; padding:0px;}
+#mainBody #body .content .left div .share{ background:url(../images/share.jpg) no-repeat left top; width:102px; height:35px; cursor:pointer; margin:0 0 0 5px; border:none; }
+#mainBody #body .content .left div .shorten{ background:url(../images/shorten.jpg) no-repeat left top; width:102px; height:35px; cursor:pointer;border:none;}
+#mainBody #body .content .right{ float:left; width:220px; margin:15px 0 0 100px; text-align:center; }
+#mainBody #body .content .right h2{font-family:Arial, Helvetica, sans-serif; margin:0 0 20px 0;  font-size:20px; color:#999999;}
+#mainBody #body .content ul {list-style:none;  padding:0px;}
+#mainBody #body .content ul li{ display:block; padding:15px 10px 15px 5px; color:#5a5a5a; border-bottom:#F2F2F2 solid 1px; }
+#mainBody #body .content .ul li a{color:#FFF; font-weight:normal; font-family:verdana; font-size:14px; text-decoration:none;}
+#mainBody #body .BoxContainer{ width:1000px; position:relative; margin:35px 0 0 0; padding:10px 0 20px 0; border-top:#bcdcfa solid 1px; border-bottom:#bcdcfa solid 1px;  }
+#mainBody #body .BoxContainer p{ margin:0px 0 0 0; padding:0px 0 10px 0; color:#686868; font-family:Verdana, Arial, Helvetica, sans-serif; font-size:14px; font-weight:normal;}
+
+#mainBody #body .Container{ position:relative; margin:10px 0 0 0;}
+#mainBody #body .Container p{ margin:0px; padding:0px 0 10px 0; color:#686868; font-family:Verdana, Arial, Helvetica, sans-serif; font-size:14px; font-weight:normal;}
+
+/****************************************************************************************
+																				  FOOTER
+****************************************************************************************/
+#mainFooter{ width:100%;  margin:50px auto 0 auto; padding:0px;}
+#mainFooter #footer{  margin:0 auto;  width:1000px; position:relative; padding:40px 0 0 0;  background:url(../images/body-devidir.png) no-repeat top center;}
+#mainFooter #footer ul p{ font-family:Verdana, Arial, Helvetica, sans-serif; font-size:18px; color:#0c90ce;}
+#mainFooter #footer ul {list-style:none;  float:left; width:190px; margin:10px 0 0 0px; padding:0px;}
+#mainFooter #footer ul li{ display:block; padding:5px 0px 5px 0px; }
+#mainFooter #footer ul li a{color:#333333; font-weight:normal; font-family:verdana, Helvetica, sans-serif; font-size:12px; text-decoration:none;}
+#mainFooter #footer ul li a:hover{ color:#ff8202;}
+#mainFooter #footer div{ margin:80px 0 0 30px;}

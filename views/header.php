@@ -1,4 +1,6 @@
-<div class="container_12" id="header">
+<?php echo $this->load->view('inner_elements/header'); ?>
+
+<!--<div class="container_12" id="header">
     <div class="grid_8">
         <h1><?php echo anchor('', 'Bake.gd'); ?></h1>
     </div>
@@ -15,4 +17,4 @@
         </ul>
     </div>
     <div class="clear"></div>
-</div>
+</div>-->
