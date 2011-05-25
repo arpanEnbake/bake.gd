@@ -1,6 +1,10 @@
 <?php echo $this->load->view('inner_elements/header'); ?>
 <script src="resource/app/js/ZeroClipboard.js" type="text/javascript"></script>
 
+<?php $host = isset($account) && isset($account->domain) ? $account->domain : $_SERVER['HTTP_HOST'];?>
+<?php if(!isset($twitter)) $twitter = null;?>
+<?php if(!isset($fb)) $fb = null;?>
+
 <!-- BODY START-->
 <div id="mainBody">
 <div id="body">
