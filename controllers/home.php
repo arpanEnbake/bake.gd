@@ -1,8 +1,6 @@
 <?php
 class Home extends Controller {
 
-	var $account = null;
-
 	// following remap is required for handling arguments on index action
 	// for this we need to add every additional controller name to the routes. 
 	function	_remap ($method )	{
