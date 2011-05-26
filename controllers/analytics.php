@@ -21,7 +21,7 @@ class Analytics extends Controller {
   
   
   	function index() {
-  		$this->load->view('analytics/index', isset($data) ? $data : NULL);
+  		$this->load->view('analytics/index', isset($this->data) ? $this->data : NULL);
 	}
 	
   

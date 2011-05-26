@@ -2,7 +2,6 @@
 class Home extends Controller {
 
 	var $account = null;
-	var $data = null;
 
 	// following remap is required for handling arguments on index action
 	// for this we need to add every additional controller name to the routes. 
@@ -31,19 +30,7 @@ class Home extends Controller {
 
 		// Load the necessary stuff...
 		$this->load->helper(array('language', 'url'));
-		$this->load->library(array('account/authentication'));
-		$this->load->model(array('account/account_model','account/account_details_model'));
 		$this->lang->load(array('general'));
-
-		if ($this->authentication->is_signed_in())
-		{
-			$this->account = $this->account_model->get_by_id($this->session->userdata('account_id'));
-			$this->account_details = $this->account_details_model->get_by_account_id($this->session->userdata('account_id'));
-			
-			$this->data['account'] = $this->account;
-			$this->data['account_details'] = $this->account_details;
-		}
-		
 	}
 	
 	/*
@@ -71,6 +58,7 @@ class Home extends Controller {
 	}
 	
 	function detail($controller = 'home', $func = 'detail', $key =null) {
+			pr($this->data);
 		$this->load->model('Url_model');
 		$this->load->helper('url');
 		$this->data['selected_menu'] = 'Analyze';
@@ -82,23 +70,6 @@ class Home extends Controller {
 			$this->data['user'] = (	$this->account_model->get_by_id($url->account_id));
 			$this->load->view('detail', isset($this->data) ? $this->data : NULL);
 		}
-	}
-	
-	function logged_in() {
-
-		// login details and account association
-		$account_id = $this->account->id;
-		
-		$this->load->model('account/account_twitter_model');
-		$tw = ($this->account_twitter_model->get_by_account_id($account_id));
-		if ($tw)
-			$this->data['twitter'] = $tw[0];
-
-		$this->load->model('account/account_facebook_model');
-		$fb = ($this->account_facebook_model->get_by_account_id($account_id));
-		if ($fb)
-			$this->data['fb'] = $fb[0];	
-		
 	}
 	
 	function index($key = null)
@@ -115,7 +86,6 @@ class Home extends Controller {
 		
 		if ($this->account)
 		{
-			$this->logged_in($this->data);
 			$account_id = $this->account->id; 
 		}
 		// shorten the url
