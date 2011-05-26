@@ -38,7 +38,7 @@
 |
 |	$autoload['libraries'] = array('database', 'session', 'xmlrpc');
 */
-$autoload['libraries'] = array('database','datamapper','bad_behavior', 'urlguard');
+$autoload['libraries'] = array('database','datamapper','bad_behavior', 'urlguard', 'session');
 
 
 /*

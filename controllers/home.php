@@ -3,6 +3,7 @@ class Home extends Controller {
 
 	var $account = null;
 	var $data = null;
+	var $before_filter = array('name' => 'observe_fb_page');
 
 	// following remap is required for handling arguments on index action
 	// for this we need to add every additional controller name to the routes. 
@@ -26,7 +27,6 @@ class Home extends Controller {
 
 	function Home()
 	{
-		
 		parent::Controller();
 
 		// Load the necessary stuff...
@@ -246,6 +246,22 @@ class Home extends Controller {
 
 		
 		$this->Url_model->register_click($this->data, $yourl);
+	}
+
+	/*
+	 * observe_fb_page
+	 * 
+	 * sets the fb page to be observed in the session.
+	 */
+	function observe_fb_page()
+	{
+		if ($this->account && !$this->session->userdata('fb_page')) {
+			$this->load->helper('url');
+
+			// Redirect the user to the fb pages that he can observe.
+			$this->session->set_userdata('redirect', $this->url->uri());
+			redirect('/account/fb_pages');
+		}
 	}
 	
 }

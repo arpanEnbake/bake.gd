@@ -8,19 +8,10 @@
 |
 */
 
-$hook['pre_controller'][] = array(
-                                'class'    => '',
-                                'function' => 'pre_filter',
-                                'filename' => 'init.php',
-                                'filepath' => 'hooks/filters',
-                                'params'   => array()
-                                );
-
-$hook['post_controller'][] = array(
-                                'class'    => '',
-                                'function' => 'post_filter',
-                                'filename' => 'init.php',
-                                'filepath' => 'hooks/filters',
-                                'params'   => array()
-                                );
+$hook['post_controller_constructor'][] = array(
+                                'class'    => 'Filter',
+                                'function' => 'doBeforeFilter',
+                                'filename' => 'Filter.php',
+                                'filepath' => 'hooks'                                
+                                ); 
 ?>
