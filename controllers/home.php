@@ -1,5 +1,11 @@
 <?php
 class Home extends Controller {
+	
+	// emulating cake's this->data
+	// this is stored to store the data to be passed to view
+	var $data = array();
+	var $account = array();
+	
 
 	// following remap is required for handling arguments on index action
 	// for this we need to add every additional controller name to the routes. 
@@ -26,10 +32,45 @@ class Home extends Controller {
 		
 		parent::Controller();
 
+		$this->load->library(array('account/authentication'));
+		$this->load->model(array('account/account_model','account/account_details_model'));
+		if ($this->authentication->is_signed_in())
+		{
+			$this->account = $this->account_model->get_by_id($this->session->userdata('account_id'));
+			$this->account_details = $this->account_details_model->get_by_account_id($this->session->userdata('account_id'));
+
+			$this->data['account'] = $this->account;
+			$this->data['account_details'] = $this->account_details;
+			$this->_logged_in($this->data);
+		}
+		
 		// Load the necessary stuff...
 		$this->load->helper(array('language', 'url'));
 		$this->lang->load(array('general'));
 	}
+	
+	/*
+	 * function logged_in.
+	 * 
+	 * if user is logged in upload its details about fb /twitter
+	 */
+		function _logged_in() {
+
+		// login details and account association
+		$account_id = $this->account->id;
+		
+		$this->load->model('account/account_twitter_model');
+		$tw = ($this->account_twitter_model->get_by_account_id($account_id));
+		if ($tw)
+			$this->data['twitter'] = $tw[0];
+
+		$this->load->model('account/account_facebook_model');
+		$fb = ($this->account_facebook_model->get_by_account_id($account_id));
+		if ($fb)
+			$this->data['fb'] = $fb[0];	
+	}
+
+	
 	
 	/*
 	 * send_to_url
