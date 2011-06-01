@@ -246,8 +246,8 @@ if ($days < 1) {
 <tr>
     <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tr>
-<!--        <td width="4%" align="center" valign="top" bgcolor="#BCDCFA">-->
-<!--        	<input type="checkbox"></td>-->
+   <!--     <td width="4%" align="center" valign="top" bgcolor="#BCDCFA">
+        	<input type="checkbox"></td>-->
               <td width="8%" align="center" valign="top"><br><?php echo $clicks?><br>
 					clicks</td>
   
@@ -305,7 +305,9 @@ if ($days < 1) {
   </tr>
   <tr>
     <td>&nbsp;</td>
+    
   </tr>
+
 <?php } ?>
   
 </div>
