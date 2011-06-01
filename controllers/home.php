@@ -45,7 +45,7 @@ class Home extends Controller {
 		}
 		
 		// Load the necessary stuff...
-		$this->load->helper(array('language', 'url'));
+		$this->load->helper(array('language', 'url', 'html'));
 		$this->lang->load(array('general'));
 	}
 	
@@ -97,7 +97,6 @@ class Home extends Controller {
 	}
 	
 	function detail($controller = 'home', $func = 'detail', $key =null) {
-			pr($this->data);
 		$this->load->model('Url_model');
 		$this->load->helper('url');
 		$this->data['selected_menu'] = 'Analyze';
@@ -177,10 +176,23 @@ class Home extends Controller {
 			$this->data['Result']['id']  = null;
 			$this->data['Result']['error'] = $return['error'];
 		}
-
+		
 		return $this->data;
 	}
 
+	function paginate($total = 0) {
+		$this->load->library('pagination');
+		
+		$config['base_url'] = base_url();
+		$config['total_rows'] = $total;
+		$config['per_page'] = '5'; 
+		
+		$this->pagination->initialize($config); 
+		
+//		echo $this->pagination->create_links();
+		
+	}
+	
 	function recent_urls() {
 		$urls = null;
 		if ($this->account) {
@@ -197,6 +209,9 @@ class Home extends Controller {
 			$query =  $this->db->get();
 			$urls = $query->result_object();
 		}
+		
+		$this->paginate(count($urls));
+		
 		return $urls;
 	}
 	

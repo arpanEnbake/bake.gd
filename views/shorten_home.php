@@ -14,22 +14,33 @@
 <?php if (isset($error))
 		echo "<h2>OOOOpsieee {$error}</h2>";?>
 		</div>
-<?php echo form_open('/home/index', array('id' => 'unAuthShortenForm')); ?>
+		
+	<?php
+	$Result['id'] = '';
+	$bake_url = '';
+	if (isset($Result['keyword'])) {
+  		$bake_url = 'http://' . $Result['domain'] . '/' . $Result['keyword'];
+	}
+  	?>
+
+  	<?php echo form_open('/home/index', array('id' => 'unAuthShortenForm')); ?>
 <div class="left">
 	<input name="url" class="textbox" tabindex="1"  
 		<?php if (!isset($Result['url'])){?>onclick="if (this.value=='Shorten your links and share from here') this.value = ''" onmouseout="if (this.value=='') this.value = 'Shorten your links and share from here'" type="text" maxlength="140" size="28" value="Shorten your links and share from here"
 		<?php }?>
 		value="<?php echo set_value('url', isset($Result['url']) ? $Result['url'] : null); ?>">
 
-	<div>
+	<div style="padding-right: 1px;">
 		<input type="button" class="shorten" id="shorten_button">
-<!--		<input type="button" class="share">-->
+		<a rel = "<?php echo $bake_url?>" class="share_tw share"
+			href="account/connect_twitter/post_status/<?php
+			 echo "{$twitter->twitter_id}/{$Result['id']}"?>">
+			 <img src="resource/app/images/share.jpg"></img></a>
 	</div>
+	
 <?php echo form_close();?>
-
-  	<?php if (isset($Result['keyword'])) {
-  		$bake_url = 'http://' . $Result['domain'] . '/' . $Result['keyword'];
-  	?>
+<?php  if (isset($Result['keyword'])) {?>
+  	
   	<div  class="popup_error" id="copy-success-00" style="display: none; width:140px; margin-left: 250px"></div>
   	<div id="result-table"  style="opacity:0.1; background-color: #bcdcfa">
   	<table width="100%" border="0" cellspacing="3" cellpadding="0" >
@@ -40,7 +51,8 @@
     
   </tr>
   		<tr>
-  			<td align="left"><strong><?php echo anchor($bake_url, $bake_url, array('class'=>"short_url", 'id' => "short_url_00")) ?>
+  			<td align="left"><strong><?php echo anchor($bake_url, $bake_url, 
+  					array('class'=>"short_url", 'id' => "short_url_00")) ?>
   	        </strong></td>
 			<td align="left">
 				<a style = "text-indent: 0px; " class="copy_button" id="copy_00"  href="javascript:void(0)">Copy</a>
@@ -55,18 +67,18 @@
 });
  </script>
 <?php }?>
-  	
-<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.  Lorem Ipsum has been the industry's standard dummy text ever since the 1500sLorem Ipsum is simply dummy text of the printing and typesetting industry.  Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
-<p><table width="100%" border="0" cellspacing="0" cellpadding="3">
-  <tr>
-    <td width="3%" align="center"><img src="resource/app/images/sharing.jpg" width="12" height="12"></td>
-    <td width="97%"><a href="#">Share settings</a></td>
-    <td width="97%">&nbsp;</td>
-    <td width="97%" align="right" nowrap>Active</td>
-    <td width="97%" nowrap><img src="resource/app/images/facebook.png" width="25" height="25">&nbsp;<img src="resource/app/images/twitter.png" width="25" height="25"></td>
-  </tr>
-</table>
-</p>
+<!---->
+<!--<p><table width="100%" border="0" cellspacing="0" cellpadding="3">-->
+<!--  <tr>-->
+<!--    <td width="3%" align="center"><img src="resource/app/images/sharing.jpg" width="12" height="12"></td>-->
+<!--    <td width="97%"><a href="#">Share settings</a></td>-->
+<!--    <td width="97%">&nbsp;</td>-->
+<!--    <td width="97%" align="right" nowrap>Active</td>-->
+<!--    <td width="97%" nowrap><img src="resource/app/images/facebook.png" width="25" height="25">&nbsp;-->
+<!--    	<img src="resource/app/images/twitter.png" width="25" height="25"></td>-->
+<!--  </tr>-->
+<!--</table>-->
+<!--</p>-->
 </div>
 </p>
 
@@ -74,10 +86,6 @@
   <h2>Shorten anywhere with </h2>
   <img src="resource/app/images/sidebar.jpg">
   <ul>
-<li>Drag to your toolbar  Learn More</li>
-<li>Search your link history
-Easily find links with our new search</li>
-<li>
 See more tips & tricks
 Take our tour to see what you can do</li>
 </ul>
@@ -175,28 +183,28 @@ $('#shares_button').live('click', function(e){
     </script>
 
 <div class="BoxContainer">
-<p><strong>Link History: 1 - 3</strong></p>
+<!--<p><strong>Link History: 1 - 3</strong></p>-->
 <table width="100%" border="0" cellspacing="3" cellpadding="0">
-  <tr>
-    <td height="30" align="left" valign="middle"><table width="100%" border="0" cellspacing="0" cellpadding="0">
-      <tr>
-        <td width="7%">View All</td>
-        <td width="43%">   <a href="#">Bundles
-        </a></td>
-        <td width="49%" align="right"><img src="resource/app/images/bundle.jpg" width="102" height="35"></td>
-        <td width="1%">&nbsp;</td>
-      </tr>
-    </table></td>
-  </tr>
+<!--  <tr>-->
+<!--    <td height="30" align="left" valign="middle"><table width="100%" border="0" cellspacing="0" cellpadding="0">-->
+<!--      <tr>-->
+<!--        <td width="7%">View All</td>-->
+<!--        <td width="43%">   <a href="#">Bundles-->
+<!--        </a></td>-->
+<!--        <td width="49%" align="right"><img src="resource/app/images/bundle.jpg" width="102" height="35"></td>-->
+<!--        <td width="1%">&nbsp;</td>-->
+<!--      </tr>-->
+<!--    </table></td>-->
+<!--  </tr>-->
   <tr>
     <td height="30" align="left" valign="middle" bgcolor="#bcdcfa"><table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tr>
-        <td width="4%" align="center" valign="middle"><input type="checkbox"></td>
+<!--        <td width="4%" align="center" valign="middle"><input type="checkbox"></td>-->
         <td width="8%" align="center" valign="middle">Clicks</td>
         <td width="55%" align="left" valign="middle">Links</td>
         <td width="10%" align="left" valign="middle">Info Plus</td>
         <td width="15%" align="left" valign="middle">Date</td>
-        <td width="17%" align="left" valign="middle">Options</td>
+        <td width="17%" align="left" valign="middle">Share</td>
       </tr>
     </table></td>
   </tr>
@@ -216,6 +224,7 @@ $('#shares_button').live('click', function(e){
 <?php function show_row($url_obj, $bake_url,$twitter = null, $fb = null) {
  $url = $url_obj->url;
  $url_id = $url_obj->id;
+// pr($url_obj);
  $title = $url_obj->title;
  $timestamp = $url_obj->timestamp;
  $clicks = $url_obj->clicks?>
@@ -237,12 +246,14 @@ if ($days < 1) {
 <tr>
     <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tr>
-        <td width="4%" align="center" valign="top" bgcolor="#BCDCFA"><input type="checkbox"></td>
+<!--        <td width="4%" align="center" valign="top" bgcolor="#BCDCFA">-->
+<!--        	<input type="checkbox"></td>-->
               <td width="8%" align="center" valign="top"><br><?php echo $clicks?><br>
 					clicks</td>
   
   	        <td width="55%" align="left" valign="top">
-  	        <strong><?php echo anchor($bake_url, $title, array('class'=>"short_url", 'id' => "short_url_{$url_id}")) ?>
+  	        <strong><?php echo anchor($bake_url, $title, 
+  	        		array('class'=>"short_url", 'id' => "short_url_{$url_id}")) ?>
   	        </strong><br>
   	        
   	        <div class="popup_error" id="copy-success-<?php  echo $url_id?>" style="display: none;"></div>
@@ -258,31 +269,34 @@ if ($days < 1) {
         <td width="10%" align="left" valign="top"><?php echo anchor($bake_url.'+', 'Bake+')?></td>
         <td width="15%" align="left" valign="top"><?php echo $time_str?></td>
         <td width="17%" align="left" valign="top">
-        									<?php
-										$tw_flag = false; $fb_flag = false;
-										if (isset($twitter)) {
-											echo anchor("account/connect_twitter/post_status/{$twitter->twitter_id}/{$url_id}", 'Twitter', 
-													array('class'=>"share_tw", 'rel' => $bake_url));
-											if (!isset($fb)) {
-													echo anchor("account/connect_facebook", 'Connect Facebook');
-											}
-											$tw_flag = true;
-										}
-										echo '<br>';
-										if (isset($fb)) {
-											$fb_flag = true;
-											echo anchor("account/connect_facebook/post_wall/{$fb->facebook_id}/{$url_id}", 'Facebook'
-											, 	array('class'=>"share_tw", 'rel' => $bake_url));
-											if (!isset($twitter)) {
-													echo anchor("account/connect_twitter", 'Connect Twitter');
-											}
-											
-										}
-										if (!$tw_flag && !$fb_flag) {
-											echo anchor('/account/account_linked', 'Login now to start sharing');
-										}
+   		<?php
+			$tw_flag = false; $fb_flag = false;
+			if (isset($twitter)) {
+				echo anchor("account/connect_facebook/post_wall/{$twitter->twitter_id}/{$url_id}", 
+					img(array('src'=>'resource/app/images/share/twitter.png','border'=>'0','alt'=>'twitter'))
+						, 	array('class'=>"share_tw", 'rel' => $bake_url));
+						
+				if (!isset($fb)) {
+						echo anchor("account/connect_facebook", 'Connect Facebook');
+				}
+				$tw_flag = true;
+			}
+			//echo '<br>';
+			if (isset($fb)) {
+				$fb_flag = true;
+				echo anchor("account/connect_facebook/post_wall/{$fb->facebook_id}/{$url_id}", 
+				img(array('src'=>'resource/app/images/share/facebook.png','border'=>'0','alt'=>'facebook'))
+				, 	array('class'=>"share_tw", 'rel' => $bake_url));
+				if (!isset($twitter)) {
+						echo anchor("account/connect_twitter", 'Connect Twitter');
+				}
+				
+			}
+			if (!$tw_flag && !$fb_flag) {
+				echo anchor('/account/account_linked', 'Login now to start sharing');
+			}
 
-									?>
+		?>
         
 </td>
         

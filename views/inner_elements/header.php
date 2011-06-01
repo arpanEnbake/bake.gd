@@ -32,8 +32,10 @@
 <div id="mainHeader">
 <div id="header">
 <ul class="ul">
-<li><a href="#"<?php if((!isset($selected_menu) || $selected_menu == 'Default')) echo 'class="active"'?>>Shorten & Share</a></li>
-<li><a href="#"<?php if((isset($selected_menu) && $selected_menu == 'Analyze')) echo 'class="active"'?>>Analyze  </a></li>
+<li><a href="<?php echo base_url()?>"<?php if((!isset($selected_menu) || $selected_menu == 'Default')) 
+		echo 'class="active"'?>>Shorten & Share</a></li>
+<li><a href="<?php echo base_url()?>analytics"<?php if((isset($selected_menu) && $selected_menu == 'Analyze')) 
+		echo 'class="active"'?>>Analyze  </a></li>
 <li><?php echo anchor('account/sign_out', lang('website_sign_out')); ?></a></li>
 </ul>
 <div class="loginBtns"><img src="<?php echo $account_details->picture?>"><strong>
