@@ -29,6 +29,8 @@ class Ajax extends Controller {
   
 	function barchartdata($timePeriod = 1){
 		$units_pre = '';
+		$i = 0;
+		
 		$key = array('facebook', 'twitter', 'linkedin', 'Others');
 		$keycolors = array('red', 'yellow', 'green', 'orange');
 
@@ -41,13 +43,22 @@ class Ajax extends Controller {
 		if ($hourly) {
 			for ($i = $tot_intervals - 1; $i >= 0 ; --$i) {
 				echo date('H:m:s' , strtotime(time() - 30));
-				$labels[] =  $this->subtractTime('H:m:s', 0, 0, 300);
+				$label =  $this->subtractTime('H:m:s', 0, 0, 300);
+				if ($tot_intervals > 20 && $i % 2 != 0) {
+					$label = ' ';
+				}
+				$labels[] = $label;
 				$data[] = array();
 			}
-					pr($labels);
-		} else {
+		}
+		 else {
+				
 			for ($i = $tot_less_days - 1; $i >=0 ; --$i) {
-				$labels[] = date('M-d', strtotime("-{$i} day"));
+				$label = date('M-d', strtotime("-{$i} day"));
+				if ($tot_less_days > 20 && $i % 2 != 0) {
+					$label = ' ';
+				}
+				$labels[] = $label;
 				$data[] = array();
 			}
 		}
@@ -57,7 +68,7 @@ class Ajax extends Controller {
 		foreach($labels as $label){
 			foreach($key as $index => $k){
 				// only initialization for later use
-				 $tooltips[] = $k;
+				$tooltips[] = $k;
 			}
 		}		
 

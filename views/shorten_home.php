@@ -26,12 +26,18 @@
   	<?php echo form_open('/home/index', array('id' => 'unAuthShortenForm')); ?>
 <div class="left">
 	<input name="url" class="textbox" tabindex="1"  
-		<?php if (!isset($Result['url'])){?>onclick="if (this.value=='Shorten your links and share from here') this.value = ''" onmouseout="if (this.value=='') this.value = 'Shorten your links and share from here'" type="text" maxlength="140" size="28" value="Shorten your links and share from here"
+		<?php if (!isset($Result['url'])){?>
+					onclick="if (this.value=='Shorten your links and share from here') this.value = ''"
+					 onmouseout="if (this.value=='') this.value = 'Shorten your links and share from here'" 
+					 type="text" maxlength="140" size="28" value="Shorten your links and share from here"
 		<?php }?>
 		value="<?php echo set_value('url', isset($Result['url']) ? $Result['url'] : null); ?>">
 
-	<div style="padding-right: 1px;">
-		<input type="button" class="shorten" id="shorten_button">
+	<div style="padding-right: 1px; height:50px; padding-top:8px">
+		<a  class="shorten"  id="shorten_button"
+			href="javascript:void(0)">
+			 <img src="resource/app/images/shorten.jpg"></img></a>
+<!--		<input type="button" class="shorten" id="shorten_button">-->
 		<a rel = "<?php echo $bake_url?>" class="share_tw share"
 			href="account/connect_twitter/post_status/<?php
 			 echo "{$twitter->twitter_id}/{$Result['id']}"?>">

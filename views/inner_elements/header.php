@@ -28,6 +28,7 @@
 <?php $host = isset($account) && isset($account->domain) ? $account->domain : $_SERVER['HTTP_HOST'];?>
 
 <body>
+<?php if (isset($account)) {?>
 <!-- HEADER START-->
 <div id="mainHeader">
 <div id="header">
@@ -45,4 +46,5 @@
 
 </div>
 </div>
+<?php }?>
 <!-- HEADER END-->
