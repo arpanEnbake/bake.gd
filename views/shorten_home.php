@@ -278,7 +278,7 @@ if ($days < 1) {
    		<?php
 			$tw_flag = false; $fb_flag = false;
 			if (isset($twitter)) {
-				echo anchor("account/connect_facebook/post_wall/{$twitter->twitter_id}/{$url_id}", 
+				echo anchor("account/connect_twitter/post_status/{$twitter->twitter_id}/{$url_id}", 
 					img(array('src'=>'resource/app/images/share/twitter.png','border'=>'0','alt'=>'twitter'))
 						, 	array('class'=>"share_tw", 'rel' => $bake_url));
 						

@@ -42,7 +42,6 @@ class Ajax extends Controller {
 
 		if ($hourly) {
 			for ($i = $tot_intervals - 1; $i >= 0 ; --$i) {
-				echo date('H:m:s' , strtotime(time() - 30));
 				$label =  $this->subtractTime('H:m:s', 0, 0, 300);
 				if ($tot_intervals > 20 && $i % 2 != 0) {
 					$label = ' ';
@@ -52,7 +51,6 @@ class Ajax extends Controller {
 			}
 		}
 		 else {
-				
 			for ($i = $tot_less_days - 1; $i >=0 ; --$i) {
 				$label = date('M-d', strtotime("-{$i} day"));
 				if ($tot_less_days > 20 && $i % 2 != 0) {
@@ -99,9 +97,8 @@ class Ajax extends Controller {
 			$prev_start_time = $start_time;
 			
 			$org_data = null;
-
 			foreach($key as $index => $media) {
-				$org_data[$index] = 0;
+				$org_data[$index] = $index;
 			}		
 			
 			if ($clicks) {

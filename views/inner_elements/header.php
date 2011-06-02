@@ -41,7 +41,7 @@
 </ul>
 <div class="loginBtns"><img src="<?php echo $account_details->picture?>"><strong>
 <?php echo anchor('account/account_settings', $account->username); ?></strong>&nbsp;</div>
-<p><img src="resource/app/images/inner_logo.jpg" width="98" height="34"></p>
+<p><a href="<?php echo base_url()?>"><img src="resource/app/images/inner_logo.jpg" width="98" height="34"></a></p>
 
 
 </div>
