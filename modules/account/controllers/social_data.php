@@ -69,7 +69,7 @@ class Social_data extends Controller {
 						'date' => date('Y-m-d'),
 						//	'name' => $like['name'] 
 						);
-				$this->twitter_data_model->db->insert('tw_retweets', $retweet_data);		
+				$this->social_data_model->db->insert('tw_retweets', $retweet_data);		
 			}
 		}
 		return count($resp->response);
