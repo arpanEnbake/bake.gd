@@ -188,18 +188,14 @@ class Util {
 		$location = null;
 		$default = null;
 
-			
-		if ( !file_exists( '/geo/GeoIP.dat') || !file_exists( '/geo/geoip.inc') )
-			return $default;
-	
 		if ( $ip == '' )
 			$ip = $this->yourls_get_IP();
-		
+
 		require_once('/geo/geoip.inc') ;
-		$gi = geoip_open( YOURLS_INC.'/geo/GeoIP.dat', GEOIP_STANDARD);
+		$gi = geoip_open( dirname(__FILE__) . '/geo/GeoIP.dat', GEOIP_STANDARD);
 		$location = geoip_country_code_by_addr($gi, $ip);
 		geoip_close($gi);
-	
+
 		return $location;
 	}
 	

@@ -115,6 +115,12 @@ class Home extends Controller {
 		$this->load->model('Url_model');
 		$this->load->library('form_validation');
 
+			$this->load->library('util');
+		$ip = $this->util->yourls_get_IP();
+		$location = $this->util->yourls_geo_ip_to_countrycode( $ip );
+		echo $location;
+		
+		
 		// redirect if there is a keyword request
 		if ($key) {
 			$response = $this->_send_to_url($key);
