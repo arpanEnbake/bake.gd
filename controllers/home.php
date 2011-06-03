@@ -266,7 +266,8 @@ class Home extends Controller {
 		
 		$this->data = array('referrer'=>$referrer, 'user_agent'=>$ua, 
 				'yourl_id'=>$yourl->id,
-				'ip_address'=>$ip, 'click_time'=> date('Y-m-d H:m:s'));
+				'ip_address'=>$ip, 'click_time'=> date('Y-m-d H:m:s'),
+				'country_code' => $location);
 
 		
 		$this->Url_model->register_click($this->data, $yourl);
