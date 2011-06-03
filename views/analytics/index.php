@@ -85,6 +85,15 @@ function draw_chart(tp) {
 		    success_draw(response);  
 	    }
 	});
+
+	$.ajax({
+	    type: "post",
+	    url: "<?php echo base_url();?>ajax/linechartdata/"+tp,    
+	    dataType: 'json',
+	    success: function(response){
+	    	success_line_draw(response)
+	    }
+	});
 }
 draw_chart();
 
@@ -144,13 +153,12 @@ function success_draw(response) {
 	    bar5.Set('chart.tooltips', tooltips);
 	}
 	bar5.Draw();
-	success_draw1(response)
 }
   </script>
 
 <script>
 var line = null;
-function success_draw1(response) {
+function success_line_draw(response) {
 	data = response['data'];
 	
 	var units_pre = response['units_pre'];
@@ -159,12 +167,12 @@ function success_draw1(response) {
 	var colors = response['colors'];
 	var labels = response['labels'];
 	var key = response['key'];
-	//var tooltips = response['tooltips'];
+	var tooltips = response['tooltips'];
 
 	if (line)
 		RGraph.Clear(line.canvas);
 
-	line = new RGraph.Line('linegraph', data);
+	line = new RGraph.Line('linegraph', data[0], data[1]);
 	
 	//line.Set('chart.units.pre', units_pre);
 	line.Set('chart.title', title);
@@ -173,7 +181,7 @@ function success_draw1(response) {
 	line.Set('chart.shadow.color', '#aff');
 	line.Set('chart.background.barcolor1', '#efd');
 	line.Set('chart.background.barcolor2', '#efd');
-	line.Set('chart.colors', ['rgb(64,163,255)', 'rgb(145,210,120)', 'purple', 'orange']);
+	line.Set('chart.colors', ['rgb(64,163,255)', 'rgb(145,210,120)']);
 
 	line.Set('chart.background.grid.color', 'rgba(238,238,238,1)');
 
@@ -188,6 +196,11 @@ function success_draw1(response) {
 	line.Set('chart.height', <?php echo $graph_height;?>);
 	line.Set('chart.width', <?php echo $graph_width;?>);
 	line.Set('chart.background.grid.width', 0.3); // Decimals are permitted
+	line.Set('chart.tickmarks', ['circle', 'square']);
+
+	line.Set('chart.linewidth', 2);
+	line.Set('chart.tooltips.highlighting', false);
+	
 
 	line.Set('chart.text.color', '#000');
 	line.Set('chart.text.font', '"Helvetica Neue",Arial,sans-serif');

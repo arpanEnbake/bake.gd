@@ -1,39 +1,46 @@
 <?php 
 
 class Ajax extends Controller {
+	var $key = array('facebook', 'twitter', 'linkedin', 'Others');
+	var $media = array('likes', 'retweets');
+	var $keycolors = array('red', 'yellow', 'green', 'orange');	
 
-  var $json_data=Array(
-    'error' => 1,
-    'html' => 'Ajax Error: Invalid Request'
-    );
+	var $json_data=Array(
+		'error' => 1,
+		'html' => 'Ajax Error: Invalid Request'
+		);
 
-  function __construct() {
-    parent::Controller();
-    $this->output->set_header('Last-Modified: '.gmdate('D, d M Y H:i:s', time()).' GMT');
-    $this->output->set_header('Expires: '.gmdate('D, d M Y H:i:s', time()).' GMT');
-    $this->output->set_header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0, post-check=0, pre-check=0");
-    $this->output->set_header("Pragma: no-cache");
-  }
-
-  	function get_click_data($start_time = null, $end_time = null) {
-		$this->load->model(array('Url_model'));
+	function __construct() {
+		parent::Controller();
+		$this->output->set_header('Last-Modified: '.gmdate('D, d M Y H:i:s', time()).' GMT');
+		$this->output->set_header('Expires: '.gmdate('D, d M Y H:i:s', time()).' GMT');
+		$this->output->set_header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0, post-check=0, pre-check=0");
+		$this->output->set_header("Pragma: no-cache");
 		
+		$this->load->model(array('Url_model', 'account/social_data_model'));
+	}
+
+	function get_click_data($start_time = null, $end_time = null) {
 		$clicks = $this->Url_model->get_click_counts($start_time, $end_time);
 		return $clicks;
 	}
 	
+	function get_media_data($start_time = null, $end_time = null) {
+		$this->load->model(array('Url_model'));
+		
+		$data['likes'] = $this->social_data_model->fb_likes($start_time, $end_time);
+		$data['retweets'] = $this->social_data_model->tw_retweets($start_time, $end_time);
+		return $data;
+	}
+	
 
-  function _output($output) {
-    echo json_encode($this->json_data);
-  }
-  
+	function _output($output) {
+		echo json_encode($this->json_data);
+	}
+	
 	function barchartdata($timePeriod = 1){
 		$units_pre = '';
 		$i = 0;
-		
-		$key = array('facebook', 'twitter', 'linkedin', 'Others');
-		$keycolors = array('red', 'yellow', 'green', 'orange');
-
 		$tot_less_days = floor($timePeriod / 24);
 		$data = null;
 		$interval = 5 * 60;
@@ -42,7 +49,7 @@ class Ajax extends Controller {
 
 		if ($hourly) {
 			for ($i = $tot_intervals - 1; $i >= 0 ; --$i) {
-				$label =  $this->subtractTime('H:m:s', 0, 0, 300);
+				$label =	$this->subtractTime('H:m:s', 0, 0, 300);
 				if ($tot_intervals > 20 && $i % 2 != 0) {
 					$label = ' ';
 				}
@@ -64,10 +71,8 @@ class Ajax extends Controller {
 
 		$tooltips = array();
 		foreach($labels as $label){
-			foreach($key as $index => $k){
-				// only initialization for later use
-				$tooltips[] = $k;
-			}
+			// only initialization for later use
+			$tooltips[] = array(count($this->key));
 		}		
 
 		$prev_start_time = date('Y-m-d H:m:s');
@@ -77,7 +82,7 @@ class Ajax extends Controller {
 			$prev_day = date('Y-m-d');
 			$prev_time = date('H:m:s');
 			if (!$hourly) {
-				$prev_day  = date('Y-m-d', strtotime("-{$i} day"));
+				$prev_day	= date('Y-m-d', strtotime("-{$i} day"));
 			} else {
 				$prev_time = date('H:m:s', time() - $i * $interval);
 			}
@@ -97,12 +102,12 @@ class Ajax extends Controller {
 			$prev_start_time = $start_time;
 			
 			$org_data = null;
-			foreach($key as $index => $media) {
+			foreach($this->key as $index => $media) {
 				$org_data[$index] = $index;
 			}		
 			
 			if ($clicks) {
-				foreach($key as $index => $media) {
+				foreach($this->key as $index => $media) {
 					foreach($clicks as $click) {
 						if ($click->referrer == $media) {
 							$org_data[$index] = $click->Count * 1;
@@ -113,9 +118,9 @@ class Ajax extends Controller {
 			}
 			
 			// tool tip creation in reverse order
-			foreach($key as $index => $media) {
+			foreach($this->key as $index => $media) {
 				// count the index of prev entries and add 
-				$tooltip_index = ($tot_less_days - $i) * count($key);
+				$tooltip_index = ($tot_less_days - $i) * count($this->key);
 				$str = "({$org_data[$index]})";
 				if ($org_data[$index] != '0')
 					$tooltips[$tooltip_index + $index] = $media . $str;
@@ -129,8 +134,8 @@ class Ajax extends Controller {
 			'units_pre' => $units_pre,
 //			'title' => $title, 
 			'labels' =>$labels, 
-			//'colors' => $keycolors,
-			'key' => $key,
+			//'colors' => $this->keycolors,
+			'key' => $this->key,
 			'tooltips' => $tooltips,
 			'data' => $data,
 		);
@@ -138,8 +143,69 @@ class Ajax extends Controller {
 		$this->json_data = $json;	
 			
 	}
-  
+	
+	function linechartdata($timePeriod = 1){
+		$units_pre = '';
+		$i = 0;
+		$tot_less_days = floor($timePeriod / 24);
+		$data = null;
+		$interval = 5 * 60;
+		$hourly = $tot_less_days == 0 ? true: false;
+		$tot_intervals = $timePeriod * 60 * 60 / $interval;
+
+		if ($hourly) {
+			for ($i = $tot_intervals - 1; $i >= 0 ; --$i) {
+				$label =	$this->subtractTime('H:m:s', 0, 0, 300);
+				if ($tot_intervals > 20 && $i % 2 != 0) {
+					$label = ' ';
+				}
+				$labels[] = $label;
+			}
+		}
+		 else {
+			for ($i = $tot_less_days - 1; $i >=0 ; --$i) {
+				$label = date('M-d', strtotime("-{$i} day"));
+				// for alternative texts in case graph is too big
+				if ($tot_less_days > 20 && $i % 2 != 0) {
+					$label = ' ';
+				}
+				$labels[] = $label;
+			}
+		}
 		
+
+		$end_time = date('Y-m-d');
+		$start_time	= date('Y-m-d', strtotime("-{$tot_less_days} day"));
+		$raw_data = $this->get_media_data($start_time, $end_time);
+
+		foreach($this->media as $key=>$med) {
+			$inner_data = null;
+			for ($i = 0; $i < $tot_less_days  ; ++$i) {
+				$day	= date('Y-m-d', strtotime("-{$i} day"));
+				$value = 0;
+				if (isset($raw_data[$med][$day])) {
+					$value= $raw_data[$med][$day];
+				} 
+				$tooltips[] = $value;
+				$inner_data[] = $value;
+			}
+			$data[] = $inner_data;
+		}
+		
+		$json = array(
+			'units_pre' => $units_pre,
+//			'title' => $title, 
+			'labels' =>$labels, 
+			//'colors' => $this->keycolors,
+			'key' => $this->media,
+			'tooltips' => $tooltips,
+			'data' => $data,
+		);
+			
+		$this->json_data = $json;	
+			
+	}
+	
 	function subtractTime($format, $hours = 0, $minutes=0, $seconds=0, $months=0, $days=0, $years = 0)
 	{
 		$totalHours = date("H") - $hours;
@@ -162,8 +228,6 @@ class Ajax extends Controller {
 		
 	}
 
-  
-  
-}  
-
-
+	
+	
+}
