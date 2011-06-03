@@ -191,7 +191,7 @@ class Util {
 		if ( $ip == '' )
 			$ip = $this->yourls_get_IP();
 
-		require_once('/geo/geoip.inc') ;
+		require_once('geo/geoip.inc') ;
 		$gi = geoip_open( dirname(__FILE__) . '/geo/GeoIP.dat', GEOIP_STANDARD);
 		$location = geoip_country_code_by_addr($gi, $ip);
 		geoip_close($gi);
