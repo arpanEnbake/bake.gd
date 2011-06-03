@@ -180,7 +180,7 @@ class Ajax extends Controller {
 
 		foreach($this->media as $key=>$med) {
 			$inner_data = null;
-			for ($i = 0; $i < $tot_less_days  ; ++$i) {
+			for ($i = $tot_less_days - 1; $i >= 0  ; --$i) {
 				$day	= date('Y-m-d', strtotime("-{$i} day"));
 				$value = 0;
 				if (isset($raw_data[$med][$day])) {
