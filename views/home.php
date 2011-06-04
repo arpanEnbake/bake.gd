@@ -70,10 +70,9 @@
 		echo "<h2>{$error}</h2>";?>
 <?php echo form_open('/home/index', array('id' => 'unAuthShortenForm')); ?>
 
-<div class="shorten-textarea">
-
-	<input type="text" id="shortenUnAuthContainer" name="url" value="<?php echo set_value('url', isset($Result['url']) ? $Result['url'] : null); ?>"></input>
-		<input  class="btns" id="shorten_button" type="submit"></input>
+<div>
+	<input class="home-shorten" type="text" name="url" value="<?php echo set_value('url', isset($Result['url']) ? $Result['url'] : null); ?>"></input>
+	<input  class="home-shorten-button" id="shorten_button" type="submit" value="Shorten"></input>
 </div>
 
 
