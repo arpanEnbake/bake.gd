@@ -62,5 +62,4 @@ class Social_data_model extends Model {
 		
 	}
 	
-	
 }?>

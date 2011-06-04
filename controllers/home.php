@@ -43,6 +43,7 @@ class Home extends Controller {
 			$this->data['account_details'] = $this->account_details;
 			$this->_logged_in($this->data);
 		}
+			$this->load->library('form_validation');
 		
 		// Load the necessary stuff...
 		$this->load->helper(array('language', 'url', 'html'));
@@ -113,7 +114,6 @@ class Home extends Controller {
 	function index($key = null)
 	{
 		$this->load->model('Url_model');
-		$this->load->library('form_validation');
 
 		// redirect if there is a keyword request
 		if ($key) {

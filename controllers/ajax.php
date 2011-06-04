@@ -5,6 +5,9 @@ class Ajax extends Controller {
 	var $media = array('likes', 'retweets');
 	var $keycolors = array('red', 'yellow', 'green', 'orange');	
 
+	var $data = array();
+	var $account = null;
+	
 	var $json_data=Array(
 		'error' => 1,
 		'html' => 'Ajax Error: Invalid Request'
@@ -17,6 +20,12 @@ class Ajax extends Controller {
 		$this->output->set_header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0, post-check=0, pre-check=0");
 		$this->output->set_header("Pragma: no-cache");
 		
+		$this->load->library(array('account/authentication'));
+		$this->load->model(array('account/account_model','account/account_details_model'));
+		if ($this->authentication->is_signed_in())
+		{
+			$this->account = $this->account_model->get_by_id($this->session->userdata('account_id'));
+		}
 		$this->load->model(array('Url_model', 'account/social_data_model'));
 	}
 
@@ -26,13 +35,15 @@ class Ajax extends Controller {
 	}
 	
 	function get_media_data($start_time = null, $end_time = null) {
-		$this->load->model(array('Url_model'));
-		
 		$data['likes'] = $this->social_data_model->fb_likes($start_time, $end_time);
 		$data['retweets'] = $this->social_data_model->tw_retweets($start_time, $end_time);
 		return $data;
 	}
 	
+	function get_location_data($start_time = null, $end_time = null) {
+		$data = $this->Url_model->get_location($start_time, $end_time);
+		return $data;
+	}
 
 	function _output($output) {
 		echo json_encode($this->json_data);
@@ -199,6 +210,46 @@ class Ajax extends Controller {
 			//'colors' => $this->keycolors,
 			'key' => $this->media,
 			'tooltips' => $tooltips,
+			'data' => $data,
+		);
+			
+		$this->json_data = $json;	
+			
+	}
+	
+	function piechartdata($timePeriod = 1){
+		$units_pre = '';
+		$i = 0;
+		$tot_less_days = floor($timePeriod / 24);
+		$data = null;
+		$interval = 5 * 60;
+		$hourly = $tot_less_days == 0 ? true: false;
+		$tot_intervals = $timePeriod * 60 * 60 / $interval;
+
+		$end_time = date('Y-m-d');
+		$start_time	= date('Y-m-d', strtotime("-{$tot_less_days} day"));
+		$locations = $this->get_location_data($start_time, $end_time);
+
+		foreach($locations as $loc) {
+			if (!isset($locations[$loc->country_code])) {
+				$key = $loc->country_code == '' ? 'Unknown' : $loc->country_code;
+				$raw_data[$key] = 0;
+			}
+			$raw_data[$key] += $loc->Count;
+		}
+		
+		foreach($raw_data as $key => $val) {
+			$labels[] = "{$key} ($val visitors)";
+		}
+		
+//		$labels = array_keys($raw_data);
+		$data = array_values($raw_data);
+		
+		$json = array(
+			'labels' =>$labels, 
+			//'colors' => $this->keycolors,
+			'key' => array_keys($raw_data),
+			'tooltips' => $data,
 			'data' => $data,
 		);
 			

@@ -221,7 +221,6 @@ class Url_model extends DataMapper {
 			return $query->result_object;
 		else 
 			return null;
-		
 	}
 	
 	function get_url_clicks($url_id) {
@@ -230,6 +229,24 @@ class Url_model extends DataMapper {
 	
 	function get_click_counts($start_time = null, $end_time = null) {
 		return $this->_clicks("click_time >= '{$start_time}' AND click_time <= '{$end_time}'");
+	}
+	
+	function get_location($start_time = null, $end_time = null) {
+		
+		$condition = ("click_time >= '{$start_time}' AND click_time <= '{$end_time}'");
+		$this->db->group_by('country_code');
+		$this->db->where($condition);	
+
+		$this->db->select ('count(*) as Count, country_code');
+		$query = ($this->db->get('yourls_log'));
+		
+		$query->row();
+
+		if (isset($query->result_object[0]))
+			return $query->result_object;
+		else 
+			return null;
+		
 	}
 }
 ?>
