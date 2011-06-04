@@ -5904,4 +5904,27 @@ div#notification.signed-in
 	float:left;
 }
 #shorten_button {cursor:pointer;}
+.google {background: #fff url(../images/openid-logos.png); background-position: -1px -1px; }
+.yahoo {background: #fff url(../images/openid-logos.png); background-position: -1px -63px; }
+
+.openid_large_btn {
+	width: 100px;
+	height: 60px;
+	border: 2px solid #DDD;
+	border-right: 2px solid #CCC;
+	border-bottom: 2px solid #CCC;
+	margin: 3px;
+	float: left;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	box-shadow: 2px 2px 4px #DDD;
+	-moz-box-shadow: 2px 2px 4px #DDD;
+	-webkit-box-shadow: 2px 2px 4px #DDD;
+}
+
+#openid_btns, #openid_btns br {
+	margin-left: 30px;
+	clear: both;
+}
 /* EOF */

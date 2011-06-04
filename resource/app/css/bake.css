@@ -6,7 +6,7 @@ Date	  ::: 09/05/2011
 */
 
 /*****************Default tags*********************/
-body{margin:0px;padding:0px;width:100%; color:8f8f8f; font-family:Verdana, Arial, Helvetica, sans-serif; font-size:12px;  background:#FFF url(../images/bg.png) repeat-x left top;}
+body{margin:0px;padding:0px;width:100%; color:8f8f8f; font-family:"minion-pro-1","minion-pro-2","Times New Roman", Georgia, serif; font-size:12px; text-align:center;}
 p, div, form, h1, h2, h3{padding:0px; margin:0px;}
 img{border:none; outline:none;}
 a{border:none; outline:none; text-decoration:none;}
@@ -18,18 +18,25 @@ img, input{ outline:none; border:none;}
 																				  HEADER
 ****************************************************************************************/
 #mainHeader{ width:100%; height:399px; margin:0px; padding:0px;}
-#mainHeader #header{  margin:0 auto; height:399px; width:1000px; position:relative; }
-#mainHeader #header .ul {list-style:none;  position:absolute; z-index:5000; width:auto; margin:10px 0 0 0px; padding:0px;}
-#mainHeader #header .ul li{ display:inline; padding:10px 10px 13px 5px; background:url(../images/diver.png) right top no-repeat; }
-#mainHeader #header .ul li a{color:#FFF; font-weight:normal; font-family:verdana; font-size:14px; text-decoration:none;}
-#mainHeader #header .ul li a:hover{ color:#ff8202;}
-#mainHeader #header .loginBtns{ position:absolute; right:0px; top:7px; z-index:1;}
-#mainHeader #header .loginBtns img{ padding:0 0 0 5px;}
-#mainHeader #header p{ position:absolute; left:0px; top:50px;}
+#header{font-family: "Helvetica Neue", Helvetica, sans-serif; width: 100%; height: 50px; overflow: hidden; background-color: black;}
+#header .bar{width:980px; margin:0 auto;}
+#header .bar .logo{float:left; width:160px; margin-right:10px;}
+#header .bar .ul {list-style:none; z-index:5000; width:auto; margin:14px 0 0 0px; padding:0px;}
+#header .bar .ul li{ display:inline; padding:10px 10px 13px 5px; }
+#header .bar .ul li a{color:#FFF; font-weight:normal; font-family:verdana; font-size:14px; text-decoration:none;}
+#header .bar .ul li a:hover{ color:#ff8202;}
+#header .bar .loginBtns{ float:right; margin:10px 0 0; z-index:1;}
+#header .bar .loginBtns img{ padding:0 0 0 5px;}
+#header .bar p{ position:absolute; left:0px; top:50px;}
 /****************************************************************************************
 																		    HEADER SLIDER
 ****************************************************************************************/
-#hero-container {  width: 100%;position:absolute;margin: 0px 0 0 0px;  height: 400px;  overflow: hidden;}
+#hero-container {  width: 100%; overflow: hidden; height:470px;}
+#hero-container .positioning {width: 100%; overflow: hidden; margin: 0 auto;}
+#hero-container .positioning h1 {font-size: 50px; margin-top: 60px;}
+#hero-container .positioning h3 {text-align: center; font-weight: 500; font-size: 24px; margin: 5px 0 0 -10px; padding: 0; color: #232323;}
+#hero-container .positioning .snapshots {width:950px;height:330px; margin:0 auto;}
+#hero-container .positioning .snapshots .slide{position: relative;float: left;top: 25px;left: 106px;}
 .hero-wrapper {  height: 361px;  padding-top: 52px;  width: 100%;}
 .hero-wrapper  .textContainer{position:absolute;  margin:120px 0 0 5px; width:360px; text-align:left; font-size:24px; }
 .hero-wrapper  .imageContainer{position:absolute; width:450px; margin:0 0 0 375px;}

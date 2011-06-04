@@ -16,19 +16,20 @@
 
 <!-- Stylesheets-->
 <link href="resource/app/css/bake.css" rel="stylesheet"  type="text/css">
+<link href="resource/app/css/jquery-ui-1.8.13.custom.css" rel="stylesheet"  type="text/css"> 
 <!--[if lte IE 8]>
 <link rel="stylesheet" href="IE.css" type="text/css" charset="utf-8" />
 <![endif]-->
 
 <!-- scripts-->
-<script type="text/javascript" src="resource/app/js/moo.js"></script>
-<script type="text/javascript" src="resource/app/js/hero.js"></script>
 
 </head>
 
 <body class="unauth_home" onLoad="init()">
 
 	<script type="text/javascript" src="resource/app/js/jquery-1.5.1.min.js"></script>
+	<script type="text/javascript" src="resource/app/js/jquery-ui-1.8.13.custom.min.js"></script>
+	<script type="text/javascript" src="resource/app/js/jquery.cycle.js"></script>	
 	<script src="resource/app/js/ZeroClipboard.js" type="text/javascript"></script>
 	<div class="ext_bitly_chrome_promo_delay"></div>
 <?php $host = isset($account) && isset($account->domain) ? $account->domain : $_SERVER['HTTP_HOST'];?>
@@ -36,57 +37,30 @@
 <?php if(!isset($fb)) $fb = null;?>
 
 <!-- HEADER START-->
-<div id="mainHeader">
-<div id="header">
-<ul class="ul">
-<li><a href="#">Home</a></li>
-<li><a href="#">Our tour</a></li>
-<li><a href="#">Cutomers</a></li>
-</ul>
-<div class="loginBtns"><a href="<?php echo 'account/connect_twitter'?>" class="twitter-sign"><img src="resource/app/images/tl.png" width="84" height="26" ></a>
-<a href="<?php echo 'account/connect_facebook'?>"><img src="resource/app/images/fl.png" width="84" height="26"></a>
-<a href="#"><img src="resource/app/images/gl.png" width="84" height="26"></a></div>
-<p><img src="resource/app/images/logo.png"></p>
-
-<div id="hero-container">
-      <div class="hero-wrapper" id="hero-1">
-      <div class="textContainer">Transform your business 
-communications with bake.gd </div>
-      <div class="imageContainer"><img src="resource/app/images/img1.png" width="648" height="346"></div> 
-      </div>
-      
-      <div class="hero-wrapper" id="hero-2">
-      <div class="textContainer">Transform your business communications with bake.gd </div>
-      <div class="imageContainer"><img src="resource/app/images/img1.png" width="648" height="346"></div> 
-      </div>
-      
-      <div class="hero-wrapper" id="hero-3">
-      <div class="textContainer">Transform your business communications with bake.gd </div>
-      <div class="imageContainer"><img src="resource/app/images/img1.png" width="648" height="346"></div> 
-      </div>
-      
-      <div class="hero-wrapper" id="hero-4">
-      <div class="textContainer">Transform your business communications with bake.gd </div>
-      <div class="imageContainer"><img src="resource/app/images/img1.png" width="648" height="346"></div> 
-      </div>
-      
-      <div class="hero-wrapper" id="hero-5">
-      <div class="textContainer">Transform your business communications with bake.gd </div>
-      <div class="imageContainer"><img src="resource/app/images/img1.png" width="648" height="346"></div> 
-      </div>
-      
-      <ul id="hero-frames">
-        <li><a class="frame-1-active" href="#1"><span>1</span></a></li>
-        <li><a class="frame-2" href="#2"><span>2</span></a></li>
-        <li><a class="frame-3" href="#3"><span>3</span></a></li>
-        <li><a class="frame-3" href="#4"><span>3</span></a></li>
-        <li><a class="frame-3" href="#5"><span>3</span></a></li>
-      </ul>
-    </div>
-</div>
+<div>	
+	<?php echo $this->load->view('inner_elements/header_new'); ?>
 </div>
 <!-- HEADER END-->
-
+<div id="hero-container">
+	<div class="positioning">
+		<h1>Shorten and customise your links</h1>
+		<h3>Share your links</h3>
+		<div class="snapshots">
+			<div class="slide">
+				<img src="resource/app/images/shorten.png" width="750" height="265" alt="Shorten and Share" border="0" />
+			</div>
+		</div>
+	</div>
+	<div class="positioning">
+		<h1>Get Social analytics and dashboard</h1>
+		<h3>Social dashboard for your brand's social performance</h3>
+		<div class="snapshots">
+			<div class="slide">
+				<img src="resource/app/images/social.png" width="750" height="265" alt="Shorten and Share" border="0" />
+			</div>
+		</div>
+	</div>
+</div>
 
 <!-- BODY START-->
 <div id="mainBody">
@@ -285,6 +259,9 @@ $('#shares_button').live('click', function(e){
 </script>
 
 <script type="text/javascript">
+	$(function() {
+		$("#hero-container").cycle();
+	});
 	// setup single ZeroClipboard object for all our elements
 	function init() {
 
