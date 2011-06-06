@@ -77,130 +77,18 @@
 
 
 <div class="BoxContainer">
-<div class="box4">
-	<table  width ="720px">
-		<tr><th width="160px" style="text-align:left"><strong class="shortened_url">Shortened link</strong></th>`
-				<th width="120px" style="text-align:left">	<strong class="realtime_stats">stats</strong></th>
-				<th width="185px"  style="text-align:left">	<strong class="long_link">Long link</strong></th>
-				<th width="156px"  style="text-align:center">	<strong class="sharing_options">Sharing</strong></th>
-			</tr>
-				<?php if (!empty($my_urls) || isset($Result['keyword'])) {
-								if (isset($Result['keyword'])) {
-									$bake_url = 'http://' . $Result['domain'] . '/' . $Result['keyword'];
-									show_row($bake_url, $Result['url'], $Result['id'], null, $twitter, $fb);
-								 }
-								foreach ($my_urls as $row)
-								{
-									$bake_url = 'http://' . $row->domain . '/' . $row->keyword;
-									show_row($bake_url, $row->url, $row->id, $row->timestamp, $twitter, $fb);
-								}
-							}
-
-							?>
-	</table>
-			
-</div>
-
-<div class="box1"><img src="resource/app/images/box3.png" width="210" height="127"><p>Extra World</p>
-<div>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,...</div>
-</div>
-
+	<div class="box4">
+		<?php echo $this->load->view('inner_elements/link_history',
+							array('urls'=>$my_urls, 'result'=>$Result, 'fb'=>$fb,
+									'twitter'=>$twitter));
+		?>			
+	</div>
 </div>
 
 <div class="Container">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,</div>
 </div></div>
 <!-- BODY END-->
-
-
-<!-- FOOTER START-->
-<div id="mainFooter">
-<div id="footer">
-<ul>
-<p>Feature</p>
-<li><a href="#">bakegd</a></li>
-<li><a href="#">Phoine And Mobiles</a></li>
-<li><a href="#">bakegd</a></li>
-<li><a href="#">bakegd</a></li>
-<li><a href="#">bakegd</a></li>
-<li><a href="#">bakegd</a></li>
-</ul><ul>
-<p>Price</p>
-<li><a href="#">bakegd</a></li>
-<li><a href="#">bakegd</a></li>
-<li><a href="#">Phoine And Mobiles</a></li>
-<li><a href="#">bakegd</a></li>
-<li><a href="#">bakegd</a></li>
-<li><a href="#">bakegd</a></li>
-</ul>
-<ul>
-<p>Bussiness</p>
-<li><a href="#">bakegd</a></li>
-<li><a href="#">bakegd</a></li>
-<li><a href="#">bakegd</a></li>
-<li><a href="#">bakegd</a></li>
-<li><a href="#">bakegd</a></li>
-<li><a href="#">bakegd</a></li>
-</ul><ul>
-<p>Services</p>
-<li><a href="#">bakegd</a></li>
-<li><a href="#">bakegd</a></li>
-<li><a href="#">bakegd</a></li>
-<li><a href="#">bakegd</a></li>
-<li><a href="#">bakegd</a></li>
-<li><a href="#">bakegd</a></li>
-</ul>
-<div><img src="resource/app/images/followus.png"><a href="#"><img src="resource/app/images/f.png" width="45" height="41"></a><a href="#"><img src="resource/app/images/t.png" width="45" height="41"></a></div>
-</div>
-</div>
-
-<?php function show_row($bake_url, $url, $url_id, $timestamp = null, $twitter = null, $fb = null) {?>
-<tr>
-							<td>
-									<?php echo anchor($bake_url, $bake_url, array('class'=>"short_url", 'id' => "short_url_{$url_id}")) ?>
-							</td>
-							<td style="text-align:center">		
-											<a style = "text-indent: 0px; " class="copy_button" id="copy_<?php echo $url_id?>"  href="javascript:void(0)">
-													Copy
-											</a>
-							
-								<div class="popup_error" id="copy-success-<?php  echo $url_id?>" style="display: none;"></div>
-								<?php $str =  $bake_url . '+'; 
-									echo anchor($str, 'Info Page+', array('class'=>"realtime_stats", 'style'=>"float:left"));?></a>
-							</td>				
-							<td>
-								<div style="overflow:hidden; width:195px">	
-								<a target="_blank" href="#" class="long_link"><?php echo substr($url, 0, 50); ?></a>
-								</div>
-							</td>
-							<td  style="text-align:center">	
-									<?php
-										$tw_flag = false; $fb_flag = false;
-										if (isset($twitter)) {
-											echo anchor("account/connect_twitter/post_status/{$twitter->twitter_id}/{$url_id}", 'Twitter', 
-													array('class'=>"share_tw", 'rel' => $bake_url));
-											if (!isset($fb)) {
-													echo anchor("account/connect_facebook", 'Connect Facebook');
-											}
-											$tw_flag = true;
-										}
-										echo '&nbsp;&nbsp;&nbsp;&nbsp;';
-										if (isset($fb)) {
-											$fb_flag = true;
-											echo anchor("account/connect_facebook/post_wall/{$fb->facebook_id}/{$url_id}", 'Facebook'
-											, 	array('class'=>"share_tw", 'rel' => $bake_url));
-											if (!isset($twitter)) {
-													echo anchor("account/connect_twitter", 'Connect Twitter');
-											}
-											
-										}
-										if (!$tw_flag && !$fb_flag) {
-											echo anchor('/account/account_linked', 'Login now to start sharing');
-										}
-
-									?>
-							</td>
-							</tr>	
-<?php } ?>
+<?php echo $this->load->view('inner_elements/footer'); ?>
 
 <!--[if IE]><script language="javascript" type="text/javascript" src="/s/v255/js/ie-hacks/excanvas.min.js"></script><![endif]-->
 
