@@ -24,8 +24,17 @@
 			<li><a href="#">Facebook</a></li>
 			<li><a href="#">Email</a></li>
 		</ul>
-		<div>
-			<img src="resource/app/images/followus.png"><a href="#"><img src="resource/app/images/f.png" width="45" height="41"></a><a href="#"><img src="resource/app/images/t.png" width="45" height="41"></a>
+		<ul class="copyright">
+			<li style="margin-top:-5px;"><img src="resource/app/images/logoWhite.png"><BR/></li>
+			<li>Copyright <a href="http://enbake.com">Enbake Consulting Pvt Ltd</a>, 2011</li>
+			<li>
+				<div id="fb-root"></div>
+				<script src="http://connect.facebook.net/en_US/all.js#appId=160253284041231&amp;xfbml=1"></script><fb:like href="http://www.facebook.com/pages/Bakegd/176157202436901" send="true" layout="button_count" width="200" show_faces="false" action="recommend" font="verdana"></fb:like>
+			</li>
+			<li>
+				<a href="http://twitter.com/bakegd" class="twitter-follow-button" data-width="200px" data-align="center">Follow @bakegd</a>
+				<script src="http://platform.twitter.com/widgets.js" type="text/javascript"></script>
+			</li>
 		</div>
 	</div>
 </div>

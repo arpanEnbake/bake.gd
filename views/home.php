@@ -78,7 +78,7 @@
 		<div class="BoxContainer">
 			<div class="box4">
 				<?php echo $this->load->view('inner_elements/link_history',
-									array('urls'=>$my_urls, 'result'=>$Result, 'fb'=>$fb,
+									array('urls'=>$my_urls, 'result'=>@$Result, 'fb'=>$fb,
 											'twitter'=>$twitter));
 				?>			
 			</div>
