@@ -1,6 +1,6 @@
 <div id="header">
 	<div class="bar">
-		<span class="logo"><img src="resource/app/images/logo.png"></span>
+		<span class="logo"><img src="resource/app/images/logoWhite.png"></span>
 		<div style="float:left;">
 			<ul class="ul">
 				<li><a href="#">Home</a></li>

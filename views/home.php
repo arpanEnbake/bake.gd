@@ -64,29 +64,27 @@
 
 <!-- BODY START-->
 <div id="mainBody">
-<div id="body">
-<?php 		echo validation_errors(); ?>
-<?php if (isset($error))
-		echo "<h2>{$error}</h2>";?>
-<?php echo form_open('/home/index', array('id' => 'unAuthShortenForm')); ?>
-
-<div>
-	<input class="home-shorten" type="text" name="url" value="<?php echo set_value('url', isset($Result['url']) ? $Result['url'] : null); ?>"></input>
-	<input  class="home-shorten-button" id="shorten_button" type="submit" value="Shorten"></input>
-</div>
-
-
-<div class="BoxContainer">
-	<div class="box4">
-		<?php echo $this->load->view('inner_elements/link_history',
-							array('urls'=>$my_urls, 'result'=>$Result, 'fb'=>$fb,
-									'twitter'=>$twitter));
-		?>			
+	<div id="body">
+		<?php echo validation_errors(); ?>
+		<?php if (isset($error))
+				echo "<h2>{$error}</h2>";
+		?>
+		<?php echo form_open('/home/index', array('id' => 'unAuthShortenForm')); ?>
+		
+		<div>
+			<input class="home-shorten" type="text" name="url" value="<?php echo set_value('url', isset($Result['url']) ? $Result['url'] : null); ?>"></input>
+			<input  class="home-shorten-button" id="shorten_button" type="submit" value="Shorten"></input>
+		</div>		
+		<div class="BoxContainer">
+			<div class="box4">
+				<?php echo $this->load->view('inner_elements/link_history',
+									array('urls'=>$my_urls, 'result'=>$Result, 'fb'=>$fb,
+											'twitter'=>$twitter));
+				?>			
+			</div>
+		</div>
 	</div>
 </div>
-
-<div class="Container">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,</div>
-</div></div>
 <!-- BODY END-->
 <?php echo $this->load->view('inner_elements/footer'); ?>
 
