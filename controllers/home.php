@@ -34,6 +34,7 @@ class Home extends Controller {
 
 		$this->load->library(array('account/authentication'));
 		$this->load->model(array('account/account_model','account/account_details_model'));
+
 		if ($this->authentication->is_signed_in())
 		{
 			$this->account = $this->account_model->get_by_id($this->session->userdata('account_id'));
@@ -42,10 +43,25 @@ class Home extends Controller {
 			$this->data['account'] = $this->account;
 			$this->data['account_details'] = $this->account_details;
 			$this->_logged_in($this->data);
+
+			// TODO: Temporary patch untill we decide the appraoch to save session variables.
+			// Convert the objects in data and save in session.
+			$data = $this->data;
+	
+			foreach ($data as $key=>$value) {
+				if (is_object($value)) $value = get_object_vars($value);
+				$data[$key] = $value;
+			}
+			$this->session->set_userdata($data);
 		}
-			$this->load->library('form_validation');
-		
+		else
+		{
+			$this->session->unset_userdata('account');
+			$this->session->unset_userdata('account_details');
+		}
+
 		// Load the necessary stuff...
+		$this->load->library('form_validation');
 		$this->load->helper(array('language', 'url', 'html'));
 		$this->lang->load(array('general'));
 	}
@@ -55,21 +71,20 @@ class Home extends Controller {
 	 * 
 	 * if user is logged in upload its details about fb /twitter
 	 */
-		function _logged_in() {
-
-		// login details and account association
-		$account_id = $this->account->id;
-		
-		$this->load->model('account/account_twitter_model');
-		$tw = ($this->account_twitter_model->get_by_account_id($account_id));
-		if ($tw)
-			$this->data['twitter'] = $tw[0];
-
-		$this->load->model('account/account_facebook_model');
-		$fb = ($this->account_facebook_model->get_by_account_id($account_id));
-		if ($fb)
-			$this->data['fb'] = $fb[0];	
-	}
+		function _logged_in() {	
+			// login details and account association
+			$account_id = $this->account->id;
+			
+			$this->load->model('account/account_twitter_model');
+			$tw = ($this->account_twitter_model->get_by_account_id($account_id));
+			if ($tw)
+				$this->data['twitter'] = $tw[0];
+	
+			$this->load->model('account/account_facebook_model');
+			$fb = ($this->account_facebook_model->get_by_account_id($account_id));
+			if ($fb)
+				$this->data['fb'] = $fb[0];
+		}
 
 	
 	

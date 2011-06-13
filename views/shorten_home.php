@@ -1,12 +1,44 @@
-<?php echo $this->load->view('inner_elements/header'); ?>
-<script src="resource/app/js/ZeroClipboard.js" type="text/javascript"></script>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta content="IE=8" http-equiv="X-UA-Compatible" />
+	<meta name="keywords" content="bake.gd, brand building, link marketting" />
+	<meta name="description" content="bake.gd, build your brand with every short link" />
+	
+
+	<base href="<?php echo base_url(); ?>" />
+
+	<title>bake.gd | Metrics Summary</title>
+<!-- Stylesheets-->
+	<link rel="stylesheet" href="resource/app/js/RGraph/css/website.css" type="text/css" media="screen" />
+	<link href="resource/app/css/bake.css" rel="stylesheet"  type="text/css">
+
+	<!--[if lte IE 8]>
+	<link rel="stylesheet" href="IE.css" type="text/css" charset="utf-8" />
+	<![endif]-->
+	<link rel="icon" type="image/png" href="favicon.png" />
+
+<!-- scripts-->
+	<script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script>
+	<script type="text/javascript" src="resource/app/js/jquery-1.5.1.min.js"></script>
+	<script type="text/javascript" src="js/moo.js"></script>
+	<script type="text/javascript" src="js/hero.js"></script>
+	<script src="resource/app/js/ZeroClipboard.js" type="text/javascript"></script>
+</head>
+<?php $host = isset($account) && isset($account->domain) ? $account->domain : $_SERVER['HTTP_HOST'];?>
+
+<body>
+<div>
+	<?php echo $this->load->view('inner_elements/header_new'); ?>
+</div>
 
 <?php $host = isset($account) && isset($account->domain) ? $account->domain : $_SERVER['HTTP_HOST'];?>
 <?php if(!isset($twitter)) $twitter = null;?>
 <?php if(!isset($fb)) $fb = null;?>
 
 <!-- BODY START-->
-<div id="mainBody">
+<div id="mainBody" style="min-height:600px;">
 <div id="body">
 <div class="content">
 <div style="color:red">
@@ -34,14 +66,13 @@
 		value="<?php echo set_value('url', isset($Result['url']) ? $Result['url'] : null); ?>">
 
 	<div style="padding-right: 1px; height:50px; padding-top:8px">
-		<a  class="shorten"  id="shorten_button"
-			href="javascript:void(0)">
-			 <img src="resource/app/images/shorten.jpg"></img></a>
+		<a  class="shorten"  id="shorten_button" href="javascript:void(0)">Shorten</a>
 <!--		<input type="button" class="shorten" id="shorten_button">-->
-		<a rel = "<?php echo $bake_url?>" class="share_tw share"
-			href="account/connect_twitter/post_status/<?php
-			 echo "{$twitter->twitter_id}/{$Result['id']}"?>">
-			 <img src="resource/app/images/share.jpg"></img></a>
+		<?php if (isset($Result['url']) && isset($twitter)) { ?>
+			<a rel = "<?php echo $bake_url?>" class="share_tw share"
+				href="account/connect_twitter/post_status/<?php
+				 echo "{$twitter->twitter_id}/{$Result['id']}"?>">Share</a>
+		<?php } ?>
 	</div>
 	
 <?php echo form_close();?>
@@ -97,6 +128,11 @@ Take our tour to see what you can do</li>
 </ul>
 </div>
 
+</div>
+
+<div class="BoxContainer">
+		<?php echo $this->load->view('inner_elements/link_history',
+				array('urls'=>$my_urls, 'fb'=>$fb, 'twitter'=>$twitter));?>
 </div>
 
 
@@ -188,137 +224,6 @@ $('#shares_button').live('click', function(e){
 	//}                             
     </script>
 
-<div class="BoxContainer">
-<!--<p><strong>Link History: 1 - 3</strong></p>-->
-<table width="100%" border="0" cellspacing="3" cellpadding="0">
-<!--  <tr>-->
-<!--    <td height="30" align="left" valign="middle"><table width="100%" border="0" cellspacing="0" cellpadding="0">-->
-<!--      <tr>-->
-<!--        <td width="7%">View All</td>-->
-<!--        <td width="43%">   <a href="#">Bundles-->
-<!--        </a></td>-->
-<!--        <td width="49%" align="right"><img src="resource/app/images/bundle.jpg" width="102" height="35"></td>-->
-<!--        <td width="1%">&nbsp;</td>-->
-<!--      </tr>-->
-<!--    </table></td>-->
-<!--  </tr>-->
-  <tr>
-    <td height="30" align="left" valign="middle" bgcolor="#bcdcfa"><table width="100%" border="0" cellspacing="0" cellpadding="0">
-      <tr>
-<!--        <td width="4%" align="center" valign="middle"><input type="checkbox"></td>-->
-        <td width="8%" align="center" valign="middle">Clicks</td>
-        <td width="55%" align="left" valign="middle">Links</td>
-        <td width="10%" align="left" valign="middle">Info Plus</td>
-        <td width="15%" align="left" valign="middle">Date</td>
-        <td width="17%" align="left" valign="middle">Share</td>
-      </tr>
-    </table></td>
-  </tr>
-  <?php // some bad code because of new design merging?>
-  	<?php if (!empty($my_urls)) {
-					foreach ($my_urls as $row)
-					{
-						$bake_url = 'http://' . $row->domain . '/' . $row->keyword;
-						show_row($row, $bake_url,  $twitter, $fb);
-					}
-				}
-				?>
-
-</table>
-  
-  
-<?php function show_row($url_obj, $bake_url,$twitter = null, $fb = null) {
- $url = $url_obj->url;
- $url_id = $url_obj->id;
-// pr($url_obj);
- $title = $url_obj->title;
- $timestamp = $url_obj->timestamp;
- $clicks = $url_obj->clicks?>
-<?php
-$to_time=strtotime($timestamp);
-$from_time=time();
-$days = round(abs($to_time - $from_time) / (60*24*60),0);
-if ($days < 1) {
-	$hours = round(abs($to_time - $from_time) / (60*60),0);
-	if ($hours < 1) {
-		$time_str = round(abs($to_time - $from_time) / (60),0) . ' minutes ago.';
-	} else {
-		$time_str = $hours . ' hours ago.';
-	}
-} else {
-	$time_str = $days . ' days ago.';
-}
-?>
-<tr>
-    <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
-      <tr>
-   <!--     <td width="4%" align="center" valign="top" bgcolor="#BCDCFA">
-        	<input type="checkbox"></td>-->
-              <td width="8%" align="center" valign="top"><br><?php echo $clicks?><br>
-					clicks</td>
-  
-  	        <td width="55%" align="left" valign="top">
-  	        <strong><?php echo anchor($bake_url, $title, 
-  	        		array('class'=>"short_url", 'id' => "short_url_{$url_id}")) ?>
-  	        </strong><br>
-  	        
-  	        <div class="popup_error" id="copy-success-<?php  echo $url_id?>" style="display: none;"></div>
-  	        
-  	        <?php echo anchor($url, substr($url, 0, 50),
-  	        		 array('class'=>"short_url", 'id' => "short_url_{$url_id}")) ?>
-  	        		 <br>
-          <?php echo $bake_url?>&nbsp; - &nbsp;
-					<a style = "text-indent: 0px; " class="copy_button" id="copy_<?php echo $url_id?>"  href="javascript:void(0)">
-						Copy</a>
-				<br>        </td>
-        
-        <td width="10%" align="left" valign="top"><?php echo anchor($bake_url.'+', 'Bake+')?></td>
-        <td width="15%" align="left" valign="top"><?php echo $time_str?></td>
-        <td width="17%" align="left" valign="top">
-   		<?php
-			$tw_flag = false; $fb_flag = false;
-			if (isset($twitter)) {
-				echo anchor("account/connect_twitter/post_status/{$twitter->twitter_id}/{$url_id}", 
-					img(array('src'=>'resource/app/images/share/twitter.png','border'=>'0','alt'=>'twitter'))
-						, 	array('class'=>"share_tw", 'rel' => $bake_url));
-						
-				if (!isset($fb)) {
-						echo anchor("account/connect_facebook", 'Connect Facebook');
-				}
-				$tw_flag = true;
-			}
-			//echo '<br>';
-			if (isset($fb)) {
-				$fb_flag = true;
-				echo anchor("account/connect_facebook/post_wall/{$fb->facebook_id}/{$url_id}", 
-				img(array('src'=>'resource/app/images/share/facebook.png','border'=>'0','alt'=>'facebook'))
-				, 	array('class'=>"share_tw", 'rel' => $bake_url));
-				if (!isset($twitter)) {
-						echo anchor("account/connect_twitter", 'Connect Twitter');
-				}
-				
-			}
-			if (!$tw_flag && !$fb_flag) {
-				echo anchor('/account/account_linked', 'Login now to start sharing');
-			}
-
-		?>
-        
-</td>
-        
-			      </tr>
-    </table></td>
-  </tr>
-  <tr>
-    <td>&nbsp;</td>
-    
-  </tr>
-
-<?php } ?>
-  
-</div>
-
-
 <!--  changes for the modal dialog -->
 <link type='text/css' href='resource/app/css/basic.css' rel='stylesheet' media='screen' />
 
@@ -355,4 +260,6 @@ if ($days < 1) {
 <!-- BODY END-->
 
 <?php echo $this->load->view('inner_elements/footer'); ?>
-
+<!-- FOOTER END-->
+</body>
+</html>
