@@ -85,6 +85,7 @@ function draw_chart(tp) {
 	
 	$.ajax({
 	    type: "post",
+	    data: $('#TimePeriodFormId').serialize(),
 	    url: "<?php echo base_url();?>ajax/barchartdata/"+tp,    
 	    dataType: 'json',
 	    success: function(response){

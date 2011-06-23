@@ -48,6 +48,79 @@
 	</div>
 	<div class="clear"></div>
 </div>
+
+<!--  is required for testing purposes.. can be removed after it. -->
+<?php echo form_open(uri_string()); ?>
+			<?php echo form_fieldset(); ?>
+				<h3><?php echo lang('sign_in_heading'); ?></h3>
+				<?php if (isset($sign_in_error)) : ?>
+				<div class="grid_6 alpha">
+					<div class="form_error"><?php echo $sign_in_error; ?></div>
+				</div>
+				<div class="clear"></div>
+				<?php endif; ?>
+				<div class="grid_2 alpha">
+					<?php echo form_label(lang('sign_in_username_email'), 'sign_in_username_email'); ?>
+				</div>
+				<div class="grid_4 omega">
+					<?php echo form_input(array(
+							'name' => 'sign_in_username_email',
+							'id' => 'sign_in_username_email',
+							'value' => set_value('sign_in_username_email'),
+							'maxlength' => '24'
+						)); ?>
+					<?php echo form_error('sign_in_username_email'); ?>
+					<?php if (isset($sign_in_username_email_error)) : ?>
+					<span class="field_error"><?php echo $sign_in_username_email_error; ?></span>
+					<?php endif; ?>
+				</div>
+				<div class="clear"></div>
+				<div class="grid_2 alpha">
+					<?php echo form_label(lang('sign_in_password'), 'sign_in_password'); ?>
+				</div>
+				<div class="grid_4 omega">
+					<?php echo form_password(array(
+							'name' => 'sign_in_password',
+							'id' => 'sign_in_password',
+							'value' => set_value('sign_in_password')
+						)); ?>
+					<?php echo form_error('sign_in_password'); ?>
+				</div>
+				<div class="clear"></div>
+				<?php if (isset($recaptcha)) : ?>
+				<div class="prefix_2 grid_4 alpha">
+					<?php echo $recaptcha; ?>
+				</div>
+				<?php if (isset($sign_in_recaptcha_error)) : ?>
+				<div class="prefix_2 grid_4 alpha">
+					<span class="field_error"><?php echo $sign_in_recaptcha_error; ?></span>
+				</div>
+				<?php endif; ?>
+				<div class="clear"></div>
+				<?php endif; ?>
+				<div class="prefix_2 grid_4 alpha">
+					<span>
+						<?php echo form_button(array(
+								'type' => 'submit',
+								'class' => 'button',
+								'content' => lang('sign_in_sign_in')
+							)); ?>
+					</span>
+					<span>
+						<?php echo form_checkbox(array(
+								'name' => 'sign_in_remember',
+								'id' => 'sign_in_remember',
+								'value' => 'checked',
+								'checked' => $this->input->post('sign_in_remember'),
+								'class' => 'checkbox'
+							)); ?>
+						<?php echo form_label(lang('sign_in_remember_me'), 'sign_in_remember'); ?>
+					</span>
+				</div>
+				
+				
+				
+				
 <?php echo $this->load->view('footer'); ?>
 </body>
 </html>

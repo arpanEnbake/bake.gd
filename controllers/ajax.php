@@ -30,18 +30,19 @@ class Ajax extends Controller {
 	}
 
 	function get_click_data($start_time = null, $end_time = null) {
-		$clicks = $this->Url_model->get_click_counts($start_time, $end_time);
+		$clicks = $this->Url_model->get_click_counts($start_time, $end_time, 
+					$this->session->userdata('account_id'));
 		return $clicks;
 	}
 	
 	function get_media_data($start_time = null, $end_time = null) {
-		$data['likes'] = $this->social_data_model->fb_likes($start_time, $end_time);
-		$data['retweets'] = $this->social_data_model->tw_retweets($start_time, $end_time);
+		$data['likes'] = $this->social_data_model->fb_likes($start_time, $end_time, $this->session->userdata('account_id'));
+		$data['retweets'] = $this->social_data_model->tw_retweets($start_time, $end_time, $this->session->userdata('account_id'));
 		return $data;
 	}
 	
 	function get_location_data($start_time = null, $end_time = null) {
-		$data = $this->Url_model->get_location($start_time, $end_time);
+		$data = $this->Url_model->get_location($start_time, $end_time, $this->session->userdata('account_id'));
 		return $data;
 	}
 
@@ -114,7 +115,7 @@ class Ajax extends Controller {
 			
 			$org_data = null;
 			foreach($this->key as $index => $media) {
-				$org_data[$index] = $index;
+				$org_data[$index] = 0;
 			}		
 			
 			if ($clicks) {
@@ -230,30 +231,32 @@ class Ajax extends Controller {
 		$start_time	= date('Y-m-d', strtotime("-{$tot_less_days} day"));
 		$locations = $this->get_location_data($start_time, $end_time);
 
-		foreach($locations as $loc) {
-			if (!isset($locations[$loc->country_code])) {
-				$key = $loc->country_code == '' ? 'Unknown' : $loc->country_code;
-				$raw_data[$key] = 0;
+		if ($locations) {
+			foreach($locations as $loc) {
+				if (!isset($locations[$loc->country_code])) {
+					$key = $loc->country_code == '' ? 'Unknown' : $loc->country_code;
+					$raw_data[$key] = 0;
+				}
+				$raw_data[$key] += $loc->Count;
 			}
-			$raw_data[$key] += $loc->Count;
-		}
-		
-		foreach($raw_data as $key => $val) {
-			$labels[] = "{$key} ($val visitors)";
-		}
-		
-//		$labels = array_keys($raw_data);
-		$data = array_values($raw_data);
-		
-		$json = array(
-			'labels' =>$labels, 
-			//'colors' => $this->keycolors,
-			'key' => array_keys($raw_data),
-			'tooltips' => $data,
-			'data' => $data,
-		);
 			
-		$this->json_data = $json;	
+			foreach($raw_data as $key => $val) {
+				$labels[] = "{$key} ($val visitors)";
+			}
+			
+	//		$labels = array_keys($raw_data);
+			$data = array_values($raw_data);
+			
+			$json = array(
+				'labels' =>$labels, 
+				//'colors' => $this->keycolors,
+				'key' => array_keys($raw_data),
+				'tooltips' => $data,
+				'data' => $data,
+			);
+				
+			$this->json_data = $json;	
+		}
 			
 	}
 	

@@ -136,7 +136,8 @@ class Url_model extends DataMapper {
 	 * account_id -> account id of the user
 	 * limit of results
 	 */
-	function get_my_urls($account_id, $limit = 10) {
+	function get_my_urls($account_id, $limit = null, $fields = '*') {
+		$this->db->select($fields);
 		$this->db->order_by('timestamp', 'desc');
 		$query = $this->db->get_where('yourls_url', array('account_id' => $account_id), $limit);
 		($query->row());
@@ -214,9 +215,8 @@ class Url_model extends DataMapper {
 
 		$this->db->select ('count(*) as Count, referrer');
 		$query = ($this->db->get('yourls_log'));
-		
 		$query->row();
-
+		
 		if (isset($query->result_object[0]))
 			return $query->result_object;
 		else 
@@ -227,15 +227,33 @@ class Url_model extends DataMapper {
 		return $this->_clicks("yourl_id = {$url_id}");
 	}
 	
-	function get_click_counts($start_time = null, $end_time = null) {
-		return $this->_clicks("click_time >= '{$start_time}' AND click_time <= '{$end_time}'");
+	// if url belongs to this account_id
+	function get_click_counts($start_time = null, $end_time = null, $account_id = null) {
+		$conditions = '';
+		if ($start_time)
+			$conditions = "click_time >= '{$start_time}' ";
+		if ($end_time)
+			$conditions .= (isset($conditions) ?  ' AND ' : '') .  "click_time <= '{$end_time}'";
+		if ($account_id)
+			$conditions .= (isset($conditions) ?  ' AND ' : '') .  
+							"yourl_id in (select id from yourls_url where account_id = '{$account_id}')";
+			
+		return $this->_clicks($conditions);
 	}
 	
-	function get_location($start_time = null, $end_time = null) {
+	function get_location($start_time = null, $end_time = null, $account_id = null) {
 		
-		$condition = ("click_time >= '{$start_time}' AND click_time <= '{$end_time}'");
+		$conditions = '';
+		if ($start_time)
+			$conditions = "click_time >= '{$start_time}' ";
+		if ($end_time)
+			$conditions .= (isset($conditions) ?  ' AND ' : '') .  "click_time <= '{$end_time}'";
+		if ($account_id)
+			$conditions .= (isset($conditions) ?  ' AND ' : '') .  
+							"yourl_id in (select id from yourls_url where account_id = '{$account_id}')";
+
 		$this->db->group_by('country_code');
-		$this->db->where($condition);	
+		$this->db->where($conditions);	
 
 		$this->db->select ('count(*) as Count, country_code');
 		$query = ($this->db->get('yourls_log'));
