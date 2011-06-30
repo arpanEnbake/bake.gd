@@ -59,7 +59,7 @@ class Home extends Controller {
 			$this->session->unset_userdata('account');
 			$this->session->unset_userdata('account_details');
 		}
-
+			
 		// Load the necessary stuff...
 		$this->load->library('form_validation');
 		$this->load->helper(array('language', 'url', 'html'));
@@ -118,6 +118,7 @@ class Home extends Controller {
 		$this->data['selected_menu'] = 'Analyze';
 
 		$url = $this->Url_model->get_url($key);
+		
 		$this->data['url'] = ($url);
 		if (isset($url->url)) {
 			$this->data['clicks'] = ($this->Url_model->get_url_clicks($url->id));
@@ -211,7 +212,7 @@ class Home extends Controller {
 	function recent_urls() {
 		$urls = null;
 		if ($this->account) {
-			$urls = $this->Url_model->get_my_urls($this->account->id);
+			$urls = $this->Url_model->get_my_urls($this->account->id, 10);
 		}
 		else {
 			$this->load->helper('cookie');

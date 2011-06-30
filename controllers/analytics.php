@@ -51,5 +51,9 @@ class Analytics extends Controller {
 	}
 	
   
+	function fusion() {
+		$this->load->view('analytics/fusion', isset($this->data) ? $this->data : NULL);
+		
+	}
 
 }
