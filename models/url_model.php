@@ -105,7 +105,7 @@ class Url_model extends DataMapper {
 		    $keywords = @$metatagarray[ "keywords" ];
 		    $description = @$metatagarray[ "description" ];
 		}
-	    return  $title . ' <br></br>'. $description . ' <br></br>';
+	    return  $title . ' <br>'. $description . ' <br>';
 	}
 
 	/*

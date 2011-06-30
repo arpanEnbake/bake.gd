@@ -19,8 +19,8 @@
 	<td>
 		<table width="100%" border="0" cellspacing="0" cellpadding="0">
 			<tr>
-				<td width="8%" align="center" valign="top"><br><?php echo $clicks?><br>clicks</td>
-				<td width="55%" align="left" valign="top">
+				<td width="8%" align="center" valign="top" class="blue-bottom-border"><br><?php echo $clicks?><br>clicks</td>
+				<td width="55%" align="left" valign="top" class="blue-bottom-border">
 					<strong><?php echo anchor($bake_url, $title, 
   	        			array('class'=>"short_url", 'id' => "short_url_{$id}")) ?></strong><br>
 					<div class="popup_error" id="copy-success-<?php  echo $id?>" style="display: none;"></div>
@@ -30,9 +30,9 @@
 					<a style = "text-indent: 0px; " class="copy_button" id="copy_<?php echo $id?>"  href="javascript:void(0)">Copy</a>
 					<br>
 				</td>
-				<td width="10%" align="left" valign="top"><?php echo anchor($bake_url.'+', 'Bake+')?></td>
-				<td width="15%" align="left" valign="top"><?php echo $time_str?></td>
-				<td width="17%" align="left" valign="top">
+				<td width="10%" align="left" valign="top" class="blue-bottom-border"><?php echo anchor($bake_url.'+', 'Bake+', array('class'=>'bakeplus'))?></td>
+				<td width="15%" align="left" valign="top" class="blue-bottom-border"><?php echo $time_str?></td>
+				<td width="17%" align="left" valign="top" class="blue-bottom-border">
 				<?php
 				$tw_flag = false; $fb_flag = false;
 				if (isset($twitter)) {

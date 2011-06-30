@@ -28,6 +28,7 @@ img, input{ outline:none; border:none;}
 #header .bar .loginBtns{ float:right; margin:10px 0 0; z-index:1;}
 #header .bar .loginBtns img{ padding:0 0 0 5px;}
 #header .bar p{ position:absolute; left:0px; top:50px;}
+.subheader {border-bottom: 1px solid #BCDCFA; height: 34px; clear: both; margin-bottom: 15px;}
 /****************************************************************************************
 																		    HEADER SLIDER
 ****************************************************************************************/

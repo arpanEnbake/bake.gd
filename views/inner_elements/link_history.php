@@ -9,11 +9,11 @@
 		<td height="30" align="left" valign="middle" bgcolor="#bcdcfa">
 			<table width="100%" border="0" cellspacing="0" cellpadding="0">
 				<tr>
-					<td width="8%" align="center" valign="middle">Clicks</td>
-					<td width="55%" align="left" valign="middle">Links</td>
-					<td width="10%" align="left" valign="middle">Info Plus</td>
-					<td width="15%" align="left" valign="middle">Date</td>
-					<td width="17%" align="left" valign="middle">Share</td>
+					<td width="8%" align="center" valign="middle"><strong>Clicks</strong></td>
+					<td width="55%" align="left" valign="middle"><strong>Links</strong></td>
+					<td width="10%" align="left" valign="middle"><strong>Info Plus</strong></td>
+					<td width="15%" align="left" valign="middle"><strong>Date</strong></td>
+					<td width="17%" align="left" valign="middle"><strong>Share</strong></td>
 				</tr>
 			</table>
 		</td>
