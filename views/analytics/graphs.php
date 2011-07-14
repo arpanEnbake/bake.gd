@@ -1,5 +1,6 @@
 
 <link rel="stylesheet" href="resource/app/js/RGraph/css/website.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="resource/app/css/ui.selectmenu.css" type="text/css" />
 <?php $js = array('rgraph/RGraph.common.core.js',
 				'rgraph/RGraph.common.annotate.js',
 				'rgraph/RGraph.common.context.js',
@@ -12,22 +13,26 @@ foreach ($js as $j) {
 	echo '<script type="text/javascript" src="resource/app/js/'. $j. '"></script>';
 }
 ?>
+<script type="text/javascript" src="resource/app/js/ui.selectmenu.js"></script>
 
 <?php $graph_width = 998;?>
 <?php $graph_height = 300;?>
 
 <!-- BODY START-->
 <div id="mainBody">
-<div id="body">
-<div class="Container">
+	<div id="body">
 	<?php echo form_open(uri_string(), array('id'=>'TimePeriodFormId')); ?>
-			
-			<select name="data[Time][period]" id="TimePeriodDDId">
-				<option value="1">Past Hour</option>
-				<option selected ="selected" value="<?php echo 7 * 24;?>">Past 7 days</option>
-				<option value="<?php echo 14 * 24;?>">Past 14 days</option>
-				<option value="<?php echo 30 * 24;?>">Past 30 days</option>
-			</select>
+		<div style="padding:5px 0px;">
+			<span style="float:right;">
+				<select name="data[Time][period]" id="TimePeriodDDId">
+					<option value="1">Past Hour</option>
+					<option selected ="selected" value="<?php echo 7 * 24;?>">Past 7 days</option>
+					<option value="<?php echo 14 * 24;?>">Past 14 days</option>
+					<option value="<?php echo 30 * 24;?>">Past 30 days</option>
+				</select>
+			</span>
+			<div style="clear:both;"></div>
+		</div>
 			<?php echo form_close()?>
 	
 		<!-- Put Content Here -->
@@ -56,15 +61,13 @@ foreach ($js as $j) {
 			</div>
 			
 		</div>  <!-- END #middle -->
-	</div>  <!-- end #container -->
-</div> <!-- end #external_container -->
+	</div> <!-- end #external_container -->
 </div>
-
 
 <!--[if IE]><script language="javascript" type="text/javascript" src="/s/v255/js/ie-hacks/excanvas.min.js"></script><![endif]-->
 
-
 <script>
+$("#TimePeriodDDId").selectmenu({width:'120px'});
 draw_chart();
 
 // on change of time period

@@ -1,15 +1,42 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
 <head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>bake.gd | Basic | Every link builds a brand</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title><?php echo lang('sign_in_page_name'); ?></title>
+<meta content="IE=8" http-equiv="X-UA-Compatible" />
+<meta name="keywords" content="bake.gd, brand building, link marketting" />
+<meta name="description" content="bake.gd, build your brand with every short link" />
+<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+
+<script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script>
+
 <base href="<?php echo base_url(); ?>" />
 <link rel="shortcut icon" href="<?php echo base_url(); ?>favicon.ico" />
-<link type="text/css" rel="stylesheet" href="resource/app/css/960gs.css" />
-<link type="text/css" rel="stylesheet" href="resource/app/css/style.css" />
-<link type="text/css" rel="stylesheet" href="resource/app/css/common.css" />
+
+<!-- Stylesheets-->
+<link href="resource/app/css/bake.css" rel="stylesheet"  type="text/css">
+<link href="resource/app/css/jquery-ui-1.8.13.custom.css" rel="stylesheet"  type="text/css">
+<!--[if lte IE 8]>
+<link rel="stylesheet" href="IE.css" type="text/css" charset="utf-8" />
+<![endif]-->
+
+<!-- scripts-->
+
 </head>
-<body>
+
+<body class="unauth_home" onLoad="init()">
+
+	<script type="text/javascript" src="resource/app/js/jquery-1.5.1.min.js"></script>
+	<script type="text/javascript" src="resource/app/js/jquery-ui-1.8.13.custom.min.js"></script>
+	<script type="text/javascript" src="resource/app/js/jquery.cycle.js"></script>	
+	<script src="resource/app/js/ZeroClipboard.js" type="text/javascript"></script>
+	<div class="ext_bitly_chrome_promo_delay"></div>
+
+<!-- HEADER START-->
+<div>	
+	<?php echo $this->load->view('inner_elements/header_new'); ?>
+</div>
 <div class="container_12">
 	<div class="grid_12">
 		<h2><?php echo lang('sign_in_page_name'); ?></h2>
@@ -43,84 +70,13 @@
                 </td>
                 </tr>
             </tbody></table>             
-        </div></div></div>
-		<div class="clear"></div>
+        </div>
+		</div>
 	</div>
 	<div class="clear"></div>
 </div>
+<div class="clear"></div>
 
-<!--  is required for testing purposes.. can be removed after it. -->
-<?php echo form_open(uri_string()); ?>
-			<?php echo form_fieldset(); ?>
-				<h3><?php echo lang('sign_in_heading'); ?></h3>
-				<?php if (isset($sign_in_error)) : ?>
-				<div class="grid_6 alpha">
-					<div class="form_error"><?php echo $sign_in_error; ?></div>
-				</div>
-				<div class="clear"></div>
-				<?php endif; ?>
-				<div class="grid_2 alpha">
-					<?php echo form_label(lang('sign_in_username_email'), 'sign_in_username_email'); ?>
-				</div>
-				<div class="grid_4 omega">
-					<?php echo form_input(array(
-							'name' => 'sign_in_username_email',
-							'id' => 'sign_in_username_email',
-							'value' => set_value('sign_in_username_email'),
-							'maxlength' => '24'
-						)); ?>
-					<?php echo form_error('sign_in_username_email'); ?>
-					<?php if (isset($sign_in_username_email_error)) : ?>
-					<span class="field_error"><?php echo $sign_in_username_email_error; ?></span>
-					<?php endif; ?>
-				</div>
-				<div class="clear"></div>
-				<div class="grid_2 alpha">
-					<?php echo form_label(lang('sign_in_password'), 'sign_in_password'); ?>
-				</div>
-				<div class="grid_4 omega">
-					<?php echo form_password(array(
-							'name' => 'sign_in_password',
-							'id' => 'sign_in_password',
-							'value' => set_value('sign_in_password')
-						)); ?>
-					<?php echo form_error('sign_in_password'); ?>
-				</div>
-				<div class="clear"></div>
-				<?php if (isset($recaptcha)) : ?>
-				<div class="prefix_2 grid_4 alpha">
-					<?php echo $recaptcha; ?>
-				</div>
-				<?php if (isset($sign_in_recaptcha_error)) : ?>
-				<div class="prefix_2 grid_4 alpha">
-					<span class="field_error"><?php echo $sign_in_recaptcha_error; ?></span>
-				</div>
-				<?php endif; ?>
-				<div class="clear"></div>
-				<?php endif; ?>
-				<div class="prefix_2 grid_4 alpha">
-					<span>
-						<?php echo form_button(array(
-								'type' => 'submit',
-								'class' => 'button',
-								'content' => lang('sign_in_sign_in')
-							)); ?>
-					</span>
-					<span>
-						<?php echo form_checkbox(array(
-								'name' => 'sign_in_remember',
-								'id' => 'sign_in_remember',
-								'value' => 'checked',
-								'checked' => $this->input->post('sign_in_remember'),
-								'class' => 'checkbox'
-							)); ?>
-						<?php echo form_label(lang('sign_in_remember_me'), 'sign_in_remember'); ?>
-					</span>
-				</div>
-				
-				
-				
-				
 <?php echo $this->load->view('footer'); ?>
 </body>
 </html>
