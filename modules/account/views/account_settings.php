@@ -16,11 +16,8 @@
 				</ul>
 			</span>
 		</div>
-			<div class="clear"></div>
-			<div class="grid_8">
-				<p><?php echo sprintf(lang('settings_privacy_statement'), anchor('page/privacy-policy', lang('settings_privacy_policy'))); ?></p><br />
-			</div>
-		<div class="grid_8">
+		<div class="clear"></div>
+		<div class="settings_block">
 			<?php echo form_open(uri_string(), array('class' => 'settings_form')); ?>
 			<?php if (isset($settings_info)) : ?>
 			<div class="grid_8 alpha">
@@ -222,6 +219,10 @@
 					)); ?>
 			</div>
 			<?php echo form_close(); ?>
+		</div>
+		<div class="tile right">
+			<h3>Privacy</h3>
+			<p><?php echo sprintf(lang('settings_privacy_statement'), anchor('page/privacy-policy', lang('settings_privacy_policy'))); ?></p>
 		</div>
 		<div class="clear"></div>
 	</div>
