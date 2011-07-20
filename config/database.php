@@ -37,12 +37,12 @@
 $active_group = "default";
 $active_record = TRUE;
 
-
 $db['default']['hostname'] = "localhost";
-$db['default']['username'] = "premiump_root";
-$db['default']['password'] = "premium";
-$db['default']['database'] = "premiump_shortner";
+$db['default']['username'] = "root";
+$db['default']['password'] = "";
+$db['default']['database'] = "shortner";
 $db['default']['dbdriver'] = "mysql";
+$db['default']['dbprefix'] = "";
 $db['default']['pconnect'] = FALSE;
 $db['default']['db_debug'] = TRUE;
 $db['default']['cache_on'] = FALSE;

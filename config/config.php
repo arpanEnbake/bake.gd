@@ -11,7 +11,7 @@
 |	http://example.com/
 |
 */
-$config['base_url']	= "http://bake.gd/";
+$config['base_url']	= "http://localhost/mush/";
 
 /*
 |--------------------------------------------------------------------------
@@ -41,7 +41,7 @@ $config['index_page'] = "";
 | 'ORIG_PATH_INFO'	Uses the ORIG_PATH_INFO
 |
 */
-$config['uri_protocol']	= "APP_PATH";
+$config['uri_protocol']	= "AUTO";
 
 /*
 |--------------------------------------------------------------------------
@@ -54,7 +54,7 @@ $config['uri_protocol']	= "APP_PATH";
 | http://codeigniter.com/user_guide/general/urls.html
 */
 
-$config['url_suffix'] = "/";
+$config['url_suffix'] = "";
 
 /*
 |--------------------------------------------------------------------------
@@ -148,10 +148,10 @@ $config['permitted_uri_chars'] = 'a-z 0-9~%.:_\-';
 | use segment based URLs.
 |
 */
-$config['enable_query_strings'] = TRUE;
-$config['controller_trigger'] 	= 'cx';
-$config['function_trigger'] 	= 'mx';
-$config['directory_trigger'] 	= 'dx'; // experimental not currently in use
+$config['enable_query_strings'] = FALSE;
+$config['controller_trigger'] 	= 'c';
+$config['function_trigger'] 	= 'm';
+$config['directory_trigger'] 	= 'd'; // experimental not currently in use
 
 /*
 |--------------------------------------------------------------------------
