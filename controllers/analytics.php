@@ -20,6 +20,8 @@ class Analytics extends Controller {
 			$this->data['account'] = $this->account;
 			$this->data['account_details'] = $this->account_details;
 			$this->_logged_in($this->data);
+		} else {
+			redirect('account/sign_in/?continue='.urlencode(base_url().'account/account_settings'));
 		}
 				
   }

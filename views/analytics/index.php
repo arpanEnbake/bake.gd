@@ -25,7 +25,7 @@
 
 </head>
 
-<body class="unauth_home" onLoad="init()">
+<body class="unauth_home" onLoad="">
 
 	<script type="text/javascript" src="resource/app/js/jquery-1.5.1.min.js"></script>
 	<script type="text/javascript" src="resource/app/js/jquery-ui-1.8.13.custom.min.js"></script>

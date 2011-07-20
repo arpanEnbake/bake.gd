@@ -113,6 +113,7 @@ class Home extends Controller {
 	}
 	
 	function detail($controller = 'home', $func = 'detail', $key =null) {
+		
 		$this->load->model('Url_model');
 		$this->load->helper('url');
 		$this->data['selected_menu'] = 'Analyze';

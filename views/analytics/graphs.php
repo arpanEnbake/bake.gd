@@ -1,4 +1,3 @@
-
 <link rel="stylesheet" href="resource/app/js/RGraph/css/website.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="resource/app/css/ui.selectmenu.css" type="text/css" />
 <?php $js = array('rgraph/RGraph.common.core.js',
@@ -238,7 +237,6 @@ function success_line_draw(response) {
   
 <script>
 var pie = null;
-success_pie_draw();
 function success_pie_draw(response) {
 	data = response['data'];
 		
