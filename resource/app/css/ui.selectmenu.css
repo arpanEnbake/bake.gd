@@ -1,0 +1,90 @@
+.ui-selectmenu {
+    display: block;
+    height: 2em;
+    overflow: hidden;
+    position: relative;
+    text-decoration: none;
+}
+.ui-selectmenu-icon {
+    margin-top: -8px;
+    position: absolute;
+    right: 6px;
+    top: 50%;
+}
+.ui-selectmenu-menu {
+    list-style: none outside none;
+    margin: 0;
+    overflow: auto;
+    padding: 0;
+    position: absolute;
+    top: 0;
+    visibility: hidden;
+}
+.ui-selectmenu-open {
+    visibility: visible;
+}
+.ui-selectmenu-menu-popup {
+    margin-top: -1px;
+}
+.ui-selectmenu-menu-dropdown {
+}
+.ui-selectmenu-menu li {
+    border-bottom: 1px dotted transparent;
+    border-left-width: 0 !important;
+    border-right-width: 0 !important;
+    border-top: 1px dotted transparent;
+    display: block;
+    font-weight: normal !important;
+    margin: 0;
+    padding: 0;
+}
+.ui-selectmenu-menu li a, .ui-selectmenu-status {
+    display: block;
+    line-height: 1.4em;
+    outline: medium none;
+    padding: 0.3em 1em;
+    text-decoration: none;
+}
+.ui-selectmenu-menu li.ui-selectmenu-hasIcon a, .ui-selectmenu-hasIcon .ui-selectmenu-status {
+    margin-left: 5px;
+    padding-left: 20px;
+    position: relative;
+}
+.ui-selectmenu-menu li .ui-icon, .ui-selectmenu-status .ui-icon {
+    left: 0;
+    margin-top: -8px;
+    position: absolute;
+    top: 1em;
+}
+.ui-selectmenu-status {
+    line-height: 1.4em;
+}
+.ui-selectmenu-open li.ui-selectmenu-item-focus a {
+}
+.ui-selectmenu-open li.ui-selectmenu-item-selected {
+}
+.ui-selectmenu-menu li span, .ui-selectmenu-status span {
+    display: block;
+    margin-bottom: 0.2em;
+}
+.ui-selectmenu-menu li .ui-selectmenu-item-header {
+    font-weight: bold;
+}
+.ui-selectmenu-menu li .ui-selectmenu-item-content {
+}
+.ui-selectmenu-menu li .ui-selectmenu-item-footer {
+    opacity: 0.8;
+}
+.ui-selectmenu-menu .ui-selectmenu-group {
+    font-size: 1em;
+}
+.ui-selectmenu-menu .ui-selectmenu-group .ui-selectmenu-group-label {
+    display: block;
+    font-weight: bold;
+    line-height: 1.4em;
+    padding: 0.6em 0.5em 0;
+}
+.ui-selectmenu-menu .ui-selectmenu-group ul {
+    margin: 0;
+    padding: 0;
+}

@@ -19,6 +19,11 @@ class Sign_in extends Controller {
 		$this->load->language(array('general', 'account/sign_in', 'account/connect_third_party'));
 	}
 	
+	function tempsign_in() {
+		// Load sign in view
+		$this->load->view('tempsign_in', isset($data) ? $data : NULL);
+	}
+
 	/**
 	 * Account sign in
 	 *

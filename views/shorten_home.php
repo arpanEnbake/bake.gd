@@ -122,10 +122,10 @@
 <div class="right">
   <h2>Shorten anywhere with </h2>
   <img src="resource/app/images/sidebar.jpg">
-  <ul>
-See more tips & tricks
-Take our tour to see what you can do</li>
-</ul>
+  <h3><ul>
+	<li><?php echo anchor('/account/account_settings/custom', 'Customize your shortened urls now!!!' 
+  					) ?></li>
+</ul></h3>
 </div>
 
 </div>

@@ -13,6 +13,7 @@
 				<ul>
 					<li><?php echo anchor('account/account_linked', lang('linked_page_name')); ?></li>
 					<li><?php echo anchor('account/account_profile', lang('website_profile')); ?></li>
+					<li><?php echo anchor('account/account_settings/custom', 'Custom Domain'); ?></li>
 				</ul>
 			</span>
 		</div>
@@ -196,7 +197,7 @@
 				</select>
 				</div>
 			</div>
-			<div class="clear"></div>
+			<div class="clear"></div><!-- moved to separate file
 			<div class="form_row">
 				<?php echo form_label(lang('settings_customdomain'), 'settings_customdomain'); ?>
 				<div class="input_elem">
@@ -209,7 +210,7 @@
 						'class' => 'text_input'
 					)); ?>
 				</div>
-			</div>
+			</div>-->
 			<div class="clear"></div>
 			<div class="prefix_2 grid_6 alpha">
 				<?php echo form_button(array(

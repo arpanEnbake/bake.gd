@@ -13,11 +13,15 @@
 	<span id="share_links">
 	<?php
 		$tw_flag = false; $fb_flag = false;
+		
 		if (isset($twitter)) {
 			echo anchor("account/connect_twitter/post_status/{$twitter->twitter_id}/{$id}", 'Twitter', 
 					array('class'=>"share_tw", 'rel' => $bake_url));
 			if (!isset($fb)) {
-					echo anchor("account/connect_facebook", 'Connect Facebook');
+				echo anchor("account/connect_facebook", 
+					img(array('src'=>'resource/app/images/share/facebook.png','border'=>'0','alt'=>'facebook'))
+				);
+								
 			}
 			$tw_flag = true;
 		}
@@ -27,12 +31,14 @@
 			echo anchor("account/connect_facebook/post_wall/{$fb->facebook_id}/{$id}", 'Facebook'
 			, 	array('class'=>"share_tw", 'rel' => $bake_url));
 			if (!isset($twitter)) {
-					echo anchor("account/connect_twitter", 'Connect Twitter');
+								echo anchor("account/connect_twitter", 
+							img(array('src'=>'resource/app/images/share/twitter.png','border'=>'0','alt'=>'twitter'))
+						)	;								
 			}
 			
 		}
 		if (!$tw_flag && !$fb_flag) {
-			echo anchor('/account/account_linked', 'Login now to start sharing');
+			echo anchor('/account/account_linked', 'Link Your Accounts here');
 		}
 
 	?>
