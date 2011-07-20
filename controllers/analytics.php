@@ -11,7 +11,6 @@ class Analytics extends Controller {
 		$this->load->library(array('account/authentication'));
 		$this->load->model(array('account/account_model','account/account_details_model'));
 		$this->lang->load(array('general'));
-		
 		if ($this->authentication->is_signed_in())
 		{
 			$this->account = $this->account_model->get_by_id($this->session->userdata('account_id'));
@@ -21,7 +20,7 @@ class Analytics extends Controller {
 			$this->data['account_details'] = $this->account_details;
 			$this->_logged_in($this->data);
 		} else {
-			redirect('account/sign_in/?continue='.urlencode(base_url().'account/account_settings'));
+			redirect('/');
 		}
 				
   }
