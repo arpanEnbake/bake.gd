@@ -24,6 +24,8 @@
 	<script type="text/javascript" src="resource/app/js/jquery-1.5.1.min.js"></script>
 	<script type="text/javascript" src="js/moo.js"></script>
 	<script type="text/javascript" src="js/hero.js"></script>
+	<script type="text/javascript" src="resource/app/js/jquery-ui-1.8.13.custom.min.js"></script>
+	
 </head>
 <?php $host = isset($account) && isset($account->domain) ? $account->domain : $_SERVER['HTTP_HOST'];?>
 

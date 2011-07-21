@@ -1,0 +1,123 @@
+@charset "utf-8";
+/*
+Author    ::: Chand khan
+Project   ::: Bake gd
+Date	  ::: 09/05/2011	  
+*/
+
+/*****************Default tags*********************/
+body{margin:0px;padding:0px;width:100%; color:8f8f8f; font-family:"minion-pro-1","minion-pro-2","Times New Roman", Georgia, serif; font-size:12px; text-align:center;}
+p, div, form, h1, h2, h3{padding:0px; margin:0px;}
+img{border:none; outline:none;}
+a{border:none; outline:none; text-decoration:none;}
+a:link{border:none; outline:none; text-decoration:none;}
+a:hover{border:none; outline:none; text-decoration:none;}
+.cleatAll{ clear:both;}
+img, input{ outline:none; border:none;}
+/****************************************************************************************
+																				  HEADER
+****************************************************************************************/
+#mainHeader{ width:100%; height:399px; margin:0px; padding:0px;}
+#header{font-family: "Helvetica Neue", Helvetica, sans-serif; width: 100%; height: 50px; overflow: hidden; background-color: black;}
+#header .bar{width:980px; margin:0 auto;}
+#header .bar .logo{float:left; width:160px; margin-right:10px;}
+#header .bar .ul {list-style:none; z-index:5000; width:auto; margin:14px 0 0 0px; padding:0px;}
+#header .bar .ul li{ display:inline; padding:10px 10px 13px 5px; }
+#header .bar .ul li a{color:#FFF; font-weight:normal; font-family:verdana; font-size:14px; text-decoration:none;}
+#header .bar .ul li a:hover{ color:#86b226;font-weight:bold;}
+#header .bar .loginBtns{ float:right; margin:10px 0 0; z-index:1;}
+#header .bar .loginBtns img{ padding:0 0 0 5px;}
+#header .bar p{ position:absolute; left:0px; top:50px;}
+/****************************************************************************************
+																		    HEADER SLIDER
+****************************************************************************************/
+#hero-container {  width: 100%; overflow: hidden; height:470px;}
+#hero-container .positioning {width: 100%; overflow: hidden; margin: 0 auto;}
+#hero-container .positioning h1 {font-size: 50px; margin-top: 60px;}
+#hero-container .positioning h3 {text-align: center; font-weight: 500; font-size: 24px; margin: 5px 0 0 -10px; padding: 0; color: #232323;}
+#hero-container .positioning .snapshots {width:950px;height:330px; margin:0 auto;}
+#hero-container .positioning .snapshots .slide{position: relative;float: left;top: 25px;left: 106px;}
+.hero-wrapper {  height: 361px;  padding-top: 52px;  width: 100%;}
+.hero-wrapper  .textContainer{position:absolute;  margin:120px 0 0 5px; width:360px; text-align:left; font-size:24px; }
+.hero-wrapper  .imageContainer{position:absolute; width:450px; margin:0 0 0 375px;}
+ul#hero-frames {  z-index: 100; text-indent:-900px; list-style:none; margin:0px; padding:0px;  position: absolute;  left: 0px;  bottom: 0px;  width: 100px;}
+ul#hero-frames li {  float: left;  margin-left: -4px;}
+ul#hero-frames li a {  display: block;  width: 20px;  height: 20px;}
+a.frame-1 {background: url(../images/frame-1-1.png) 0 0 no-repeat;}
+a.frame-2 {background: url(../images/frame-1-1.png) 0 0 no-repeat;}
+a.frame-3 {background: url(../images/frame-1-1.png) 0 0 no-repeat;}
+a.frame-4 {background: url(../images/frame-1-1.png) 0 0 no-repeat;}
+a.frame-5 {background: url(../images/frame-1-1.png) 0 0 no-repeat;}
+a.frame-1:hover, a.frame-2:hover, a.frame-3:hover, a.frame-4:hover, a.frame-5:hover {background-position: 0 -20px;}
+a.frame-1-active {background: url(../images/frame-1-1.png) 0 -20px no-repeat;}
+a.frame-2-active {background: url(../images/frame-1-1.png) 0 -20px no-repeat;}
+a.frame-3-active {background: url(../images/frame-1-1.png) 0 -20px no-repeat;}
+a.frame-4-active {background: url(../images/frame-1-1.png) 0 -20px no-repeat;}
+a.frame-5-active {background: url(../images/frame-1-1.png) 0 -20px no-repeat;}
+#hero_container h1 {  height: 100px;  margin-bottom: 4px;}
+#hero_container p {  width: 394px;}
+.hero_image {  z-index: 10;  position: absolute;  display: block;}
+
+
+/****************************************************************************************
+																				  BODY
+****************************************************************************************/
+#mainBody{ width:100%;  margin:0px; padding:0px;}
+#mainBody #body{  margin:0 auto;  width:1000px; position:relative; }
+#mainBody #body .shorten-textarea{ position:relative; margin:0px; padding:0px; background:url(../images/input.png) no-repeat left top; width:1000px; height:59px;}
+#mainBody #body .shorten-textarea input{ width:784px; height:34px; padding:0px; margin:13px 0 0 10px; border:none; font-size:16px; color:#999999;}
+#mainBody #body .shorten-textarea .btns{ outline:none; border:none; width:175px; height:40px; margin:3px 0 0 14px; background:none; border:none; cursor:pointer; }
+#mainBody #body .BoxContainer{ width:1000px; position:relative; margin:15px 0 0 0;  overflow:hidden;}
+#mainBody #body .BoxContainer .box1{ width:200px; float:left; margin:0 0 0 12px; color:#999999; font-size:12px;}
+#mainBody #body .BoxContainer .box1 p{ color:#000000; font-size:20px;  margin:5px 0 5px 0;}
+#mainBody #body .BoxContainer .box4{ width:721px; float:left; margin:0 0 0 10px; padding:25px 0 0 0;}
+#mainBody #body .Container{ width:980px;  margin:50px 0 0 0; padding:50px 0 0 0; background:url(../images/body-devidir.png) no-repeat top center; color:#333333; font-size:28px;  text-align:center; font-family:Verdana, Arial, Helvetica, sans-serif;}
+
+
+
+/****************************************************************************************
+																				  FOOTER
+****************************************************************************************/
+#mainFooter{ width:100%;  margin:50px auto 0 auto; padding:0px;}
+#mainFooter #footer{  margin:0 auto;  width:1000px; position:relative; padding:40px 0 0 0;  background:url(../images/body-devidir.png) no-repeat top center;}
+#mainFooter #footer ul p{ font-family:Verdana, Arial, Helvetica, sans-serif; font-size:18px; color:#0c90ce;}
+#mainFooter #footer ul {list-style:none;  float:left; width:190px; margin:10px 0 0 0px; padding:0px;}
+#mainFooter #footer ul li{ display:block; padding:5px 0px 5px 0px; }
+#mainFooter #footer ul li a{color:#333333; font-weight:normal; font-family:verdana, Helvetica, sans-serif; font-size:12px; text-decoration:none;}
+#mainFooter #footer ul li a:hover{ color:#ff8202;}
+#mainFooter #footer div{ margin:80px 0 0 30px;}
+
+/***** ELEMENTS ***/
+input.home-shorten {
+	padding: 4px;
+	border: solid 3px #E5E5E5;
+	outline: 0;
+	width: 200px;
+	font-size: 30px;
+	width: 700px;
+	background: #FFFFFF url('bg_form.png') left top repeat-x; 
+	background: -webkit-gradient(linear, left top, left 25, from(#FFFFFF), color-stop(4%, #EEEEEE), to(#FFFFFF));
+	background: -moz-linear-gradient(top, #FFFFFF, #EEEEEE 1px, #FFFFFF 25px);
+	box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;
+	-moz-box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;
+	-webkit-box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;	
+}
+
+input:hover, textarea:hover, input:focus, textarea:focus {border-color: #C9C9C9;}
+
+.home-shorten-button {
+	width: auto;
+	padding: 5px 30px;
+	border: 0;
+	font-size: 32px;
+	color: #FFFFFF;
+	background: -webkit-gradient(linear, left top, left 25, from(#86b226), color-stop(4%, #c8ed77), to(#86b226));
+	background: -moz-linear-gradient(top, #86b226, #c8ed77 1px, #86b226 25px);
+	box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;
+	-moz-box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;
+	-webkit-box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;	
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+}

@@ -18,6 +18,35 @@ class Account_settings extends Controller {
 		$this->load->model(array('account/account_model', 'account/account_details_model', 
 				'account/ref_country_model', 'account/ref_language_model', 'account/ref_zoneinfo_model'));
 		$this->load->language(array('general', 'account/account_settings'));
+		
+				// Redirect unauthenticated users to signin page
+		if ( ! $this->authentication->is_signed_in()) 
+		{
+			redirect('account/sign_in/?continue='.urlencode(base_url().'account/account_settings'));
+		}
+		
+	}
+	
+	/**
+	 * Custom Domain
+	 * 
+	 * You can set a custom domain here
+	 */
+	function custom() {
+		// Retrieve sign in user
+		$data['account'] = $this->account_model->get_by_id($this->session->userdata('account_id'));
+		$data['account_details'] = $this->account_details_model->get_by_account_id($this->session->userdata('account_id'));
+		
+		
+		if (isset($_POST) && !empty($_POST)) {
+			$this->account_model->update_domain($data['account']->id, 
+				$this->input->post('settings_domain') ? $this->input->post('settings_domain') : $_SERVER['HTTP_HOST']);
+				redirect(uri_string());
+		}
+		
+		
+		$this->load->view('account/custom', isset($data)? $data : null);
+		
 	}
 	
 	/**
@@ -28,11 +57,6 @@ class Account_settings extends Controller {
 		// Enable SSL?
 		maintain_ssl($this->config->item("ssl_enabled"));
 		
-		// Redirect unauthenticated users to signin page
-		if ( ! $this->authentication->is_signed_in()) 
-		{
-			redirect('account/sign_in/?continue='.urlencode(base_url().'account/account_settings'));
-		}
 		
 		// Retrieve sign in user
 		$data['account'] = $this->account_model->get_by_id($this->session->userdata('account_id'));
