@@ -154,6 +154,13 @@ function draw_chart(tp) {
 <script>
 var line_chart;
 function success_line_draw(response){
+	var data = new Array(new Array(), new Array());
+	for (i in response['data'][0]) {
+		data[0].push(parseInt(response['data'][0][i]));
+	}
+	for (i in response['data'][1]) {
+		data[1].push(parseInt(response['data'][1][i]));
+	}
 	line_chart = new Highcharts.Chart({
 		chart: {
 			renderTo: 'linegraph',
@@ -190,29 +197,28 @@ function success_line_draw(response){
 			}
 		},
 		plotOptions: {
-			area: {
-				pointStart: '23-Jul',
-				marker: {
-					enabled: false,
-					symbol: 'circle',
-					radius: 2,
-					states: {
-						hover: {
-							enabled: true
-						}
-					}
-				}
-			}
+//			area: {
+//				pointStart: '23-Jul',
+//				marker: {
+//					enabled: false,
+//					symbol: 'circle',
+//					radius: 2,
+//					states: {
+//						hover: {
+//							enabled: true
+//						}
+//					}
+//				}
+//			}
 		},
 		series: [{
 			name: 'Likes',
-			data: response['data'][0]
+			data: data[0]
 		}, {
 			name: 'Tweets',
-			data: response['data'][1]
+			data:  data[1]
 		}]
 	});
-
 
 };
 
