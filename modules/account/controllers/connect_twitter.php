@@ -66,7 +66,7 @@ class Connect_twitter extends Controller {
 				{
 					// Run sign in routine
 					$this->authentication->sign_in($user->account_id);
-					redirect('/');
+					redirect('');
 				} else {
 					$user->account_id === $this->session->userdata('account_id') ?
 					$this->session->set_flashdata('linked_error', sprintf(lang('linked_linked_with_this_account'), lang('connect_twitter'))) :
@@ -95,7 +95,7 @@ class Connect_twitter extends Controller {
 					
 					// Connect twitter to a3m
 					$this->session->set_flashdata('linked_info', sprintf(lang('linked_linked_with_your_account'), lang('connect_twitter')));
-					redirect('/');
+					redirect('');
 				} else {
 					//	case 'twitter': 
 					$this->account_twitter_model->insert($this->session->userdata('account_id'), $data['connect_create'][0]['provider_id'], 

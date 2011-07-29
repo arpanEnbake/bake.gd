@@ -41,5 +41,5 @@
 	<?php echo $this->load->view('inner_elements/header_new'); ?>
 </div>
 
-<?php echo  $this->load->view('analytics/graphs'); ?>
+<?php echo  $this->load->view('analytics/highcharts'); ?>
 <?php echo $this->load->view('inner_elements/footer'); ?>
