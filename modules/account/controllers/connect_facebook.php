@@ -91,7 +91,8 @@ class Connect_facebook extends Controller {
 		}
 		
 		// redirect to login url
-		header("Location: ".$this->facebook_lib->fb->getLoginUrl(array('req_perms' => 'user_birthday, email, read_stream, publish_stream')));
+		header("Location: ".$this->facebook_lib->fb->getLoginUrl(
+					array('req_perms' => 'user_birthday, email, read_stream, publish_stream, user_likes,friends_likes')));
 	}
 	
 	/*
