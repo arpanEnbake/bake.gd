@@ -131,6 +131,8 @@ class Connect_twitter extends Controller {
 			$yourl = $this->db->get_where('yourls_url', array('id' => $yourl_id))->row();
 			
 			$statusText = $this->input->post('share_text');
+			
+			if (!$statusText) $statusText = 'http://bake.gd'.rand(5,1);
 
 			try {
 				$response = $this->twitter_lib->etw->post_statusesUpdate(array('status' => $statusText));
