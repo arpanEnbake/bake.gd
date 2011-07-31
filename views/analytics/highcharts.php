@@ -1,6 +1,6 @@
 <script type="text/javascript" src="resource/app/js/jquery-1.5.1.min.js"></script>
 <script type="text/javascript" src="resource/app/js/highcharts/js/highcharts.js"></script>
-<script type="text/javascript" src="resource/app/js/highcharts/js/themes/gray.js"></script>
+<!--<script type="text/javascript" src="resource/app/js/highcharts/js/themes/gray.js"></script>-->
 <!--<script type="text/javascript" src="resource/app/js/highcharts/js/modules/exporting.js"></script>-->
 
 <?php $graph_width = 998;?>

@@ -34,6 +34,8 @@ class Home extends Controller {
 
 		$this->load->library(array('account/authentication'));
 		$this->load->model(array('account/account_model','account/account_details_model'));
+		$this->load->model('Url_model');
+		
 
 		if ($this->authentication->is_signed_in())
 		{
@@ -159,7 +161,7 @@ class Home extends Controller {
 		}
 		
 		// cookie filling
-		$this->data['my_urls'] = $this->recent_urls();
+		$this->data['my_urls'] = $this->orig_recent_urls();
 
 		if ($this->account)
 		{
@@ -210,7 +212,9 @@ class Home extends Controller {
 		
 	}
 	
-	function recent_urls() {
+
+	function orig_recent_urls() {
+		
 		$urls = null;
 		if ($this->account) {
 			$urls = $this->Url_model->get_my_urls($this->account->id, 10);
@@ -227,9 +231,29 @@ class Home extends Controller {
 			$urls = $query->result_object();
 		}
 		
-		$this->paginate(count($urls));
+		return (($urls));
+	}
+	
+	function recent_urls() {
 		
-		return $urls;
+		$urls = null;
+		if ($this->account) {
+			$urls = $this->Url_model->get_my_urls($this->account->id, 10);
+		}
+		else {
+			$this->load->helper('cookie');
+			$ids = get_cookie('bakegdids');
+			$url_ids = explode(',', $ids);
+
+			$this->db->order_by('timestamp', 'desc');
+			$this->db->from('yourls_url');
+			$this->db->where_in('id', $url_ids);
+			$query =  $this->db->get();
+			$urls = $query->result_object();
+		}
+		
+		echo(json_encode($urls));
+		$this->load->view('recent_urls', isset($this->data) ? $this->data : NULL);
 	}
 	
 	function add_cookie($id) {
