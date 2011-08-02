@@ -97,7 +97,7 @@ function draw_chart(tp) {
 	    url: "<?php echo base_url();?>ajax/piechartdata/"+tp,    
 	    dataType: 'json',
 	    success: function(response){
-	    	//success_pie_draw(response)
+	    	success_pie_draw(response)
 	    }
 	});
 }
@@ -224,3 +224,61 @@ function success_line_draw(response){
 
 </script>
 
+<script type="text/javascript">
+	function success_pie_draw(response) {
+		var data = new Array();
+		x = response['data'];
+		counter = 0;
+		for (i in x) {
+			var node = null;
+			if (counter++ == 0) {
+				node = {};
+				node["name"] = i;
+				node['y'] = x[i];
+				node['sliced'] = true;
+				node['selected'] = true;
+			} else {
+				node = new Array(i, x[i]);
+			}
+			data.push(node);
+		} 
+
+		chart = new Highcharts.Chart({
+			chart: {
+				renderTo: 'piegraph',
+				plotBackgroundColor: null,
+				plotBorderWidth: null,
+				plotShadow: false
+			},
+			title: {
+				text: 'Locations'
+			},
+			tooltip: {
+				formatter: function() {
+					return '<b>'+ this.point.name +'</b>: '+ this.y +' %';
+				}
+			},
+			plotOptions: {
+				pie: {
+					allowPointSelect: true,
+					cursor: 'pointer',
+					dataLabels: {
+						enabled: true,
+						color: '#000000',
+						connectorColor: '#000000',
+						formatter: function() {
+							return '<b>'+ this.point.name +'</b>: '+ this.y +' %';
+						}
+					}
+				}
+			},
+		    series: [{
+				type: 'pie',
+				name: 'Geography',
+				data: data
+			}]
+		});
+
+
+	}
+</script>

@@ -252,9 +252,8 @@ class Ajax extends Controller {
 			foreach($raw_data as $key => $val) {
 				$labels[] = "{$key} ($val visitors)";
 			}
-			
 	//		$labels = array_keys($raw_data);
-			$data = array_values($raw_data);
+			$data = /*array_values*/($raw_data);
 			
 			$json = array(
 				'labels' =>$labels, 
