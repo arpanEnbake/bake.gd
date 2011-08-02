@@ -52,7 +52,7 @@ class Connect_facebook extends Controller {
 				{
 					// Run sign in routine
 					$this->authentication->sign_in($user->account_id);
-					redirect('/');
+					redirect('');
 				}
 				else {
 					$user->account_id === $this->session->userdata('account_id') ?
@@ -78,7 +78,7 @@ class Connect_facebook extends Controller {
 					$this->account_facebook_model->insert($user_id, $this->facebook_lib->user['id']);
 					// Run sign in routine
 					$this->authentication->sign_in($user_id);
-					redirect('/');
+					redirect('');
 				}
 				else
 				{
@@ -91,7 +91,8 @@ class Connect_facebook extends Controller {
 		}
 		
 		// redirect to login url
-		header("Location: ".$this->facebook_lib->fb->getLoginUrl(array('req_perms' => 'user_birthday, email, read_stream, publish_stream')));
+		header("Location: ".$this->facebook_lib->fb->getLoginUrl(
+					array('req_perms' => 'user_birthday, email, read_stream, publish_stream, user_likes,friends_likes')));
 	}
 	
 	/*

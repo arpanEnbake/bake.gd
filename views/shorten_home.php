@@ -161,6 +161,7 @@ function share_box_updates(str, elem) {
 
 $('#shares_button').live('click', function(e){
 	e.preventDefault();
+	$('#messageOverlay').show();
 	$.ajax({
 	    type: "POST",
 	    url: 	$('#share-form').attr("action"),
@@ -221,7 +222,13 @@ $('#shares_button').live('click', function(e){
               
            });
         });
-	//}                             
+	//}     
+
+		$('#messageOverlay').hide().ajaxStart(function(){
+			$(this).show();
+			}).ajaxStop(function() {
+			$(this).hide();
+			});                        
     </script>
 
 <!--  changes for the modal dialog -->
@@ -232,6 +239,7 @@ $('#shares_button').live('click', function(e){
 
 		<div style="text-align: center;">
 			<h2> Share Now </h2>
+			<div id ="messageOverlay" style="display:none"><img src="resource/app/images/ajax-loader.gif" width="238" height="34"></img></div>
 		</div>
 		<br></br>
 		<?php echo form_open('/home/index', array('id' => 'share-form')); ?>
@@ -240,6 +248,8 @@ $('#shares_button').live('click', function(e){
 		<button id="shares_button" type="submit"><p>Share</p></button>
 		<div style="text-align: justify; align: center;" id="modal-long-link"></div>
 		<?php echo form_close()?>
+		<img src="resource/app/images/facebook_big.png" widht="256" height="150" ></img>
+		<img src="resource/app/images/twitter_big.png" widht="256" height="150" ></img>
 		<div style="text-align: center;" id="modal-result">
 			
 		</div>

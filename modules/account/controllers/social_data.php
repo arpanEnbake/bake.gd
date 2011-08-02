@@ -26,23 +26,31 @@ class Social_data extends Controller {
 	}
 	
 	function process_fb($url) {
-		
+		$likes_id = array();
+
 		$data = ($this->facebook_lib->fb->api("/{$url->status_id}/likes", 'GET', array()));
 		$likes = $data['data'];
 		// if no change in likes dont do anything		
-		if (count($likes) > $url->likes) {		
-			// deleting existing entries and inserting new.
-			// we can do php processing here too.
-			$this->social_data_model->db->delete('fb_status_likes', array('status_id' => $url->status_id)); 
+		if (count($likes) > $url->likes) {
+			echo 'likes for status' . $url->status_id;
+			pr($likes);
+			
+			$query = $this->social_data_model->db->select(array('fb_id'))->from('fb_status_likes')->where('status_id', $url->status_id);
+			$res = $this->social_data_model->db->get();
+			
+			for($i = 0; $i < $res->num_rows;++$i)
+				$likes_id[] = $res->row($i)->fb_id;
 			
 			foreach ($likes as $like) {
-				$like_data = array(
-							'status_id' => $url->status_id, 
-							'fb_id' => ($like['id']),
-							'name' => $like['name'],
-							'date' => date('Y-m-d'), 
-						);
-				$this->social_data_model->db->insert('fb_status_likes', $like_data);
+				if (empty($likes_id) || !in_array($like['id'], $likes_id)) {
+					$like_data = array(
+								'status_id' => $url->status_id, 
+								'fb_id' => ($like['id']),
+								'name' => $like['name'],
+								'date' => date('Y-m-d'), 
+							);
+					$this->social_data_model->db->insert('fb_status_likes', $like_data);
+				}
 			}		
 		}
 		
@@ -55,21 +63,32 @@ class Social_data extends Controller {
 				,array('trim_user' => 'true')
 				));
 				
+		$retweets_id = array();
+		
 		// if no change in retweets dont do anything		
 		if (count($resp->response) > $url->retweets) {
-			// deleting existing entries and inserting new.
-			// we can do php processing here too.
-			$this->social_data_model->db->delete('tw_retweets', array('tweet_id' => $url->tweet_id)); 
+			$query = $this->social_data_model->db->select(array('retweet_id'))->from(' tw_retweets')->where('tweet_id', $url->tweet_id);
+			$res = $this->social_data_model->db->get();
 			
+			for($i = 0; $i < $res->num_rows;++$i)
+				$retweets_id[] = $res->row($i)->retweet_id;
+				
+
+			echo 'retweets for tweets' . $url->tweet_id;
+			pr($retweets_id);
+						
 			foreach($resp->response as $retweet) {
-				$retweet_data = array(
+				if (empty($retweets_id) || !in_array($retweet['id_str'], $retweets_id)) {
+				
+					$retweet_data = array(
 						'tweet_id' => $retweet['retweeted_status']['id_str'], 
-						'retweet_id' => $retweet['retweeted_status']['id_str'],
+						'retweet_id' => $retweet['id_str'],
 						'user_id' => $retweet['user']['id_str'],
 						'date' => date('Y-m-d'),
 						//	'name' => $like['name'] 
 						);
-				$this->social_data_model->db->insert('tw_retweets', $retweet_data);		
+					$this->social_data_model->db->insert('tw_retweets', $retweet_data);
+				}		
 			}
 		}
 		return count($resp->response);
@@ -84,7 +103,6 @@ class Social_data extends Controller {
 		
 		foreach($urls as $key => $url) {
 			echo '=************************************=';
-			pr ($url);
 			if ($url->status_id) {
 				$url->likes = $this->process_fb($url);
 				$url->like_date = date('Y-m-d');
@@ -93,7 +111,6 @@ class Social_data extends Controller {
 				$url->retweets = $this->process_tw($url);
 				$url->tweet_date = date('Y-m-d');
 			}
-			pr($url);
 			echo '=************************************=';
 			$this->social_data_model->db->update('yourls_url', $url, array('id' => $url->id));
 		}

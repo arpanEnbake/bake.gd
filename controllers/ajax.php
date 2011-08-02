@@ -71,7 +71,7 @@ class Ajax extends Controller {
 		}
 		 else {
 			for ($i = $tot_less_days - 1; $i >=0 ; --$i) {
-				$label = date('M-d', strtotime("-{$i} day"));
+				$label = date('M d', strtotime("-{$i} day"));
 				if ($tot_less_days > 20 && $i % 2 != 0) {
 					$label = ' ';
 				}
@@ -142,6 +142,14 @@ class Ajax extends Controller {
 			$data[$tot_less_days - $i] = $org_data;
 		}
 		
+		// for highcharts transposing array
+		foreach($data as $key => $value) {
+			foreach($value as $index => $val) {
+				$high_data[$index]['data'][] = $val;
+				$high_data[$index]['name'] = $this->key[$index];				
+			}
+		}
+		
 		$json = array(
 			'units_pre' => $units_pre,
 //			'title' => $title, 
@@ -149,7 +157,7 @@ class Ajax extends Controller {
 			//'colors' => $this->keycolors,
 			'key' => $this->key,
 			'tooltips' => $tooltips,
-			'data' => $data,
+			'data' => $high_data,
 		);
 			
 		$this->json_data = $json;	
@@ -204,6 +212,7 @@ class Ajax extends Controller {
 			$data[] = $inner_data;
 		}
 		
+		
 		$json = array(
 			'units_pre' => $units_pre,
 //			'title' => $title, 
@@ -243,9 +252,8 @@ class Ajax extends Controller {
 			foreach($raw_data as $key => $val) {
 				$labels[] = "{$key} ($val visitors)";
 			}
-			
 	//		$labels = array_keys($raw_data);
-			$data = array_values($raw_data);
+			$data = /*array_values*/($raw_data);
 			
 			$json = array(
 				'labels' =>$labels, 

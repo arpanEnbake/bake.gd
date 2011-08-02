@@ -20,7 +20,7 @@ class Analytics extends Controller {
 			$this->data['account_details'] = $this->account_details;
 			$this->_logged_in($this->data);
 		} else {
-			redirect('/');
+			redirect('');
 		}
 				
   }
