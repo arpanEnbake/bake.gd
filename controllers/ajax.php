@@ -29,20 +29,50 @@ class Ajax extends Controller {
 		$this->load->model(array('Url_model', 'account/social_data_model'));
 	}
 
-	function get_click_data($start_time = null, $end_time = null) {
+	function get_click_data($start_time = null, $end_time = null, $url_id = null) {
+		$account_id = null;
+		
+		// if for one url, a/c doesnt matter
+		if (!$url_id)
+			$account_id = $this->session->userdata('account_id');
+			
 		$clicks = $this->Url_model->get_click_counts($start_time, $end_time, 
-					$this->session->userdata('account_id'));
+					$account_id, $url_id);
 		return $clicks;
 	}
 	
-	function get_media_data($start_time = null, $end_time = null) {
-		$data['likes'] = $this->social_data_model->fb_likes($start_time, $end_time, $this->session->userdata('account_id'));
-		$data['retweets'] = $this->social_data_model->tw_retweets($start_time, $end_time, $this->session->userdata('account_id'));
+	function get_media_data($start_time = null, $end_time = null, $url_id = null) {
+		$status_id = null;$tweet_id = null;
+		$data = array('likes' => 0, 'retweets' => 0);
+		$account_id = null;
+		
+		// if for one url, a/c doesnt matter
+		if (!$url_id)
+			$account_id = $this->session->userdata('account_id');
+		
+		if ($url_id) {
+			$query = $this->db->get_where('yourls_url', array('id' => $url_id));
+			$query->row();
+			$url = null;
+			if (!isset($query->result_object[0]))
+				return data;
+			$status_id = $query->result_object[0]->status_id;
+			$tweet_id =  $query->result_object[0]->tweet_id;
+		}
+		
+		$data['likes'] = $this->social_data_model->fb_likes($start_time, $end_time, $account_id, $status_id);
+		$data['retweets'] = $this->social_data_model->tw_retweets($start_time, $end_time, $account_id, $tweet_id);
 		return $data;
 	}
 	
-	function get_location_data($start_time = null, $end_time = null) {
-		$data = $this->Url_model->get_location($start_time, $end_time, $this->session->userdata('account_id'));
+	function get_location_data($start_time = null, $end_time = null, $url_id = null) {
+		$account_id = null;
+		
+		// if for one url, a/c doesnt matter
+		if (!$url_id)
+			$account_id = $this->session->userdata('account_id');
+		$data = $this->Url_model->get_location($start_time, $end_time, 
+				$account_id , $url_id);
 		return $data;
 	}
 
@@ -50,7 +80,7 @@ class Ajax extends Controller {
 		echo json_encode($this->json_data);
 	}
 	
-	function barchartdata($timePeriod = 1){
+	function barchartdata($timePeriod = 1, $url_id = null){
 		$units_pre = '';
 		$i = 0;
 		$tot_less_days = floor($timePeriod / 24);
@@ -110,7 +140,7 @@ class Ajax extends Controller {
 			
 			$start_time = "{$prev_year}-{$prev_month}-{$prev_date} {$prev_hour}:{$prev_min}:{$prev_sec}";
 			
-			$clicks = $this->get_click_data($start_time, $end_time);
+			$clicks = $this->get_click_data($start_time, $end_time, $url_id);
 			$prev_start_time = $start_time;
 			
 			$org_data = null;
@@ -164,7 +194,7 @@ class Ajax extends Controller {
 			
 	}
 	
-	function linechartdata($timePeriod = 1){
+	function linechartdata($timePeriod = 1, $url_id = null){
 		$units_pre = '';
 		$i = 0;
 		$tot_less_days = floor($timePeriod / 24);
@@ -196,7 +226,7 @@ class Ajax extends Controller {
 
 		$end_time = date('Y-m-d');
 		$start_time	= date('Y-m-d', strtotime("-{$tot_less_days} day"));
-		$raw_data = $this->get_media_data($start_time, $end_time);
+		$raw_data = $this->get_media_data($start_time, $end_time, $url_id);
 
 		foreach($this->media as $key=>$med) {
 			$inner_data = null;

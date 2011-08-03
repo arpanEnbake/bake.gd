@@ -228,12 +228,14 @@ class Url_model extends DataMapper {
 	}
 	
 	// if url belongs to this account_id
-	function get_click_counts($start_time = null, $end_time = null, $account_id = null) {
+	function get_click_counts($start_time = null, $end_time = null, $account_id = null, $url_id=null) {
 		$conditions = '';
 		if ($start_time)
 			$conditions = "click_time >= '{$start_time}' ";
 		if ($end_time)
 			$conditions .= (isset($conditions) ?  ' AND ' : '') .  "click_time <= '{$end_time}'";
+		if ($url_id)
+			$conditions .= (isset($conditions) ?  ' AND ' : '') .  "yourl_id = '{$url_id}'";
 		if ($account_id)
 			$conditions .= (isset($conditions) ?  ' AND ' : '') .  
 							"yourl_id in (select id from yourls_url where account_id = '{$account_id}')";
@@ -241,13 +243,15 @@ class Url_model extends DataMapper {
 		return $this->_clicks($conditions);
 	}
 	
-	function get_location($start_time = null, $end_time = null, $account_id = null) {
+	function get_location($start_time = null, $end_time = null, $account_id = null, $url_id = null) {
 		
 		$conditions = '';
 		if ($start_time)
 			$conditions = "click_time >= '{$start_time}' ";
 		if ($end_time)
 			$conditions .= (isset($conditions) ?  ' AND ' : '') .  "click_time <= '{$end_time}'";
+		if ($url_id)
+			$conditions .= (isset($conditions) ?  ' AND ' : '') .  "yourl_id = '{$url_id}'";
 		if ($account_id)
 			$conditions .= (isset($conditions) ?  ' AND ' : '') .  
 							"yourl_id in (select id from yourls_url where account_id = '{$account_id}')";

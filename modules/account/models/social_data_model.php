@@ -25,7 +25,7 @@ class Social_data_model extends Model {
 		// return $this->db->get_where('Social', array('account_id' => $account_id))->result();
 	}
 	
-	function fb_likes($start_time = null, $end_time = null, $account_id = null) {
+	function fb_likes($start_time = null, $end_time = null, $account_id = null, $status_id= null) {
 		$conditions = '';
 		if ($start_time)
 			$conditions = "date >= '{$start_time}' ";
@@ -34,12 +34,14 @@ class Social_data_model extends Model {
 		if ($account_id)
 			$conditions .= (isset($conditions) ?  ' AND ' : '') .  
 							"status_id in (select status_id from yourls_url where account_id = '{$account_id}')";
+		if ($status_id)
+			$conditions .= (isset($conditions) ?  ' AND ' : '') .  "status_id = '{$status_id}'";
 			
 		return $this->get_promotes($conditions, 'fb_status_likes');
 		
 	}
 	
-	function tw_retweets($start_time = null, $end_time = null, $account_id = null) {
+	function tw_retweets($start_time = null, $end_time = null, $account_id = null, $tweet_id = null) {
 		if ($start_time)
 			$conditions = "date >= '{$start_time}' ";
 		if ($end_time)
@@ -47,6 +49,8 @@ class Social_data_model extends Model {
 		if ($account_id)
 			$conditions .= (isset($conditions) ?  ' AND ' : '') .  
 							"tweet_id in (select tweet_id from yourls_url where account_id = '{$account_id}')";
+		if ($tweet_id)
+			$conditions .= (isset($conditions) ?  ' AND ' : '') .  "tweet_id = '{$tweet_id}'";
 		return $this->get_promotes($conditions, 'tw_retweets');
 		
 	}

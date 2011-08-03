@@ -44,8 +44,8 @@
 							echo anchor("account/connect_facebook", 
 								img(array('src'=>'resource/app/images/share/facebook.png','border'=>'0','alt'=>'facebook'))
 							);
-						
 					}
+					$tw_flag = true;
 				}
 				if (isset($fb)) {
 					$fb_flag = true;
@@ -58,7 +58,6 @@
 						)	;								
 					}
 				}
-					
 				if (!$tw_flag && !$fb_flag) {
 					echo anchor('/account/account_linked', 'Login now to start sharing');
 				}

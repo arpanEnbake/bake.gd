@@ -34,7 +34,14 @@
 
 
 
-<?php echo  $this->load->view('analytics/graphs'); ?>
-</div> <!-- body -->
-</div> <!-- main body -->
+<?php // echo  $this->load->view('analytics/graphs'); ?>
+	<script type="text/javascript" src="resource/app/js/jquery-1.5.1.min.js"></script>
+	<script type="text/javascript" src="resource/app/js/jquery-ui-1.8.13.custom.min.js"></script>
+	<script type="text/javascript" src="resource/app/js/jquery.cycle.js"></script>	
+	<div class="ext_bitly_chrome_promo_delay"></div>
+
+
+
+<?php echo  $this->load->view('analytics/highcharts', array('url_id'=>$url->id)); ?>
+</div></div>
 <?php echo $this->load->view('inner_elements/footer'); ?>

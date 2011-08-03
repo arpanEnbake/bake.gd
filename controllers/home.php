@@ -76,7 +76,7 @@ class Home extends Controller {
 		function _logged_in() {	
 			// login details and account association
 			$account_id = $this->account->id;
-			
+
 			$this->load->model('account/account_twitter_model');
 			$tw = ($this->account_twitter_model->get_by_account_id($account_id));
 			if ($tw)

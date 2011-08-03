@@ -51,8 +51,6 @@
 		</div>  <!-- END #middle -->
 	</div> <!-- end #external_container -->
 </div>
-	
-	
 <script>
 //$("#TimePeriodDDId").selectmenu({width:'120px'});
 draw_chart();
@@ -72,11 +70,16 @@ function draw_chart(tp) {
 	
 	if (!tp)
 		tp = 168;
-	
+
+	str = '';
+
+	<?php if (isset($url_id)) {?>
+		str = '/<?php echo $url_id;?>';
+	<?php }?>
 	$.ajax({
 	    type: "post",
 	    data: $('#TimePeriodFormId').serialize(),
-	    url: "<?php echo base_url();?>ajax/barchartdata/"+tp,    
+	    url: "<?php echo base_url();?>ajax/barchartdata/"+tp+str,    
 	    dataType: 'json',
 	    success: function(response){
 		    success_draw(response);  
@@ -85,7 +88,7 @@ function draw_chart(tp) {
 
 	$.ajax({
 	    type: "post",
-	    url: "<?php echo base_url();?>ajax/linechartdata/"+tp,    
+	    url: "<?php echo base_url();?>ajax/linechartdata/"+tp+str,    
 	    dataType: 'json',
 	    success: function(response){
 	    	success_line_draw(response)
@@ -94,7 +97,7 @@ function draw_chart(tp) {
 
 	$.ajax({
 	    type: "post",
-	    url: "<?php echo base_url();?>ajax/piechartdata/"+tp,    
+	    url: "<?php echo base_url();?>ajax/piechartdata/"+tp+str,    
 	    dataType: 'json',
 	    success: function(response){
 	    	success_pie_draw(response)
