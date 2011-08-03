@@ -48,7 +48,6 @@
 					</ul>
 				</div>
 				<?php echo  $this->load->view('analytics/highcharts', array('url_id'=>$url->id)); ?>
-				<?php echo  $this->load->view('analytics/graphs'); ?>
 			</div> <!-- body -->
 		</div> <!-- main body -->
 	</div>
