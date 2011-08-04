@@ -255,6 +255,7 @@ class Url_model extends DataMapper {
 		if ($account_id)
 			$conditions .= (isset($conditions) ?  ' AND ' : '') .  
 							"yourl_id in (select id from yourls_url where account_id = '{$account_id}')";
+			
 
 		$this->db->group_by('country_code');
 		$this->db->where($conditions);	

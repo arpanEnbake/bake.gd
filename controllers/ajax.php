@@ -47,9 +47,6 @@ class Ajax extends Controller {
 		$account_id = null;
 		
 		// if for one url, a/c doesnt matter
-		if (!$url_id)
-			$account_id = $this->session->userdata('account_id');
-		
 		if ($url_id) {
 			$query = $this->db->get_where('yourls_url', array('id' => $url_id));
 			$query->row();
@@ -58,10 +55,17 @@ class Ajax extends Controller {
 				return data;
 			$status_id = $query->result_object[0]->status_id;
 			$tweet_id =  $query->result_object[0]->tweet_id;
+			
+			// only fire if thre is sharing
+			if ($status_id)
+				$data['likes'] = $this->social_data_model->fb_likes($start_time, $end_time, $account_id, $status_id);
+			if ($tweet_id)
+				$data['retweets'] = $this->social_data_model->tw_retweets($start_time, $end_time, $account_id, $tweet_id);
+		} else {
+			$account_id = $this->session->userdata('account_id');
+			$data['likes'] = $this->social_data_model->fb_likes($start_time, $end_time, $account_id, $status_id);
+			$data['retweets'] = $this->social_data_model->tw_retweets($start_time, $end_time, $account_id, $tweet_id);
 		}
-		
-		$data['likes'] = $this->social_data_model->fb_likes($start_time, $end_time, $account_id, $status_id);
-		$data['retweets'] = $this->social_data_model->tw_retweets($start_time, $end_time, $account_id, $tweet_id);
 		return $data;
 	}
 	
@@ -69,8 +73,9 @@ class Ajax extends Controller {
 		$account_id = null;
 		
 		// if for one url, a/c doesnt matter
-		if (!$url_id)
+		if (!$url_id) {
 			$account_id = $this->session->userdata('account_id');
+		}
 		$data = $this->Url_model->get_location($start_time, $end_time, 
 				$account_id , $url_id);
 		return $data;
@@ -257,7 +262,7 @@ class Ajax extends Controller {
 			
 	}
 	
-	function piechartdata($timePeriod = 1){
+	function piechartdata($timePeriod = 1, $url_id = null){
 		$units_pre = '';
 		$i = 0;
 		$tot_less_days = floor($timePeriod / 24);
@@ -268,7 +273,7 @@ class Ajax extends Controller {
 
 		$end_time = date('Y-m-d');
 		$start_time	= date('Y-m-d', strtotime("-{$tot_less_days} day"));
-		$locations = $this->get_location_data($start_time, $end_time);
+		$locations = $this->get_location_data($start_time, $end_time, $url_id);
 
 		if ($locations) {
 			foreach($locations as $loc) {
