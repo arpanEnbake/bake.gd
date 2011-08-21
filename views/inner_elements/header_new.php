@@ -27,7 +27,7 @@
 <?php } else { ?>
 <div id="header">
 	<div class="bar">
-		<span class="logo"><img src="resource/app/images/logoWhite.png"></span>
+		<span class="logo"><a href="<?php echo base_url()?>"><img src="resource/app/images/logoWhite.png"></a></span>
 		<div style="float:left;">
 			<ul class="ul">
 				<li><a href="#">Home</a></li>

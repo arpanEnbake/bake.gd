@@ -108,7 +108,7 @@ function draw_chart(tp) {
 
 </script>
 	
-<div id="container" style="width: 800px; height: 400px; margin: 0 auto"></div>
+<div id="container" style="width: 800px; margin: 0 auto"></div>
 
 <script type="text/javascript">
 	var chart;

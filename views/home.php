@@ -47,7 +47,7 @@
 		<h3>Share your links</h3>
 		<div class="snapshots">
 			<div class="slide">
-				<img src="resource/app/images/shorten.png" width="750" height="265" alt="Shorten and Share" border="0" />
+				<img src="resource/app/images/shorten.jpg" width="750" height="265" alt="Shorten and Share" border="0" />
 			</div>
 		</div>
 	</div>
@@ -56,7 +56,7 @@
 		<h3>Social dashboard for your brand's social performance</h3>
 		<div class="snapshots">
 			<div class="slide">
-				<img src="resource/app/images/social.png" width="750" height="265" alt="Shorten and Share" border="0" />
+				<img src="resource/app/images/social.jpg" width="750" height="265" alt="Shorten and Share" border="0" />
 			</div>
 		</div>
 	</div>

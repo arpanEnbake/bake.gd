@@ -23,14 +23,6 @@
 						</ul>
 					</span>
 				</div>
-				<?php $total_count = 0;
-					if (isset($clicks)) {
-					foreach($clicks as $key => $count) {
-						echo "Clicks via  $count->referrer : $count->Count <br />";
-						$total_count += $count->Count;
-					}
-				}
-				?>
 				<div class="link_detail">
 					<h2 id="link_title"><?php echo $url->title; ?></h2>
 					<ul class="stats">
@@ -38,12 +30,27 @@
 							<span class="label">Link:</span><?php echo $url->url; ?>
 						</li>
 						<li class="clearfix">
-							<span class="label"  style="line-height:24px;">Stats:</span>
+							<span class="label"  style="line-height:24px;">Social Stats:</span>
 							<ul style="line-height:24px;">
-								<li style="display:inline;"><span class="count"><?php echo $total_count; ?></span>Clicks</li>
 								<li style="display:inline;"><span class="count"><?php echo $url->retweets > 0 ? $url->retweets : 0; ?></span>RTs</li>
 								<li style="display:inline;"><span class="count"><?php echo $url->likes > 0 ? $url->likes : 0; ?></span>Likes</li>
 							</ul>
+						</li>
+						<li class="clearfix">
+						<?php $total_count = 0;
+							if (isset($clicks)) {
+						?>
+						<span class="label"  style="line-height:24px;">Clicks Summary:</span>
+						<ul style="line-height:24px;">
+							<?php 
+								foreach($clicks as $key => $count) {
+							?>
+							<li style="display:inline;"><span class="count"><?php echo $count->Count; ?></span>via <?php echo $count->referrer; ?></li>
+							<?php $total_count += $count->Count;
+							} ?>
+							<li style="display:inline;"><span class="count"><?php echo $total_count; ?></span> Total Clicks</li>
+						</ul>
+						<?php } ?>
 						</li>
 					</ul>
 				</div>
