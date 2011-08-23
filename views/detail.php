@@ -16,9 +16,9 @@
 					<span style="float:left">
 						<h1><?php echo 'http://' . $url->domain . '/' . $url->keyword;?></h1>
 					</span>
-					<?php echo form_open(uri_string(), array('id'=>'TimePeriodFormId')); ?>
+					<?php echo form_open(uri_string(), array('id'=>'TimePeriodFormId', 'class'=>'settings_form')); ?>
 						<span style="float:right;">
-							<select name="data[Time][period]" id="TimePeriodDDId">
+							<select name="data[Time][period]" id="TimePeriodDDId" class="select_input">
 								<option value="1">Past Hour</option>
 								<option selected ="selected" value="<?php echo 7 * 24;?>">Past 7 days</option>
 								<option value="<?php echo 14 * 24;?>">Past 14 days</option>
