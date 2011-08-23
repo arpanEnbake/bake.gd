@@ -2,7 +2,7 @@
 <?php if ($CI->session->userdata('account')) { ?>
 <div id="header">
 	<div class="bar">
-		<span class="logo"><img src="resource/app/images/logoWhite.png"></span>
+		<span class="logo"><a href="<?php echo base_url()?>"><img src="resource/app/images/logoWhite.png"></a></span>
 		<div style="float:right;">
 			<ul class="ul">
 				<li>

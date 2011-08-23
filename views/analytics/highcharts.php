@@ -9,20 +9,6 @@
 <!-- BODY START-->
 <div id="mainBody">
 	<div id="body">
-	<?php echo form_open(uri_string(), array('id'=>'TimePeriodFormId')); ?>
-		<div style="padding:5px 0px;">
-			<span style="float:right;">
-				<select name="data[Time][period]" id="TimePeriodDDId">
-					<option value="1">Past Hour</option>
-					<option selected ="selected" value="<?php echo 7 * 24;?>">Past 7 days</option>
-					<option value="<?php echo 14 * 24;?>">Past 14 days</option>
-					<option value="<?php echo 30 * 24;?>">Past 30 days</option>
-				</select>
-			</span>
-			<div style="clear:both;"></div>
-		</div>
-			<?php echo form_close()?>
-
 		<!-- Put Content Here -->
 		<div id="notification" class="signed-in roundbtm" style="display:block;">
 				<div class="clearfix"></div>

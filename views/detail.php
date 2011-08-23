@@ -16,12 +16,22 @@
 					<span style="float:left">
 						<h1><?php echo 'http://' . $url->domain . '/' . $url->keyword;?></h1>
 					</span>
-					<span style="float:right;">
+					<?php echo form_open(uri_string(), array('id'=>'TimePeriodFormId')); ?>
+						<span style="float:right;">
+							<select name="data[Time][period]" id="TimePeriodDDId">
+								<option value="1">Past Hour</option>
+								<option selected ="selected" value="<?php echo 7 * 24;?>">Past 7 days</option>
+								<option value="<?php echo 14 * 24;?>">Past 14 days</option>
+								<option value="<?php echo 30 * 24;?>">Past 30 days</option>
+							</select>
+						</span>
+					<?php echo form_close()?>
+					<!-- <span style="float:right;">
 						<ul>
 							<li><a href="#">Copy</a></li>
 							<li><a href="#">Share</a></li>
 						</ul>
-					</span>
+					</span>  -->
 				</div>
 				<div class="link_detail">
 					<h2 id="link_title"><?php echo $url->title; ?></h2>
