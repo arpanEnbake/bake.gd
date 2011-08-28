@@ -13,38 +13,54 @@
 		<div id="notification" class="signed-in roundbtm" style="display:block;">
 				<div class="clearfix"></div>
 		</div>
-		<div id="top">
-			<?php echo form_open(uri_string(), array('id'=>'TimePeriodFormId', 'class'=>'settings_form')); ?>
-				<span style="float:right;">
-					<select name="data[Time][period]" id="TimePeriodDDId" class="select_input">
-						<option value="1">Past Hour</option>
-						<option selected ="selected" value="<?php echo 7 * 24;?>">Past 7 days</option>
-						<option value="<?php echo 14 * 24;?>">Past 14 days</option>
-						<option value="<?php echo 30 * 24;?>">Past 30 days</option>
-					</select>
-				</span>
-			<?php echo form_close()?>
-		</div> <!-- end #top -->
 		<div id="middle">
+			<div class="graph_title">
+				<div class="left">X Clicks since Date</div>
+				<div style="float:right;">
+					<?php echo form_open(uri_string(), array('id'=>'TimePeriodFormId', 'class'=>'settings_form')); ?>
+						<span style="float:right;">
+							<select name="data[Time][period]" id="TimePeriodDDId" class="select_input">
+								<option value="1">Past Hour</option>
+								<option selected ="selected" value="<?php echo 7 * 24;?>">Past 7 days</option>
+								<option value="<?php echo 14 * 24;?>">Past 14 days</option>
+								<option value="<?php echo 30 * 24;?>">Past 30 days</option>
+							</select>
+						</span>
+					<?php echo form_close()?>
+				</div>
+				<div class="cleatAll"></div>
+			</div> <!-- end .graph-title -->
+			<div class="cleatAll"></div>
 			<div style="width: 1000px; margin-bottom: 50px;"> 
 				<div id="myCanvas" width="<?php echo $graph_width; + 50?>" 
 						style=" align:center; background-color:white" 
 						height="<?php echo $graph_height + 5;?>"><img src="resource/app/images/ajax-loader.gif" width="238" height="34"></img></div>
 			
 			</div>
+			<!--  Start likes vs tweets graph -->
+			<div class="graph_title">
+				<div class="left">X Likes and Y RTs since Date</div>
+				<div class="cleatAll"></div>
+			</div> <!-- end .graph-title -->
 			<div style="width: 1000px; margin-bottom: 50px;">
 				<div id="linegraph" width="<?php echo $graph_width; + 50?>" 
 						style=" align:center; background-color:white" 
 						height="<?php echo $graph_height + 5;?>"><img src="resource/app/images/ajax-loader.gif" width="238" height="34"></img></div>
 			
 			</div>
+			<!-- End likes vs tweets graph -->
+			<!--  Start locations graph -->
+			<div class="graph_title">
+				<div class="left">Locations</div>
+				<div class="cleatAll"></div>
+			</div> <!-- end .graph-title -->
 			<div style="width: 1000px; margin-bottom: 50px;">
 				<div id="piegraph" width="<?php echo $graph_width; + 50?>" 
 						style=" align:center; background-color:white" 
 						height="<?php echo $graph_height + 5;?>"><img src="resource/app/images/ajax-loader.gif" width="238" height="34"></img></div>
 			
 			</div>
-			
+			<!-- End locations graph -->
 		</div>  <!-- END #middle -->
 	</div> <!-- end #external_container -->
 </div>
@@ -110,7 +126,7 @@ function draw_chart(tp) {
 <script type="text/javascript">
 	var chart;
 	function success_draw(response) {
-		response['title'] = 'Clicks';
+		response['title'] = '';
 		var labels = response['labels'];
 		var x = new Array();
 		x = response['data'];
@@ -167,7 +183,7 @@ function success_line_draw(response){
 			defaultSeriesType: 'area'
 		},
 		title: {
-			text: 'Likes vs Tweets'
+			text: ''
 		},
 		subtitle: {
 			text: ''
@@ -251,7 +267,7 @@ function success_line_draw(response){
 				plotShadow: false
 			},
 			title: {
-				text: 'Locations'
+				text: ''
 			},
 			tooltip: {
 				formatter: function() {

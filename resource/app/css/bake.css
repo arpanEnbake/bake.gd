@@ -7,7 +7,7 @@ Date	  ::: 09/05/2011
 
 /*****************Default tags*********************/
 * {padding:0; margin:0;}
-body{margin:0px;padding:0px;width:100%; color:8f8f8f; font-family:"minion-pro-1","minion-pro-2","Times New Roman", Georgia, serif; font-size:12px; text-align:center;}
+body{margin:0px;padding:0px;width:100%; color:#8f8f8f; font-family:"minion-pro-1","minion-pro-2","Times New Roman", Georgia, serif; font-size:12px; text-align:center;}
 p, div, form, h1, h2, h3{padding:0px; margin:0px;}
 img{border:none; outline:none;}
 a{border:none; outline:none; text-decoration:none;color:#3366CC}
@@ -34,7 +34,7 @@ ul {list-style:none}
 #header .bar .loginBtns img{ padding:0 0 0 5px;}
 #header .bar p{ position:absolute; left:0px; top:50px;}
 #header .bar .user_avatar {float: left; height: 40px; width: 40px; background-color: #4880B4; position: relative;  margin-right: 8px; margin-left: 5px;}
-.subheader {border-bottom: 1px solid #000; height: 34px; clear: both; margin: 20px 0 15px;}
+.subheader {border-bottom: 1px solid #BCDCFA; height: 34px; clear: both; margin: 20px 0 15px;}
 .subheader ul{margin-left: 10px;padding:0;}
 .subheader li{display:inline;margin-left:15px;font-size:24px;}
 .flash {background: none repeat scroll 0 0 #BCDCFA; color: #000000; font-size: 20px; font-weight: bold; line-height: 35px; margin: 7px auto; width: 1000px;}
@@ -296,6 +296,9 @@ form.settings_form select {height: 25px;line-height: 25px;width: auto;}
 .tile p {font-size: 14px;}
 .link_accounts {margin:20px 0;}
 .link_accounts h3 {font-size:20px; text-align:left;}
+.graph_title {border-bottom:1px solid #BCDCFA; margin:20px 0 15px;}
+.graph_title .left {float:left; font-size:18px; line-height:29px; font-weight:bold; text-align:left;}
+.graph_title .right {float:right;}
 
 /****************************** Link Detail page **************************************/
 .link_detail {border: 1px solid #BCDCFA; padding:12px; clear:both;margin-bottom:15px;color:#999999;}
@@ -303,5 +306,5 @@ form.settings_form select {height: 25px;line-height: 25px;width: auto;}
 .link_detail ul.stats {border-top: 1px solid #BCDCFA; padding:10px 0 0; text-align:left}
 .link_detail ul.stats li {font-size:18px; margin-left:10px; padding:10px 0;}
 .link_detail ul.stats li .count {font-size:24px;margin-right:8px;}
-.link_detail ul.stats span.label {text-align:right;padding-right:20px;float:left;}
+.link_detail ul.stats span.label {text-align:right;padding-right:20px;float:left;width:130px;}
 .clearfix {display:block;}
