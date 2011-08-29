@@ -11,9 +11,9 @@ class Home extends Controller {
 	// for this we need to add every additional controller name to the routes. 
 	function	_remap ($method )	{
 		$param_offset = 2;
-	
+
 		// Default to index
-		if ( ! method_exists($this, $method))
+		if (!method_exists($this, $method))
 		{
 			// We need one more param
 			$param_offset = 1;

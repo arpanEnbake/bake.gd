@@ -27,13 +27,23 @@ class MY_Router extends MX_Router {
 	/**
 		* Validate Routing Request
 		*
-		* @access    public
+		* This is a special code handle the static pages, the routing is otherwise
+		* handled completely by MX router.
+		* 
+		* @access	public
 		*/
 		function _validate_request($segments)
 		{
 			// Check for a page to load in views/pages/ folder
-			if (count($segments) == 1 AND file_exists(APPPATH.'views/pages/'.$segments[0].EXT)) {
-				array_unshift($segments, 'page', 'show');
+			if (count($segments) == 1) {
+				if(file_exists(APPPATH.'views/pages/'.$segments[0].EXT)) {
+					array_unshift($segments, 'page', 'show');
+				}
+				else {
+					// TODO: skipped heavy checks to see if default controller exists.
+					// Pass onto the default controller.
+					$segments = array($this->default_controller);
+				}
 				return $segments;
 			}
 
