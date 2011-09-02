@@ -96,7 +96,7 @@ class Url_model extends DataMapper {
 		$title = 'Title N/A';
 		$description = 'Description N/A';
 		 
-		$file = file_get_contents($url, false, null, null, 500);
+		$file = @file_get_contents($url, false, null, null, 500);
 		$str = "/<title>(.+)<\\/title>/smU";
 		if($file && preg_match($str, $file, $t)) {
 			$title = trim($t[1]);
@@ -152,7 +152,7 @@ class Url_model extends DataMapper {
 	function random_keyword()
 	{
 		//$keyword = yourls_apply_filter( 'random_keyword', $keyword );
-		$id = $this->get_next_id();
+		// $id = $this->get_next_id();
 
 		$uid = substr(md5(uniqid(rand(), true)), 0, 6);
 
