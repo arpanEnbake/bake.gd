@@ -247,15 +247,19 @@ function success_line_draw(response){
 		counter = 0;
 		for (i in x) {
 			var node = null;
+			val = response['percent'][i];//x[i];
+			node = {};
+			
 			if (counter++ == 0) {
-				node = {};
-				node["name"] = i;
-				node['y'] = x[i];
 				node['sliced'] = true;
 				node['selected'] = true;
 			} else {
-				node = new Array(i, x[i]);
+				// node = new Array(i, val); for succinct info only
 			}
+			node["name"] = i;
+			node['y'] = val;
+			node['num'] = x[i];
+		
 			data.push(node);
 		} 
 
@@ -271,7 +275,8 @@ function success_line_draw(response){
 			},
 			tooltip: {
 				formatter: function() {
-					return '<b>'+ this.point.name +'</b>: '+ this.y +' %';
+					return '<b>'+ this.point.name /*+'</b>: '+ this.y +' %' */
+								+ ' (' + this.point.num + ' clicks)';
 				}
 			},
 			plotOptions: {
