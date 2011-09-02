@@ -15,7 +15,7 @@
 		</div>
 		<div id="middle">
 			<div class="graph_title">
-				<div class="left">X Clicks since Date</div>
+				<div class="left"><span id = 'x_clicks'> </span> Clicks since <span class = 'x_since'></span></div>
 				<div style="float:right;">
 					<?php echo form_open(uri_string(), array('id'=>'TimePeriodFormId', 'class'=>'settings_form')); ?>
 						<span style="float:right;">
@@ -34,12 +34,14 @@
 			<div style="width: 1000px; margin-bottom: 50px;"> 
 				<div id="myCanvas" width="<?php echo $graph_width; + 50?>" 
 						style=" align:center; background-color:white" 
-						height="<?php echo $graph_height + 5;?>"><img src="resource/app/images/ajax-loader.gif" width="238" height="34"></img></div>
+						height="<?php echo $graph_height + 5;?>">
+						<img src="resource/app/images/ajax-loader.gif" width="238" height="34"></img></div>
 			
 			</div>
 			<!--  Start likes vs tweets graph -->
 			<div class="graph_title">
-				<div class="left">X Likes and Y RTs since Date</div>
+				<div class="left"><span class = 'x_likes'></span> Likes and <span class = 'x_rts'></span>
+						 RTs since <span class = 'x_since'></span></div>
 				<div class="cleatAll"></div>
 			</div> <!-- end .graph-title -->
 			<div style="width: 1000px; margin-bottom: 50px;">
@@ -72,11 +74,11 @@ draw_chart();
 $('#TimePeriodDDId').live('change', function(e) {
 	$('#myCanvas').empty();
 	$('#linegraph').empty();
+	$('#piegraph').empty();
 	
 	tp = ($('#TimePeriodDDId').val());
 	draw_chart(tp);
 })
-
 
 
 function draw_chart(tp) {
@@ -126,10 +128,16 @@ function draw_chart(tp) {
 <script type="text/javascript">
 	var chart;
 	function success_draw(response) {
-		response['title'] = '';
 		var labels = response['labels'];
-		var x = new Array();
-		x = response['data'];
+		$('.x_since').html(labels[0]);
+
+		if (response['data'] == null)
+			return true;
+
+		response['title'] = '';
+
+		var x = response['data'];
+
 
 		chart = new Highcharts.Chart({
 			chart: {
@@ -170,6 +178,10 @@ function draw_chart(tp) {
 <script>
 var line_chart;
 function success_line_draw(response){
+
+	if ( !response)
+		return true;
+
 	var data = new Array(new Array(), new Array());
 	for (i in response['data'][0]) {
 		data[0].push(parseInt(response['data'][0][i]));
@@ -177,6 +189,10 @@ function success_line_draw(response){
 	for (i in response['data'][1]) {
 		data[1].push(parseInt(response['data'][1][i]));
 	}
+
+	$('.x_likes').html(response['total']['likes']);
+	$('.x_rts').html(response['total']['retweets']);
+	
 	line_chart = new Highcharts.Chart({
 		chart: {
 			renderTo: 'linegraph',
@@ -209,7 +225,7 @@ function success_line_draw(response){
 		tooltip: {
 			formatter: function() {
 				return this.series.name +' produced <b>'+
-					Highcharts.numberFormat(this.y, 0) +'</b><br/>warheads in '+ this.x;
+					Highcharts.numberFormat(this.y, 0) +'</b>';
 			}
 		},
 		plotOptions: {
@@ -242,6 +258,11 @@ function success_line_draw(response){
 
 <script type="text/javascript">
 	function success_pie_draw(response) {
+
+		if (!response['data']) {
+			return true;
+		}
+		
 		var data = new Array();
 		x = response['data'];
 		counter = 0;
