@@ -38,13 +38,8 @@ class MY_Router extends MX_Router {
 			if (count($segments) == 1) {
 				if(file_exists(APPPATH.'views/pages/'.$segments[0].EXT)) {
 					array_unshift($segments, 'page', 'show');
+					return $segments;
 				}
-				else {
-					// TODO: skipped heavy checks to see if default controller exists.
-					// Pass onto the default controller.
-					$segments = array($this->default_controller);
-				}
-				return $segments;
 			}
 
 			return parent::_validate_request($segments);
