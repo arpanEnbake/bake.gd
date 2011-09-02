@@ -97,7 +97,7 @@ class Ajax extends Controller {
 		if ($hourly) {
 			for ($i = $tot_intervals - 1; $i >= 0 ; --$i) {
 				$label =	$this->subtractTime('H:m:s', 0, 0, 300);
-				if ($tot_intervals > 20 && $i % 2 != 0) {
+				if ($tot_intervals > 20 && $i % 2 != 0 && $i > 0) {
 					$label = ' ';
 				}
 				$labels[] = $label;
@@ -105,16 +105,18 @@ class Ajax extends Controller {
 			}
 		}
 		 else {
+		 	$skip = false;
 			for ($i = $tot_less_days - 1; $i >=0 ; --$i) {
 				$label = date('M d', strtotime("-{$i} day"));
-				if ($tot_less_days > 20 && $i % 2 != 0) {
+				if ($tot_less_days > 20 && $skip) {
 					$label = ' ';
 				}
+				$skip = !$skip;
+				
 				$labels[] = $label;
 				$data[] = array();
 			}
 		}
-
 
 		$tooltips = array();
 		foreach($labels as $label){
@@ -228,18 +230,20 @@ class Ajax extends Controller {
 			}
 		}
 		
+		$total = array('likes' => 0, 'retweets' => 0);
 
 		$end_time = date('Y-m-d');
 		$start_time	= date('Y-m-d', strtotime("-{$tot_less_days} day"));
 		$raw_data = $this->get_media_data($start_time, $end_time, $url_id);
 
-		foreach($this->media as $key=>$med) {
+		foreach($this->media as $key => $med) {
 			$inner_data = null;
 			for ($i = $tot_less_days - 1; $i >= 0  ; --$i) {
 				$day	= date('Y-m-d', strtotime("-{$i} day"));
 				$value = 0;
 				if (isset($raw_data[$med][$day])) {
 					$value= $raw_data[$med][$day];
+					$total[$med]+= $value;
 				} 
 				$tooltips[] = $value;
 				$inner_data[] = $value;
@@ -256,6 +260,7 @@ class Ajax extends Controller {
 			'key' => $this->media,
 			'tooltips' => $tooltips,
 			'data' => $data,
+			'total' => $total
 		);
 			
 		$this->json_data = $json;	
@@ -270,6 +275,7 @@ class Ajax extends Controller {
 		$interval = 5 * 60;
 		$hourly = $tot_less_days == 0 ? true: false;
 		$tot_intervals = $timePeriod * 60 * 60 / $interval;
+		$total_count = 0; // total count for %ages
 
 		$end_time = date('Y-m-d');
 		$start_time	= date('Y-m-d', strtotime("-{$tot_less_days} day"));
@@ -282,22 +288,22 @@ class Ajax extends Controller {
 					$raw_data[$key] = 0;
 				}
 				$raw_data[$key] += $loc->Count;
+				$total_count += $loc->Count;
 			}
 			
-			foreach($raw_data as $key => $val) {
-				$labels[] = "{$key} ($val visitors)";
+			foreach($raw_data as $key => &$val) {
+				if ($total_count > 1000) {
+					// convert this to thousands later
+				}
+				// convert to %ages, pain in the back
+				$data[$key] = round($val / $total_count * 100,0);
 			}
-	//		$labels = array_keys($raw_data);
-			$data = /*array_values*/($raw_data);
-			
 			$json = array(
-				'labels' =>$labels, 
-				//'colors' => $this->keycolors,
 				'key' => array_keys($raw_data),
-				'tooltips' => $data,
-				'data' => $data,
+				'data' => $raw_data,
+				'percent' => $data
 			);
-				
+			
 			$this->json_data = $json;	
 		}
 			

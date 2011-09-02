@@ -39,6 +39,10 @@ class MX_Router extends CI_Router
 {
 	private $module;
 	
+		function MX_Router() {
+			parent::CI_Router();
+		}
+
 	public function fetch_module() {
 		return $this->module;
 	}

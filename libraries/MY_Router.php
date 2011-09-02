@@ -20,7 +20,7 @@ class MY_Router extends MX_Router {
 		
 		* @access    public
 		*/
-		function MY_Router() {
+	 	function MY_Router() {
 			parent::MX_Router();
 		}
 
