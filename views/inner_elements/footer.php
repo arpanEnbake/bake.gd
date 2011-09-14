@@ -15,14 +15,14 @@
 		</ul>
 		<ul>
 			<p>Resources</p>
-			<li><a href="#">Blog</a></li>
+			<li><a href="http://biznotek.com">Blog</a></li>
 			<li><a href="#">User Guide</a></li>
 		</ul>
 		<ul>
 			<p>Contact</p>
-			<li><a href="#">Twitter</a></li>
-			<li><a href="#">Facebook</a></li>
-			<li><a href="#">Email</a></li>
+			<li><a href="http://twitter.com/enbake">Twitter</a></li>
+			<li><a href="http://twitter.com/facebook">Facebook</a></li>
+			<li><a href="mailto:consulting@enbake.com">Email</a></li>
 		</ul>
 		<ul class="copyright">
 			<li style="margin-top:-5px;"><img src="resource/app/images/logoWhite.png"><BR/></li>

@@ -27,11 +27,11 @@ class Twitter_lib {
 		$this->etw = new EpiTwitter($this->CI->config->item('twitter_consumer_key'), $this->CI->config->item('twitter_consumer_secret'));
 		
 		// Complain loudly if base url contains "://localhost"
-		if (strpos($this->CI->config->item('base_url'), '://localhost') !== FALSE)
+		/* if (strpos($this->CI->config->item('base_url'), '://localhost') !== FALSE)
 		{
 			echo 'Erm... Twitter doesn\'t like your base URL to start with "http://localhost/".<br />';
 			die;
-		}
+		}*/
 	}
 	
 	// --------------------------------------------------------------------

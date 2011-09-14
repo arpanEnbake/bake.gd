@@ -80,7 +80,8 @@ class Account_settings extends Controller {
 		$this->form_validation->set_error_delimiters('<div class="field_error">', '</div>');
 		$this->form_validation->set_rules(array(
 			array('field'=>'settings_email', 'label'=>'lang:settings_email', 'rules'=>'trim|required|valid_email|max_length[160]'),
-			array('field'=>'settings_domain', 'label'=>'Custom Domain', 'rules'=>'trim|required|max_length[160]'),
+			array('field'=>'settings_username', 'label'=>'lang:settings_username', 'rules'=>'trim|required|max_length[160]'),			
+			array('field'=>'settings_domain', 'label'=>'Custom Domain', 'rules'=>'trim|max_length[160]'),
 			array('field'=>'settings_fullname', 'label'=>'lang:settings_fullname', 'rules'=>'trim|max_length[160]'),
 			array('field'=>'settings_firstname', 'label'=>'lang:settings_firstname', 'rules'=>'trim|max_length[80]'),
 			array('field'=>'settings_lastname', 'label'=>'lang:settings_lastname', 'rules'=>'trim|max_length[80]'),
@@ -109,8 +110,8 @@ class Account_settings extends Controller {
 							$this->input->post('settings_email') ? $this->input->post('settings_email') : NULL);
 				$this->account_model->update_domain($data['account']->id, 
 							$this->input->post('settings_domain') ? $this->input->post('settings_domain') : NULL);
-							
-				
+				$this->account_model->update_username($data['account']->id, $this->input->post('settings_username'));
+
 				// Update account details
 				if ($this->input->post('settings_dob_month') && $this->input->post('settings_dob_day') && $this->input->post('settings_dob_year'))
 					$attributes['dateofbirth'] = mdate('%Y-%m-%d', strtotime($this->input->post('settings_dob_day').'-'.$this->input->post('settings_dob_month').'-'.$this->input->post('settings_dob_year')));

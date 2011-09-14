@@ -9,6 +9,7 @@ $lang['settings_page_name']						= 'Account Settings';
 $lang['settings_privacy_statement']				= 'The information we collect on this page is private and will not be shown any where on this website or shared with third parties without your explicit permission. For more information, read our %s.';
 $lang['settings_privacy_policy']				= 'privacy policy';
 $lang['settings_email']							= 'Email';
+$lang['settings_username']						= 'Username';
 $lang['settings_fullname']						= 'Full Name';
 $lang['settings_firstname']						= 'First Name';
 $lang['settings_lastname']						= 'Last Name';

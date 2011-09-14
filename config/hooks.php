@@ -10,7 +10,16 @@
 |
 */
 
+$hook['pre_controller'] = array(
+					'class' => 'Baker',
+					'function' => 'doLoadEnvironment',
+					'filename' => 'baker.php',
+					'filepath' => 'hooks');
 
-
+$hook['post_controller_constructor'] = array(
+					'class' => 'Filter',
+					'function' => 'doBeforeFilter',
+					'filename' => 'filter.php',
+					'filepath' => 'hooks');
 /* End of file hooks.php */
 /* Location: ./system/application/config/hooks.php */

@@ -45,6 +45,23 @@
 			</div>
 			<div class="clear"></div>
 			<div class="form_row">
+			<?php echo form_label(lang('settings_username'), 'settings_username'); ?>
+				<div class="input_elem">
+					<?php echo form_input(array(
+							'name' => 'settings_username',
+							'id' => 'settings_username',
+							'value' => set_value('settings_username') ? set_value('settings_username') : (isset($account->username) ? $account->username : ''),
+							'maxlength' => 160,
+							'class' => 'text_input'
+						)); ?>
+					<?php echo form_error('settings_username'); ?>
+		            <?php if (isset($settings_username_error)) : ?>
+		            <span class="field_error"><?php echo $settings_username_error; ?></span>
+		            <?php endif; ?>
+				</div>
+			</div>
+			<div class="clear"></div>
+			<div class="form_row">
 			<?php echo form_label(lang('settings_fullname'), 'settings_fullname'); ?>
 				<div class="input_elem">
 					<?php echo form_input(array(
