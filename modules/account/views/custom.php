@@ -27,17 +27,9 @@
 			<?php endif; ?>
 			<div class="clear"></div>
 			<div class="form_row">
-			Create your custom domain based urls in 3 steps now
-			<br></br>
-			1. go to your hosting.
-			<br></br>
-			2. create add on domain
-			<br></br>
-			3. watch the video here how to do it
-			<br></br>
-			</div>
-			<div class="form_row">
-				<?php echo form_label(lang('settings_customdomain'), 'settings_customdomain'); ?>
+				<?php echo form_label(lang('settings_customdomain'),
+											'settings_customdomain',
+											array('style' => 'font-size:14px;width:140px;')); ?>
 				<div class="input_elem">
 				<?php echo form_input(array(
 						'name' => 'settings_domain',
@@ -47,22 +39,40 @@
 						'maxlength' => 40,
 						'class' => 'text_input'
 					)); ?>
-				</div>
-			</div>
-			<div class="clear"></div>
-			<div class="prefix_2 grid_6 alpha">
 				<?php echo form_button(array(
 						'type' => 'submit',
 						'class' => 'button',
 						'content' => lang('settings_save')
 					)); ?>
+				</div>
 			</div>
+			<div class="clear"></div>
 			
 			<?php echo form_close(); ?>
+			<div class="custom-faq">
+				<h3>How do I set up my custom short domain?</h3>
+				<p>To Use your own domain, please follow these 3 easy steps:</p>
+				<ol>
+					<li>Purchase the short domain you'd like to use. This domain can only be used for your shortened URLs.
+					You can start your search at <a href="http://godaddy.com">godaddy.com</a>. Shorter the domain better it is.</li>
+					<li>Fill up the domain name in the above edit box</li>
+					<li>Create a DNS record for your domain. Using the control panel of the host with whom you registered your short domain (GoDaddy, etc), set the DNS A Record for your short domain to point to 107.20.179.200. If you are using a subdomain (such as s.bake.gd) as your custom short domain, you can set the CNAME Record for that subdomain to point to cname.bake.gd.</li>
+				</ol>
+				Remember that DNS changes can take up to 24 hours to propagate.
+				Done !!
+			</div>
 		</div>
 		<div class="tile right">
-			<h3>Privacy</h3>
-			<p><?php echo sprintf(lang('settings_privacy_statement'), anchor('page/privacy-policy', lang('settings_privacy_policy'))); ?></p>
+			<h3>Why Custom domain?</h3>
+			<p style="text-align:justify;">
+				The Custom Short Domain is the domain that takes the place of "bake.gd" in a shortened URL. It helps you to:<BR/>
+				<ul class="custom-advantages">
+					<li>Use your own domain name so that your links would appear like:<br />
+					mydomain.com/bOm096G instead of bake.gd/b0m096G</li>
+					<li>Brand your content across the web!</li>
+					<li>Have shortened keywords of your choice.</li>
+				</ul>
+			</p>
 		</div>
 		<div class="clear"></div>
 	</div>

@@ -288,6 +288,10 @@ form.settings_form .text_input,.select_input {border: 1px solid #CCCCCC; border-
 form.settings_form select {height: 25px;line-height: 25px;width: auto;}
 .settings_block {padding-right:10px; margin-bottom:10px; float:left; border-right:1px solid; width:690px}
 .button {background:-webkit-gradient(linear, left top, left 25, from(#86B226), color-stop(4%, #C8ED77), to(#86B226));background: -moz-linear-gradient(center top , #86B226, #C8ED77 1px, #86B226 25px) repeat scroll 0 0 transparent; border: 0 none; border-radius: 5px 5px 5px 5px; box-shadow: 0 0 8px rgba(0, 0, 0, 0.1); color: #FFFFFF; font-size: 14px; padding: 3px 15px; width: auto;}
+div.custom-faq {margin: 15px 0; font-size:14px;text-align:left;}
+div.custom-faq h3{font-size:16px;margin:0 0 5px;}
+div.custom-faq p{margin:5px 0px;}
+div.custom-faq ol li{margin:0 0 5px;}
 
 /****************************** Tiles *************************************************/
 .tile {padding: 0px 5px; border-radius: 5px 5px 5px 5px; max-width:250px;}
@@ -299,6 +303,8 @@ form.settings_form select {height: 25px;line-height: 25px;width: auto;}
 .graph_title {border-bottom:1px solid #BCDCFA; margin:20px 0 15px;}
 .graph_title .left {float:left; font-size:18px; line-height:29px; font-weight:bold; text-align:left;}
 .graph_title .right {float:right;}
+.tile ul.custom-advantages {margin : 5px 0;}
+.tile ul.custom-advantages li{font-size:14px;text-align:left;list-style-type:circle;margin 0 0 3px;}
 
 /****************************** Link Detail page **************************************/
 .link_detail {border: 1px solid #BCDCFA; padding:12px; clear:both;margin-bottom:15px;color:#999999;}
